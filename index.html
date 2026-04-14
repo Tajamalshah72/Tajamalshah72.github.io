@@ -6,172 +6,327 @@
     <title>Tajamal Abbas Shah | Kazmi Labs</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background: #020204; 
-            color: #fff; 
-            min-height: 100vh; 
-            overflow-x: hidden; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 40px 20px;
+        :root {
+            --primary: #00f0ff;
+            --secondary: #ff003c;
+            --tertiary: #7000ff;
+            --bg-dark: #050508;
+            --glass-bg: rgba(15, 15, 20, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-sub: #a0a0b0;
         }
 
-        /* Interactive Canvas Background */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow: hidden; /* Prevent scrolling on desktop */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Animated Particles Canvas */
         #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
         
-        /* Neon Glowing Orbs */
-        .orb { position: fixed; filter: blur(100px); z-index: -1; animation: drift 15s infinite alternate linear; opacity: 0.6; }
-        .orb1 { width: 400px; height: 400px; background: #00f0ff; top: -10%; left: -10%; }
-        .orb2 { width: 500px; height: 500px; background: #ff003c; bottom: -20%; right: -10%; animation-delay: -5s; }
-        .orb3 { width: 300px; height: 300px; background: #7000ff; top: 30%; left: 30%; animation-duration: 20s; }
-        
-        @keyframes drift { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(100px, 100px) scale(1.3); } }
+        /* Floating Glowing Orbs */
+        .orb { position: fixed; filter: blur(120px); z-index: -1; opacity: 0.5; animation: drift 20s infinite alternate ease-in-out; }
+        .orb1 { width: 50vw; height: 50vw; background: var(--primary); top: -10%; left: -10%; }
+        .orb2 { width: 40vw; height: 40vw; background: var(--secondary); bottom: -10%; right: -10%; animation-delay: -5s; }
 
-        /* Main Glass Container */
-        .glass-card {
-            background: rgba(20, 20, 25, 0.4);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            border-left: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 35px;
-            padding: 45px 30px;
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.05);
-            animation: popIn 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-        }
-        
-        @keyframes popIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes drift { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(5vw, 5vh) scale(1.2); } }
 
-        /* Cyberpunk Avatar */
-        .avatar-container { position: relative; width: 130px; height: 130px; margin: 0 auto 25px; }
-        .avatar-container::before, .avatar-container::after {
-            content: ''; position: absolute; inset: -8px; border-radius: 50%;
-            background: conic-gradient(from 0deg, #00f0ff, #ff003c, #7000ff, #00f0ff);
-            z-index: -1; animation: spin 4s linear infinite;
+        /* Main Dashboard Layout */
+        .dashboard {
+            display: flex;
+            width: 90vw;
+            max-width: 1200px;
+            height: 85vh;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8), inset 0 0 40px rgba(255,255,255,0.02);
+            overflow: hidden;
+            animation: fadeIn 1s ease-out forwards;
         }
-        .avatar-container::after { filter: blur(20px); opacity: 0.7; }
-        .avatar { width: 100%; height: 100%; background: #0a0a0c; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; border: 4px solid #000; color: #fff; box-shadow: inset 0 0 20px rgba(0,240,255,0.3); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* Sidebar (Profile & Navigation) */
+        .sidebar {
+            width: 350px;
+            background: rgba(0, 0, 0, 0.3);
+            border-right: 1px solid var(--glass-border);
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .avatar-container { position: relative; width: 120px; height: 120px; margin-bottom: 20px; }
+        .avatar-container::before {
+            content: ''; position: absolute; inset: -5px; border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--tertiary), var(--primary));
+            animation: spin 4s linear infinite; z-index: -1;
+        }
+        .avatar { width: 100%; height: 100%; background: #0a0a0c; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 45px; border: 3px solid #000; box-shadow: inset 0 0 20px rgba(0,240,255,0.3); }
+        
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Typography */
-        h1 { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 2px; margin-bottom: 8px; background: linear-gradient(90deg, #fff, #00f0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(0,240,255,0.3); }
-        h2 { font-size: 13px; font-weight: 400; color: #a0a0b0; margin-bottom: 35px; letter-spacing: 3px; text-transform: uppercase; }
+        .sidebar h1 { font-family: 'Orbitron', sans-serif; font-size: 20px; text-align: center; margin-bottom: 5px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .sidebar h2 { font-size: 12px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 40px; }
 
-        /* Next-Gen Links */
-        .links { display: flex; flex-direction: column; gap: 18px; margin-bottom: 35px; }
-        .link-btn {
-            display: flex; align-items: center; padding: 16px 22px; border-radius: 20px;
-            text-decoration: none; color: #fff; font-weight: 600; font-size: 15px;
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative; overflow: hidden; transition: all 0.4s ease;
+        /* Hover-Activated Menu */
+        .nav-menu { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+        .nav-item {
+            padding: 15px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-sub);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid transparent;
         }
-        .link-btn i { font-size: 22px; width: 45px; text-align: left; z-index: 2; transition: all 0.4s ease; }
-        .link-btn span { z-index: 2; text-align: left; flex-grow: 1; letter-spacing: 0.5px; }
+        .nav-item i { font-size: 20px; width: 25px; text-align: center; transition: 0.3s; }
         
-        .link-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: all 0.5s ease; z-index: 1; }
-        .link-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 25px rgba(0,0,0,0.5); }
-        .link-btn:hover::before { left: 100%; }
-        .link-btn:hover i { transform: scale(1.2) rotate(5deg); }
+        /* The Magic Hover Effect */
+        .nav-item:hover, .nav-item.active {
+            background: rgba(0, 240, 255, 0.1);
+            color: #fff;
+            border-color: rgba(0, 240, 255, 0.3);
+            transform: translateX(10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .nav-item:hover i, .nav-item.active i { color: var(--primary); transform: scale(1.2); text-shadow: 0 0 10px var(--primary); }
 
-        .amazon:hover { background: linear-gradient(135deg, #FF9900, #FFB84D); color: #000; border-color: transparent; box-shadow: 0 10px 20px rgba(255, 153, 0, 0.4); }
-        .aliexpress:hover { background: linear-gradient(135deg, #E62E04, #FF5B36); border-color: transparent; box-shadow: 0 10px 20px rgba(230, 46, 4, 0.4); }
-        .daraz:hover { background: linear-gradient(135deg, #F36F21, #FF9454); border-color: transparent; box-shadow: 0 10px 20px rgba(243, 111, 33, 0.4); }
-        .whatsapp { border-color: rgba(37, 211, 102, 0.3); }
-        .whatsapp:hover { background: linear-gradient(135deg, #25D366, #128C7E); border-color: transparent; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4); }
+        .sidebar-footer { margin-top: auto; font-size: 11px; color: #555; text-align: center; }
+        .sidebar-footer span { color: var(--primary); font-family: 'Orbitron', sans-serif; }
 
-        /* Social Icons */
-        .socials { display: flex; justify-content: center; gap: 16px; margin-bottom: 30px; flex-wrap: wrap; }
-        .social-btn { width: 50px; height: 50px; border-radius: 50%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; text-decoration: none; transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); position: relative; overflow: hidden; }
-        .social-btn:hover { transform: translateY(-8px) scale(1.1); color: #fff; }
-        .social-btn.tw:hover { background: #000; border-color: #555; box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
-        .social-btn.ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border-color: transparent; box-shadow: 0 10px 20px rgba(220, 39, 67, 0.4); }
-        .social-btn.li:hover { background: #0077b5; border-color: #0077b5; box-shadow: 0 10px 20px rgba(0, 119, 181, 0.4); }
-        .social-btn.yt:hover { background: #ff0000; border-color: #ff0000; box-shadow: 0 10px 20px rgba(255, 0, 0, 0.4); }
-        .social-btn.gh:hover { background: #333; border-color: #555; box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
+        /* Content Area */
+        .content-area {
+            flex-grow: 1;
+            position: relative;
+            padding: 50px;
+            overflow-y: auto;
+        }
 
-        /* Mini Game Section (Tic-Tac-Toe) */
-        .game-section { margin-top: 20px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); }
-        .game-title { font-family: 'Orbitron', sans-serif; font-size: 14px; color: #00f0ff; margin-bottom: 15px; letter-spacing: 1px; }
-        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 200px; margin: 0 auto; }
-        .cell { width: 60px; height: 60px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 28px; cursor: pointer; transition: 0.3s; color: #fff; }
-        .cell:hover { background: rgba(0, 240, 255, 0.1); border-color: #00f0ff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.3); }
-        .cell.x { color: #ff003c; text-shadow: 0 0 10px #ff003c; }
-        .cell.o { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
-        .reset-btn { margin-top: 15px; padding: 8px 20px; background: transparent; border: 1px solid #7000ff; color: #fff; border-radius: 20px; font-family: 'Orbitron', sans-serif; font-size: 12px; cursor: pointer; transition: 0.3s; }
-        .reset-btn:hover { background: #7000ff; box-shadow: 0 0 15px rgba(112, 0, 255, 0.5); }
+        /* Hide Scrollbar */
+        .content-area::-webkit-scrollbar { display: none; }
+        
+        /* Content Sections */
+        .section {
+            position: absolute;
+            top: 50px; left: 50px; right: 50px; bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-        /* Kazmi Labs Footer */
-        .footer { font-size: 12px; color: #666; margin-top: 30px; letter-spacing: 1px; }
-        .footer strong { color: #00f0ff; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; text-shadow: 0 0 5px rgba(0,240,255,0.3); }
+        .section.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+            z-index: 5;
+        }
 
+        .section-title { font-family: 'Orbitron', sans-serif; font-size: 32px; margin-bottom: 30px; color: #fff; text-shadow: 0 0 15px rgba(0,240,255,0.4); }
+
+        /* Home / Intro Section */
+        .intro-text { font-size: 18px; line-height: 1.8; color: #ddd; margin-bottom: 30px; }
+        .highlight { color: var(--primary); font-weight: 600; }
+
+        /* Stores Grid */
+        .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .store-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .store-card i { font-size: 40px; margin-bottom: 15px; z-index: 2; position: relative; }
+        .store-card h3 { font-size: 18px; z-index: 2; position: relative; }
+        .store-card::before { content:''; position: absolute; top:0; left:0; width:100%; height:100%; opacity: 0; transition: 0.4s; z-index: 1; }
+        
+        .store-card:hover { transform: translateY(-10px); }
+        .store-card.amazon:hover::before { opacity: 1; background: linear-gradient(135deg, #FF9900, #d17d00); }
+        .store-card.aliexpress:hover::before { opacity: 1; background: linear-gradient(135deg, #E62E04, #b32403); }
+        .store-card.daraz:hover::before { opacity: 1; background: linear-gradient(135deg, #F36F21, #c2591a); }
+
+        /* Socials */
+        .social-container { display: flex; gap: 20px; flex-wrap: wrap; }
+        .social-btn { width: 80px; height: 80px; border-radius: 20px; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; text-decoration: none; transition: 0.4s; }
+        .social-btn:hover { transform: translateY(-10px) rotate(5deg); background: var(--primary); border-color: var(--primary); box-shadow: 0 15px 30px rgba(0,240,255,0.4); }
+
+        /* Game Section */
+        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 300px; }
+        .cell { aspect-ratio: 1; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 40px; cursor: pointer; transition: 0.3s; }
+        .cell:hover { background: rgba(0, 240, 255, 0.1); border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+        .cell.x { color: var(--secondary); text-shadow: 0 0 15px var(--secondary); }
+        .cell.o { color: var(--primary); text-shadow: 0 0 15px var(--primary); }
+        .reset-btn { margin-top: 20px; padding: 12px 30px; background: transparent; border: 1px solid var(--tertiary); color: #fff; border-radius: 25px; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: 0.3s; }
+        .reset-btn:hover { background: var(--tertiary); box-shadow: 0 0 20px rgba(112, 0, 255, 0.6); }
+
+        /* Contact Section */
+        .contact-card { background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; }
+        .contact-card i { font-size: 60px; color: #25D366; margin-bottom: 20px; text-shadow: 0 0 20px rgba(37,211,102,0.5); }
+        .contact-btn { display: inline-block; margin-top: 20px; padding: 15px 40px; background: #25D366; color: #000; text-decoration: none; font-weight: 700; border-radius: 30px; transition: 0.3s; }
+        .contact-btn:hover { background: #fff; box-shadow: 0 10px 30px rgba(37,211,102,0.4); transform: scale(1.05); }
+
+        /* Responsive Design (Mobile & Tablet) */
+        @media (max-width: 900px) {
+            body { overflow-y: auto; align-items: flex-start; padding: 20px 10px; }
+            .dashboard { flex-direction: column; width: 100%; height: auto; min-height: 95vh; overflow: visible; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--glass-border); padding: 30px 20px; }
+            .nav-menu { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            .nav-item { padding: 10px 15px; font-size: 14px; }
+            .content-area { padding: 30px 20px; min-height: 60vh; overflow: visible; }
+            .section { position: relative; top: 0; left: 0; right: 0; bottom: 0; display: none; opacity: 1; transform: none; animation: slideIn 0.5s ease forwards; }
+            .section.active { display: flex; }
+            @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+            .orb { display: none; } /* Better performance on mobile */
+        }
     </style>
 </head>
 <body>
-    
+
     <canvas id="canvas-bg"></canvas>
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
 
-    <div class="glass-card">
+    <div class="dashboard">
         
-        <div class="avatar-container">
-            <div class="avatar"><i class="fa-solid fa-user-astronaut"></i></div>
-        </div>
-        
-        <h1>Tajamal Abbas Shah</h1>
-        <h2>Digital Brand Management</h2>
-
-        <div class="links">
-            <a href="#" class="link-btn amazon"><i class="fa-brands fa-amazon"></i><span>Amazon Affiliate Store</span></a>
-            <a href="#" class="link-btn aliexpress"><i class="fa-solid fa-cart-shopping"></i><span>AliExpress Deals</span></a>
-            <a href="#" class="link-btn daraz"><i class="fa-solid fa-bag-shopping"></i><span>My Daraz Store</span></a>
-            <a href="https://wa.me/923000000000" class="link-btn whatsapp"><i class="fa-brands fa-whatsapp"></i><span>Chat on WhatsApp</span></a>
-        </div>
-
-        <div class="socials">
-            <a href="#" class="social-btn tw"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="#" class="social-btn ig"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" class="social-btn li"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="#" class="social-btn yt"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://github.com/Tajamalshah72" class="social-btn gh"><i class="fa-brands fa-github"></i></a>
-        </div>
-
-        <div class="game-section">
-            <div class="game-title">Bored? Play a Quick Game!</div>
-            <div class="board" id="board">
-                <div class="cell" data-index="0"></div>
-                <div class="cell" data-index="1"></div>
-                <div class="cell" data-index="2"></div>
-                <div class="cell" data-index="3"></div>
-                <div class="cell" data-index="4"></div>
-                <div class="cell" data-index="5"></div>
-                <div class="cell" data-index="6"></div>
-                <div class="cell" data-index="7"></div>
-                <div class="cell" data-index="8"></div>
+        <aside class="sidebar">
+            <div class="avatar-container">
+                <div class="avatar"><i class="fa-solid fa-user-astronaut"></i></div>
             </div>
-            <button class="reset-btn" onclick="resetGame()">Reset Game</button>
-        </div>
+            <h1>Tajamal Abbas Shah</h1>
+            <h2>Digital Brand Management</h2>
+            
+            <nav class="nav-menu">
+                <div class="nav-item active" data-target="home-sec"><i class="fa-solid fa-house"></i> Overview</div>
+                <div class="nav-item" data-target="store-sec"><i class="fa-solid fa-store"></i> My Stores</div>
+                <div class="nav-item" data-target="social-sec"><i class="fa-solid fa-hashtag"></i> Social Media</div>
+                <div class="nav-item" data-target="game-sec"><i class="fa-solid fa-gamepad"></i> Mini-Game</div>
+                <div class="nav-item" data-target="contact-sec"><i class="fa-brands fa-whatsapp"></i> Contact</div>
+            </nav>
 
-        <div class="footer">
-            &copy; 2026 Tajamal.me <br><br> Managed by <strong>Kazmi Labs</strong>
-        </div>
+            <div class="sidebar-footer">
+                &copy; 2026 Tajamal.me<br>Powered by <span>Kazmi Labs</span>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            
+            <section id="home-sec" class="section active">
+                <h2 class="section-title">Welcome to the Future</h2>
+                <p class="intro-text">
+                    I am <span class="highlight">Tajamal Abbas Shah</span>, specializing in cutting-edge Digital Brand Management and International Affiliate Marketing. Hover over the menu on the left to explore my digital universe without clicking.
+                </p>
+            </section>
+
+            <section id="store-sec" class="section">
+                <h2 class="section-title">Global Stores</h2>
+                <div class="store-grid">
+                    <a href="#" class="store-card amazon">
+                        <i class="fa-brands fa-amazon"></i>
+                        <h3>Amazon Affiliate</h3>
+                    </a>
+                    <a href="#" class="store-card aliexpress">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <h3>AliExpress Deals</h3>
+                    </a>
+                    <a href="#" class="store-card daraz">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <h3>Daraz Store</h3>
+                    </a>
+                </div>
+            </section>
+
+            <section id="social-sec" class="section">
+                <h2 class="section-title">Connect Digitally</h2>
+                <div class="social-container">
+                    <a href="#" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://github.com/Tajamalshah72" class="social-btn"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </section>
+
+            <section id="game-sec" class="section">
+                <h2 class="section-title">Neon Tic-Tac-Toe</h2>
+                <div class="board" id="board">
+                    <div class="cell" data-index="0"></div>
+                    <div class="cell" data-index="1"></div>
+                    <div class="cell" data-index="2"></div>
+                    <div class="cell" data-index="3"></div>
+                    <div class="cell" data-index="4"></div>
+                    <div class="cell" data-index="5"></div>
+                    <div class="cell" data-index="6"></div>
+                    <div class="cell" data-index="7"></div>
+                    <div class="cell" data-index="8"></div>
+                </div>
+                <button class="reset-btn" onclick="resetGame()">Restart Matrix</button>
+            </section>
+
+            <section id="contact-sec" class="section">
+                <div class="contact-card">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <h2>Direct Communication</h2>
+                    <p style="color:#aaa; margin-top:10px;">Reach out securely for business inquiries and brand collaborations.</p>
+                    <a href="https://wa.me/923000000000" class="contact-btn">Message on WhatsApp</a>
+                </div>
+            </section>
+
+        </main>
     </div>
 
     <script>
-        // 1. Particle Background Magic
+        // Hover Magic Logic (Works on Hover for Desktop, Click for Mobile)
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section');
+
+        navItems.forEach(item => {
+            const triggerEvent = ('ontouchstart' in window) ? 'click' : 'mouseenter';
+            
+            item.addEventListener(triggerEvent, function() {
+                // Remove active classes
+                navItems.forEach(nav => nav.classList.remove('active'));
+                sections.forEach(sec => sec.classList.remove('active'));
+
+                // Add active class to hovered/clicked item
+                this.classList.add('active');
+
+                // Show target section
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+
+        // Background Particles
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -183,80 +338,65 @@
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.speedY = Math.random() * 1 - 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
             }
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.size > 0.2) this.size -= 0.005;
+                this.x += this.speedX; this.y += this.speedY;
                 if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
                 if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
             }
             draw() {
-                ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                ctx.fillStyle = 'rgba(0, 240, 255, 0.3)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        function initParticles() {
-            for (let i = 0; i < 100; i++) { particlesArray.push(new Particle()); }
-        }
-        
+        function initParticles() { for (let i = 0; i < 80; i++) { particlesArray.push(new Particle()); } }
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-            }
+            particlesArray.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animateParticles);
         }
         initParticles(); animateParticles();
 
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
-        // 2. Neon Tic-Tac-Toe Game Logic
+        // Tic-Tac-Toe Game
         const cells = document.querySelectorAll('.cell');
         let currentPlayer = 'X';
         let gameActive = true;
         let gameState = ["", "", "", "", "", "", "", "", ""];
-        const winningConditions = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];
+        const winCons = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ];
 
         cells.forEach(cell => cell.addEventListener('click', handleCellClick));
 
         function handleCellClick(e) {
-            const clickedCell = e.target;
-            const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
-            if (gameState[clickedCellIndex] !== "" || !gameActive) return;
+            const cell = e.target;
+            const index = parseInt(cell.getAttribute('data-index'));
+            if (gameState[index] !== "" || !gameActive) return;
             
-            gameState[clickedCellIndex] = currentPlayer;
-            clickedCell.innerHTML = currentPlayer;
-            clickedCell.classList.add(currentPlayer.toLowerCase());
-            
+            gameState[index] = currentPlayer;
+            cell.innerHTML = currentPlayer;
+            cell.classList.add(currentPlayer.toLowerCase());
             checkWin();
         }
 
         function checkWin() {
             let roundWon = false;
-            for (let i = 0; i <= 7; i++) {
-                const winCondition = winningConditions[i];
-                let a = gameState[winCondition[0]], b = gameState[winCondition[1]], c = gameState[winCondition[2]];
-                if (a === '' || b === '' || c === '') continue;
-                if (a === b && b === c) { roundWon = true; break; }
+            for (let i = 0; i < winCons.length; i++) {
+                const [a, b, c] = winCons[i];
+                if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) { roundWon = true; break; }
             }
-            if (roundWon) { alert('Player ' + currentPlayer + ' Wins! 🎉'); gameActive = false; return; }
-            let roundDraw = !gameState.includes("");
-            if (roundDraw) { alert('Game Draw! 🤝'); gameActive = false; return; }
-            
+            if (roundWon) { setTimeout(() => alert(`Player ${currentPlayer} Wins!`), 100); gameActive = false; return; }
+            if (!gameState.includes("")) { setTimeout(() => alert('Game Draw!'), 100); gameActive = false; return; }
             currentPlayer = currentPlayer === "X" ? "O" : "X";
         }
 
         function resetGame() {
-            gameActive = true;
-            currentPlayer = "X";
-            gameState = ["", "", "", "", "", "", "", "", ""];
+            gameActive = true; currentPlayer = "X"; gameState = ["", "", "", "", "", "", "", "", ""];
             cells.forEach(cell => { cell.innerHTML = ""; cell.classList.remove('x', 'o'); });
         }
     </script>
