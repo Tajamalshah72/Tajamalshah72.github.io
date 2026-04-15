@@ -3,285 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tajamal Abbas Shah | The Royal Empire</title>
+    <title>Tajamal Abbas Shah | Kazmi Labs & Royal Empire</title>
     
-    <meta name="description" content="Ultra-Premium Digital Portfolio & Global Storefront of Tajamal Abbas Shah. Engineered by Kazmi Labs.">
+    <meta name="description" content="Build the Ultimate Cyberpunk Desk Setup in 2026. Premium tech reviews, high-ticket gadgets, and official Amazon storefront of Tajamal Abbas Shah.">
+    <meta name="keywords" content="Cyberpunk Desk Setup 2026, Best Tech for Graphic Designers, Premium Gaming Gadgets, Kazmi Labs, Tajamal Abbas Shah">
     <meta name="theme-color" content="#000000">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Syncopate:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <style>
-        /* =========================================
-           1. ROOT VARIABLES & GLOBAL RESET
-           ========================================= */
-        :root {
-            --primary: #00f0ff;
-            --secondary: #ff0055;
-            --tertiary: #7000ff;
-            --amazon: #ff9900;
-            --whatsapp: #25D366;
-            --bg-dark: #030305;
-            --glass-bg: rgba(10, 10, 15, 0.65);
-            --glass-border: rgba(0, 240, 255, 0.15);
-            --text-main: #ffffff;
-            --text-muted: #8b8b9e;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        :root { --primary: #00f0ff; --secondary: #ff0055; --tertiary: #7000ff; --amazon: #ff9900; --whatsapp: #25D366; --bg-dark: #030305; --glass-bg: rgba(10, 10, 15, 0.65); --glass-border: rgba(0, 240, 255, 0.15); }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: auto; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg-dark); color: #fff; overflow: hidden; }
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: #000; } ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
         
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-main);
-            overflow: hidden; /* Desktop hide scroll, mobile will handle inside */
-            perspective: 2000px;
-        }
-
-        /* CUSTOM SCROLLBAR */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
-        /* =========================================
-           2. MAGIC CURSOR & PRELOADER
-           ========================================= */
-        #preloader {
-            position: fixed; inset: 0; background: #000; z-index: 999999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: 1.5s cubic-bezier(0.86, 0, 0.07, 1);
-        }
-        .core-loader {
-            width: 150px; height: 150px; position: relative;
-        }
-        .core-loader::before, .core-loader::after {
-            content: ''; position: absolute; inset: 0; border-radius: 50%; border: 4px solid transparent;
-        }
-        .core-loader::before { border-top-color: var(--primary); border-bottom-color: var(--amazon); animation: spin 1.5s infinite ease-in-out; }
-        .core-loader::after { inset: 15px; border-left-color: var(--secondary); border-right-color: var(--tertiary); animation: spin-reverse 1s infinite linear; }
-        .glitch-load { margin-top: 30px; font-family: 'Orbitron'; font-size: 22px; letter-spacing: 5px; color: var(--primary); animation: pulse 1s infinite alternate; text-shadow: 0 0 20px var(--primary); }
-        .progress-bar { width: 200px; height: 4px; background: #222; margin-top: 20px; border-radius: 10px; overflow: hidden; position: relative; }
-        .progress-fill { width: 0%; height: 100%; background: var(--amazon); animation: loadFill 2s forwards ease-in-out; }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes spin-reverse { to { transform: rotate(-360deg); } }
-        @keyframes pulse { to { opacity: 0.3; } }
-        @keyframes loadFill { to { width: 100%; } }
-
-        .cursor-dot { width: 8px; height: 8px; background: #fff; box-shadow: 0 0 15px #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; transform: translate(-50%, -50%); transition: transform 0.1s; }
-        .cursor-ring { width: 50px; height: 50px; border: 2px solid var(--primary); box-shadow: 0 0 20px var(--primary), inset 0 0 20px var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s; }
-
-        /* =========================================
-           3. DYNAMIC BACKGROUND MATRIX
-           ========================================= */
         #bg-canvas { position: fixed; inset: 0; z-index: -3; opacity: 0.8; }
-        .aura { position: fixed; filter: blur(150px); z-index: -2; opacity: 0.5; border-radius: 50%; mix-blend-mode: screen; pointer-events: none; }
-        .aura-1 { width: 60vw; height: 60vw; background: var(--tertiary); top: -20%; left: -20%; animation: floatAura 15s infinite alternate; }
-        .aura-2 { width: 50vw; height: 50vw; background: var(--amazon); bottom: -10%; right: -20%; animation: floatAura 20s infinite alternate-reverse; }
-        @keyframes floatAura { to { transform: translate(15vw, 15vh) scale(1.2); } }
+        .aura { position: fixed; filter: blur(150px); z-index: -2; opacity: 0.4; border-radius: 50%; pointer-events: none; }
+        .aura-1 { width: 60vw; height: 60vw; background: var(--tertiary); top: -20%; left: -20%; }
+        .aura-2 { width: 50vw; height: 50vw; background: var(--amazon); bottom: -10%; right: -20%; }
 
-        /* =========================================
-           4. MAIN 3D DASHBOARD ARCHITECTURE
-           ========================================= */
-        .app-wrapper {
-            display: flex; width: 100vw; height: 100vh; justify-content: center; align-items: center;
-            opacity: 0; transform: scale(1.1); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-            transform-style: preserve-3d;
-        }
-        .app-wrapper.ready { opacity: 1; transform: scale(1); }
+        .app-wrapper { display: flex; width: 100vw; height: 100vh; justify-content: center; align-items: center; }
+        .glass-dashboard { display: flex; width: 95vw; max-width: 1500px; height: 92vh; background: var(--glass-bg); backdrop-filter: blur(40px); border: 1px solid var(--glass-border); border-radius: 40px; overflow: hidden; box-shadow: 0 50px 100px rgba(0,0,0,0.9); }
 
-        .glass-dashboard {
-            display: flex; width: 95vw; max-width: 1500px; height: 92vh;
-            background: var(--glass-bg); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border: 1px solid var(--glass-border); border-radius: 40px;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9), inset 0 0 50px rgba(0,240,255,0.05);
-            overflow: hidden; transform-style: preserve-3d;
-        }
-
-        /* =========================================
-           5. LEFT SIDEBAR & PROFILE
-           ========================================= */
-        .sidebar { 
-            width: 350px; background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 100%); 
-            border-right: 1px solid var(--glass-border); padding: 50px 30px; 
-            display: flex; flex-direction: column; align-items: center; z-index: 10; position: relative; 
-        }
-        
-        .dp-wrapper { position: relative; width: 150px; height: 150px; margin-bottom: 25px; display: flex; justify-content: center; align-items: center; }
-        .dp-wrapper::before, .dp-wrapper::after {
-            content: ''; position: absolute; inset: -8px; border-radius: 50%;
-            background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--amazon), var(--primary));
-            animation: spin 4s linear infinite; z-index: -1;
-        }
-        .dp-wrapper::after { filter: blur(20px); opacity: 0.7; }
-        .dp { width: 100%; height: 100%; background: #000; border-radius: 50%; overflow: hidden; border: 4px solid #000; z-index: 2; position: relative; }
+        .sidebar { width: 320px; background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 100%); border-right: 1px solid var(--glass-border); padding: 40px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        .dp-wrapper { position: relative; width: 130px; height: 130px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; }
+        .dp-wrapper::before { content: ''; position: absolute; inset: -5px; border-radius: 50%; background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--amazon), var(--primary)); animation: spin 4s linear infinite; z-index: -1; }
+        .dp { width: 100%; height: 100%; background: #000; border-radius: 50%; overflow: hidden; border: 3px solid #000; z-index: 2; }
         .dp img { width: 100%; height: 100%; object-fit: cover; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .brand-name { font-family: 'Syncopate', sans-serif; font-size: 20px; font-weight: 700; text-align: center; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px var(--primary); position: relative; margin-bottom: 5px; }
-        .brand-subtitle { font-size: 11px; color: var(--amazon); text-transform: uppercase; letter-spacing: 5px; text-align: center; margin-bottom: 30px; font-weight: 600; text-shadow: 0 0 10px var(--amazon); }
+        .brand-name { font-family: 'Syncopate'; font-size: 18px; color: #fff; text-shadow: 0 0 10px var(--primary); margin-bottom: 5px; text-align: center; }
+        .brand-subtitle { font-size: 10px; color: var(--amazon); letter-spacing: 3px; margin-bottom: 20px; text-align: center; }
 
-        /* LIVE CLOCK FEATURE */
-        .live-clock { background: rgba(0,240,255,0.1); border: 1px solid var(--primary); padding: 10px 20px; border-radius: 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--primary); margin-bottom: 40px; box-shadow: inset 0 0 10px rgba(0,240,255,0.2); }
+        .nav-menu { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+        .nav-item { padding: 15px 20px; border-radius: 12px; color: #888; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; display: flex; align-items: center; gap: 15px; cursor: pointer; border: 1px solid transparent; }
+        .nav-item:hover, .nav-item.active { color: #fff; border-color: rgba(0,240,255,0.4); background: rgba(0,240,255,0.1); transform: translateX(5px); }
+        .nav-item i { font-size: 18px; width: 25px; text-align: center; color: inherit; }
+        .nav-item.active i { color: var(--primary); text-shadow: 0 0 15px var(--primary); }
 
-        /* NAVIGATION MENU */
-        .nav-menu { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-        .nav-item { padding: 18px 25px; border-radius: 15px; color: var(--text-muted); font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.4s ease; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; border: 1px solid transparent; }
-        .nav-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,240,255,0.15), transparent); transform: translateX(-100%); transition: 0.5s; }
-        .nav-item i { font-size: 22px; width: 30px; text-align: center; transition: 0.4s; z-index: 1; }
-        .nav-item span { z-index: 1; }
-        
-        .nav-item:hover, .nav-item.active { color: #fff; border-color: rgba(0,240,255,0.4); box-shadow: 0 10px 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(0,240,255,0.1); transform: translateX(10px); }
-        .nav-item:hover::before, .nav-item.active::before { transform: translateX(0); }
-        .nav-item:hover i, .nav-item.active i { color: var(--primary); text-shadow: 0 0 20px var(--primary); transform: scale(1.2); }
-
-        /* =========================================
-           6. CONTENT AREA & SECTIONS
-           ========================================= */
-        .content-area { flex-grow: 1; position: relative; padding: 60px; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; }
-        .section { display: none; animation: slideUpFade 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+        .content-area { flex-grow: 1; padding: 50px; overflow-y: auto; scroll-behavior: smooth; }
+        .section { display: none; animation: slideUp 0.5s forwards; }
         .section.active { display: block; }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(40px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .sec-title { font-family: 'Orbitron', sans-serif; font-size: 45px; font-weight: 900; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 3px; border-left: 5px solid var(--primary); padding-left: 20px; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
-        .sec-title span { color: var(--amazon); text-shadow: 0 0 30px rgba(255,153,0,0.4); }
+        .sec-title { font-family: 'Orbitron'; font-size: 35px; font-weight: 900; margin-bottom: 30px; text-transform: uppercase; border-left: 5px solid var(--primary); padding-left: 15px; }
+        .sec-title span { color: var(--amazon); }
 
-        /* --- HOME TAB (TERMINAL & SKILLS) --- */
-        .terminal-box { background: rgba(0,0,0,0.8); border: 1px solid #333; border-top: 25px solid #222; border-radius: 10px; padding: 20px; font-family: 'Share Tech Mono', monospace; font-size: 18px; line-height: 1.8; color: #0f0; margin-bottom: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); position: relative; }
-        .terminal-box::before { content: 'root@tajamal-empire:~'; position: absolute; top: -20px; left: 10px; color: #888; font-size: 12px; font-family: sans-serif; }
-        .highlight { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        /* --- SEO ARTICLE STYLES --- */
+        .seo-article { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 20px; font-family: 'Poppins', sans-serif; line-height: 1.8; color: #ddd; }
+        .seo-article h1 { font-family: 'Orbitron'; font-size: 28px; color: var(--primary); margin-bottom: 20px; text-shadow: 0 0 10px rgba(0,240,255,0.3); }
+        .seo-article h3 { font-size: 20px; color: #fff; margin: 30px 0 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+        .seo-article p { margin-bottom: 20px; font-size: 15px; }
+        .seo-article .affiliate-link { display: inline-block; background: var(--amazon); color: #000; padding: 10px 25px; border-radius: 30px; font-weight: bold; text-decoration: none; font-family: 'Orbitron'; font-size: 14px; margin-top: 10px; transition: 0.3s; }
+        .seo-article .affiliate-link:hover { background: #fff; box-shadow: 0 0 20px rgba(255,153,0,0.5); }
+        .author-tag { display: inline-block; background: rgba(0,240,255,0.1); border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 12px; color: var(--primary); margin-bottom: 30px; font-family: 'Share Tech Mono'; }
 
-        .skills-marquee { width: 100%; overflow: hidden; background: rgba(255,255,255,0.05); border-radius: 15px; padding: 15px 0; display: flex; border: 1px solid rgba(255,255,255,0.1); margin-top: 30px; }
-        .skills-track { display: flex; animation: scrollSkills 20s linear infinite; white-space: nowrap; }
-        .skill-tag { padding: 8px 25px; background: rgba(0,240,255,0.1); color: var(--primary); border: 1px solid var(--primary); border-radius: 30px; margin: 0 15px; font-family: 'Orbitron'; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-        @keyframes scrollSkills { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* --- ROYAL STOREFRONT (MAIN AMAZON HUB) --- */
-        .empire-banner { 
-            background: linear-gradient(135deg, rgba(255,153,0,0.2) 0%, rgba(0,0,0,0.9) 100%);
-            border: 2px solid var(--amazon); border-radius: 30px; padding: 60px 40px; text-align: center;
-            position: relative; overflow: hidden; transition: 0.5s; text-decoration: none; display: block;
-            box-shadow: 0 20px 50px rgba(255,153,0,0.15);
-        }
-        .empire-banner:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(255,153,0,0.3); border-color: #fff; }
-        .empire-banner i { font-size: 80px; color: var(--amazon); margin-bottom: 20px; text-shadow: 0 0 40px var(--amazon); transition: 0.5s; }
-        .empire-banner:hover i { color: #fff; text-shadow: 0 0 50px #fff; transform: scale(1.1); }
-        .empire-banner h1 { font-family: 'Syncopate'; font-size: 35px; color: #fff; letter-spacing: 5px; margin-bottom: 15px; }
-        .btn-gold { display: inline-block; padding: 18px 50px; background: var(--amazon); color: #000; font-family: 'Orbitron'; font-weight: 900; font-size: 18px; border-radius: 50px; margin-top: 30px; transition: 0.3s; letter-spacing: 2px; }
-        .empire-banner:hover .btn-gold { background: #fff; box-shadow: 0 0 30px #fff; }
-
-        /* --- 10 PRODUCTS GRID --- */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .store-card { 
-            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 25px; border-radius: 25px; 
-            text-align: center; color: #fff; text-decoration: none; position: relative; overflow: hidden; 
-            transition: 0.4s ease-out; transform-style: preserve-3d;
-        }
-        .store-card:hover { border-color: var(--primary); background: rgba(0,240,255,0.05); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,240,255,0.1); }
-        
-        .prod-img-box { width: 100%; height: 220px; background: #fff; border-radius: 15px; margin-bottom: 20px; padding: 10px; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
-        .prod-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.5s; }
-        .store-card:hover .prod-img-box img { transform: scale(1.1); }
-        
-        .prod-badge { position: absolute; top: 10px; left: 10px; background: var(--amazon); color: #000; padding: 5px 10px; font-size: 12px; font-weight: bold; border-radius: 8px; font-family: 'Orbitron'; }
-        
-        .store-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; height: 48px; overflow: hidden; text-align: left; color: #eee; }
-        .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
-        .price-row span { color: var(--primary); font-size: 20px; font-weight: bold; font-family: 'Orbitron'; }
-        .price-row i { color: var(--amazon); font-size: 24px; }
-        
-        .btn-buy-card { display: block; width: 100%; padding: 12px; background: transparent; border: 2px solid var(--primary); color: var(--primary); font-weight: bold; border-radius: 12px; transition: 0.3s; font-family: 'Orbitron'; }
-        .store-card:hover .btn-buy-card { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
-
-        /* --- MATRIX GAME (NEON TIC TAC TOE) --- */
-        .game-container { display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.4); border-radius: 30px; padding: 40px; border: 1px solid var(--glass-border); }
-        .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 400px; margin: 30px 0; }
-        .game-cell { aspect-ratio: 1; background: rgba(0,0,0,0.8); border: 2px solid rgba(0,240,255,0.2); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 60px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; box-shadow: inset 0 0 20px rgba(0,0,0,1); }
-        .game-cell:hover { border-color: var(--primary); background: rgba(0,240,255,0.1); box-shadow: 0 0 30px rgba(0,240,255,0.3); }
-        .game-cell.x { color: var(--secondary); text-shadow: 0 0 40px var(--secondary); }
-        .game-cell.o { color: var(--primary); text-shadow: 0 0 40px var(--primary); }
-        .game-status { font-family: 'Orbitron'; font-size: 24px; color: var(--amazon); text-transform: uppercase; letter-spacing: 3px; height: 30px; }
-
-        /* --- SECURE COMMS (WHATSAPP & SOCIALS) --- */
-        .contact-box { background: rgba(37,211,102,0.05); border: 1px solid rgba(37,211,102,0.3); padding: 60px; border-radius: 40px; text-align: center; position: relative; overflow: hidden; margin-bottom: 40px; }
-        .pulse-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150px; height: 150px; background: rgba(37,211,102,0.2); border-radius: 50%; z-index: 0; animation: radar 2s infinite; }
-        @keyframes radar { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(5); opacity: 0; } }
-        .contact-box i.main-icon { font-size: 100px; color: var(--whatsapp); position: relative; z-index: 1; margin-bottom: 20px; text-shadow: 0 0 40px rgba(37,211,102,0.8); }
-        .contact-box h3 { font-size: 32px; margin-bottom: 15px; position: relative; z-index: 1; font-family: 'Orbitron'; letter-spacing: 3px; }
-        .btn-pro { display: inline-block; padding: 20px 60px; background: var(--whatsapp); color: #000; font-weight: 900; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; border-radius: 50px; text-decoration: none; margin-top: 30px; position: relative; z-index: 1; transition: 0.4s; }
-        .btn-pro:hover { background: #fff; color: var(--whatsapp); box-shadow: 0 0 40px rgba(37,211,102,0.8); transform: translateY(-5px); }
-
-        .social-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .social-btn { width: 90px; height: 90px; border-radius: 25px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; font-size: 35px; color: #fff; text-decoration: none; position: relative; transition: 0.4s; overflow: hidden; }
-        .social-btn::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: 0.4s; z-index: 0; border-radius: 25px; }
-        .social-btn i { position: relative; z-index: 1; transition: 0.4s; }
-        .social-btn:hover { transform: translateY(-15px); border-color: transparent; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        .social-btn:hover::before { opacity: 1; }
-        .social-btn:hover i { color: #fff; transform: scale(1.3); }
-        .social-btn.fb:hover::before { background: #1877F2; }
-        .social-btn.ig:hover::before { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-        .social-btn.yt:hover::before { background: #FF0000; }
-        .social-btn.gh:hover::before { background: #333; }
-
-        /* =========================================
-           7. ULTRA RESPONSIVE MEDIA QUERIES
-           ========================================= */
+        /* Mobile Adjustments */
+        .mobile-nav { display: none; }
         @media (max-width: 1024px) {
-            body { overflow-y: auto; cursor: auto !important; }
-            .cursor-dot, .cursor-ring { display: none !important; }
+            body { overflow-y: auto; }
+            .app-wrapper { height: auto; }
+            .glass-dashboard { flex-direction: column; width: 100vw; height: auto; border-radius: 0; border: none; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--glass-border); padding: 30px 20px; }
+            .nav-menu { display: none; }
+            .content-area { padding: 25px; padding-bottom: 100px; }
+            .sec-title { font-size: 26px; }
+            .seo-article { padding: 20px; }
             
-            .app-wrapper { height: auto; padding: 0; align-items: flex-start; }
-            .glass-dashboard { flex-direction: column; width: 100vw; height: auto; border-radius: 0; border: none; box-shadow: none; }
-            
-            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--glass-border); padding: 40px 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); }
-            .nav-menu { display: none; } /* Hide desktop nav */
-            
-            .content-area { padding: 30px 20px; padding-bottom: 120px; overflow: visible; }
-            
-            .sec-title { font-size: 30px; }
-            .empire-banner h1 { font-size: 24px; }
-            .terminal-box { font-size: 14px; }
-            
-            /* Mobile Bottom Navigation Bar */
-            .mobile-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(30px); border-top: 1px solid rgba(255,255,255,0.1); padding: 10px 5px calc(10px + env(safe-area-inset-bottom)); justify-content: space-around; z-index: 1000; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); }
-            .m-item { display: flex; flex-direction: column; align-items: center; gap: 8px; color: #666; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 10px; border-radius: 15px; transition: 0.4s; }
-            .m-item i { font-size: 24px; }
-            .m-item.active { color: var(--primary); transform: translateY(-10px); text-shadow: 0 0 15px var(--primary); background: rgba(0,240,255,0.1); }
+            .mobile-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.95); border-top: 1px solid var(--glass-border); padding: 10px; justify-content: space-around; z-index: 1000; }
+            .m-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: #666; font-size: 10px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
+            .m-item.active { color: var(--primary); transform: translateY(-5px); }
+            .m-item i { font-size: 20px; }
         }
-        @media (min-width: 1025px) { .mobile-nav { display: none; } }
     </style>
 </head>
 <body>
-
-    <div id="preloader">
-        <div class="core-loader"></div>
-        <div class="glitch-load">INITIALIZING ROYAL EMPIRE</div>
-        <div class="progress-bar"><div class="progress-fill"></div></div>
-    </div>
-
-    <div class="cursor-dot" id="c-dot"></div>
-    <div class="cursor-ring" id="c-ring"></div>
 
     <canvas id="bg-canvas"></canvas>
     <div class="aura aura-1"></div>
     <div class="aura aura-2"></div>
 
-    <div class="app-wrapper" id="app">
-        <div class="glass-dashboard" id="parallax-board">
+    <div class="app-wrapper">
+        <div class="glass-dashboard">
             
             <aside class="sidebar">
-                <div class="dp-wrapper">
-                    <div class="dp"><img src="profile.jpg" alt="Tajamal Abbas" onerror="this.src='https://ui-avatars.com/api/?name=Tajamal+Abbas&background=000&color=00f0ff&size=200'"></div>
-                </div>
+                <div class="dp-wrapper"><div class="dp"><img src="profile.jpg" alt="Tajamal Abbas"></div></div>
                 <h1 class="brand-name">Tajamal Abbas</h1>
-                <h2 class="brand-subtitle">Kazmi Labs &bull; CEO</h2>
+                <h2 class="brand-subtitle">Royal Empire CEO</h2>
                 
-                <div class="live-clock" id="clock">00:00:00 PKT</div>
-
                 <nav class="nav-menu">
                     <div class="nav-item active" data-tab="core"><i class="fa-solid fa-microchip"></i> <span>Core System</span></div>
                     <div class="nav-item" data-tab="royal"><i class="fa-solid fa-crown"></i> <span>Royal Empire</span></div>
-                    <div class="nav-item" data-tab="assets"><i class="fa-solid fa-boxes-stacked"></i> <span>Top 10 Assets</span></div>
-                    <div class="nav-item" data-tab="matrix"><i class="fa-solid fa-gamepad"></i> <span>The Matrix</span></div>
+                    <div class="nav-item" data-tab="blog"><i class="fa-solid fa-newspaper"></i> <span>Tech Transmissions</span></div>
                     <div class="nav-item" data-tab="comms"><i class="fa-solid fa-shield-halved"></i> <span>Secure Comms</span></div>
                 </nav>
             </aside>
@@ -290,145 +104,49 @@
                 
                 <section id="core" class="section active">
                     <h2 class="sec-title">System <span>Online</span></h2>
-                    
-                    <div class="terminal-box">
-                        <span id="typed-text"></span><span class="cursor-blink" style="animation: pulse 1s infinite;">_</span>
-                    </div>
-
-                    <h3 style="font-family:'Orbitron'; margin-top:40px; color:var(--amazon);">TECH & MARKETING ARSENAL</h3>
-                    <div class="skills-marquee">
-                        <div class="skills-track">
-                            <div class="skill-tag">Affiliate Marketing</div>
-                            <div class="skill-tag">Amazon Influencer</div>
-                            <div class="skill-tag">UI/UX Design</div>
-                            <div class="skill-tag">Web Technologies</div>
-                            <div class="skill-tag">Brand Management</div>
-                            <div class="skill-tag">SEO Optimization</div>
-                            <div class="skill-tag">Affiliate Marketing</div>
-                            <div class="skill-tag">Amazon Influencer</div>
-                            <div class="skill-tag">UI/UX Design</div>
-                            <div class="skill-tag">Web Technologies</div>
-                            <div class="skill-tag">Brand Management</div>
-                            <div class="skill-tag">SEO Optimization</div>
-                        </div>
-                    </div>
+                    <p style="font-size: 18px; color: #ccc; line-height: 1.8;">Welcome to the Digital Fortress of Tajamal Abbas Shah. Architect of Global Brand Assets, SEO optimization, and Affiliate Marketing.</p>
                 </section>
 
                 <section id="royal" class="section">
                     <h2 class="sec-title">The <span>Fortress</span></h2>
-                    <p style="color:#aaa; font-size:18px; margin-bottom:30px;">Welcome to my global influencer hub. Tap below to enter the official Amazon vault.</p>
-                    
-                    <a href="https://a.co/d/0ajSXWfG" target="_blank" class="empire-banner">
-                        <i class="fa-brands fa-amazon"></i>
-                        <h1>TAJAMAL'S ROYAL EMPIRE</h1>
-                        <p style="color:#ffcc00; font-size:16px; font-weight:bold; letter-spacing:2px; text-transform:uppercase;">Verified Amazon Influencer Storefront</p>
-                        <div class="btn-gold">ENTER STOREFRONT <i class="fa-solid fa-arrow-right-to-bracket" style="font-size:18px; margin-left:10px; color:#000;"></i></div>
-                    </a>
+                    <div style="background: linear-gradient(135deg, rgba(255,153,0,0.2), rgba(0,0,0,0.9)); border: 2px solid var(--amazon); border-radius: 30px; padding: 50px; text-align: center;">
+                        <i class="fa-brands fa-amazon" style="font-size: 70px; color: var(--amazon); margin-bottom: 20px;"></i>
+                        <h1 style="font-family:'Orbitron'; font-size: 30px; margin-bottom: 15px;">OFFICIAL AMAZON SHOP</h1>
+                        <a href="https://a.co/d/0ajSXWfG" target="_blank" style="display:inline-block; padding: 15px 40px; background: var(--amazon); color: #000; font-family:'Orbitron'; font-weight: bold; border-radius: 30px; text-decoration: none; margin-top: 20px;">ENTER STOREFRONT</a>
+                    </div>
                 </section>
 
-                <section id="assets" class="section">
-                    <h2 class="sec-title">Global <span>Assets</span></h2>
-                    <div class="card-grid">
+                <section id="blog" class="section">
+                    <h2 class="sec-title">Tech <span>Transmissions</span></h2>
+                    
+                    <article class="seo-article">
+                        <h1>The Ultimate Cyberpunk Desk Setup for Digital Creators in 2026</h1>
+                        <div class="author-tag"><i class="fa-solid fa-terminal"></i> Author: Tajamal Abbas Shah | Kazmi Labs</div>
                         
-                        <div class="store-card">
-                            <div class="prod-badge">HOT DEAL</div>
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/71YfM-N6VUL._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>Premium Tech Gadget 01</h3>
-                            <div class="price-row"><span>$99.00</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
-                        <div class="store-card">
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/61UxfXTUyvL._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>Elite Gaming Gear 02</h3>
-                            <div class="price-row"><span>$149.50</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
-                        <div class="store-card">
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/81xD63U9qjL._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>Smart Home Device 03</h3>
-                            <div class="price-row"><span>$79.99</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
-                        <div class="store-card">
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/71o8Q5XJS5L._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>Pro Audio System 04</h3>
-                            <div class="price-row"><span>$250.00</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
-                        <div class="store-card">
-                            <div class="prod-badge">BEST SELLER</div>
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/71Z1Hk4gW3L._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>High-End Wearable 05</h3>
-                            <div class="price-row"><span>$199.00</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
-                        <div class="store-card">
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/81N6WkK4HqL._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>Studio Equipment 06</h3>
-                            <div class="price-row"><span>$120.00</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
-                        <div class="store-card">
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/61VbK-Xz7gL._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>Performance Laptop 07</h3>
-                            <div class="price-row"><span>$1299.00</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
-                        <div class="store-card">
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/71K84j2O8wL._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>Wireless Charger 08</h3>
-                            <div class="price-row"><span>$35.00</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
-                        <div class="store-card">
-                            <div class="prod-badge">NEW</div>
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/61bK6PMOCyL._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>VR Headset Pro 09</h3>
-                            <div class="price-row"><span>$399.00</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
-                        <div class="store-card">
-                            <div class="prod-img-box"><img src="https://m.media-amazon.com/images/I/71WkK5M-Y1L._AC_SL1500_.jpg" alt="Product"></div>
-                            <h3>Mechanical Keyboard 10</h3>
-                            <div class="price-row"><span>$89.99</span><i class="fa-brands fa-amazon"></i></div>
-                            <a href="https://a.co/d/0ajSXWfG" target="_blank" class="btn-buy-card">VIEW ON AMAZON</a>
-                        </div>
+                        <p>Welcome to the future of productivity. Whether you are a UI/UX designer, a hardcore gamer, or an affiliate marketing mogul, your environment dictates your output. In 2026, the standard aesthetic has shifted towards high-performance, neon-drenched cyberpunk setups. As a digital entrepreneur, I've curated the top three absolute essentials you need to transform your boring desk into a high-tech command center.</p>
 
-                    </div>
-                </section>
+                        <h3>1. The Command Interface: Corsair K100 RGB Mechanical Keyboard</h3>
+                        <p>Your keyboard is your primary weapon. The Corsair K100 isn't just a keyboard; it's a structural masterpiece. With hyper-fast optical-mechanical switches and an ungodly amount of RGB customization, it delivers tactile feedback that keeps you typing at the speed of thought. It is the undisputed king of the cyberpunk aesthetic.</p>
+                        <a href="https://a.co/d/0ajSXWfG" target="_blank" class="affiliate-link">GET THE CORSAIR K100 ON AMAZON <i class="fa-solid fa-arrow-right"></i></a>
 
-                <section id="matrix" class="section">
-                    <h2 class="sec-title">Neural <span>Combat</span></h2>
-                    <p style="color:#aaa; font-size:16px;">Test your neural processing against the Kazmi Labs AI Protocol.</p>
-                    
-                    <div class="game-container">
-                        <div class="game-status" id="g-status">SYSTEM READY. X GOES FIRST.</div>
-                        <div class="game-grid">
-                            <div class="game-cell" data-idx="0"></div><div class="game-cell" data-idx="1"></div><div class="game-cell" data-idx="2"></div>
-                            <div class="game-cell" data-idx="3"></div><div class="game-cell" data-idx="4"></div><div class="game-cell" data-idx="5"></div>
-                            <div class="game-cell" data-idx="6"></div><div class="game-cell" data-idx="7"></div><div class="game-cell" data-idx="8"></div>
-                        </div>
-                        <button onclick="resetBoard()" style="padding:15px 40px; background:transparent; border:2px solid var(--primary); color:var(--primary); font-family:'Orbitron'; font-size:16px; border-radius:30px; font-weight:bold; transition:0.3s; cursor:pointer !important;">REBOOT MATRIX</button>
-                    </div>
+                        <h3>2. The Atmosphere: Govee Glide Hexa Light Panels</h3>
+                        <p>A cyberpunk setup without neon is just a dark room. The Govee Glide Hexa panels allow you to architect your own lighting structures on your wall. They sync seamlessly with your gaming or music audio, creating an immersive, pulsating aura that completely changes the psychological feel of your workspace. It's an instant upgrade to your visual brand.</p>
+                        <a href="https://a.co/d/0ajSXWfG" target="_blank" class="affiliate-link">UPGRADE YOUR LIGHTING NOW <i class="fa-solid fa-arrow-right"></i></a>
+
+                        <h3>3. The Control Hub: Elgato Stream Deck XL</h3>
+                        <p>If you want to operate like a true CEO of a digital empire, you need macro control. The Elgato Stream Deck XL gives you 32 customizable LCD keys. Launch apps, trigger lighting sequences, post to social media, or control your live streams with a single tap. It is the ultimate productivity hack disguised as a futuristic control panel.</p>
+                        <a href="https://a.co/d/0ajSXWfG" target="_blank" class="affiliate-link">AUTOMATE YOUR DESK <i class="fa-solid fa-arrow-right"></i></a>
+                        
+                        <p style="margin-top: 40px; font-style: italic; color: #888; font-size: 13px;">*Disclaimer: As an Amazon Associate, Tajamal's Royal Empire earns from qualifying purchases. Quality is never compromised.*</p>
+                    </article>
                 </section>
 
                 <section id="comms" class="section">
                     <h2 class="sec-title">Secure <span>Comms</span></h2>
-                    
-                    <div class="contact-box">
-                        <div class="pulse-core"></div>
-                        <i class="fa-brands fa-whatsapp main-icon"></i>
-                        <h3>END-TO-END ENCRYPTED</h3>
-                        <p style="color:#888; font-size:16px; position:relative; z-index:1; max-width:500px; margin:0 auto;">Direct line to the CEO. Establish a secure connection for business inquiries, tech consultations, or high-ticket deals.</p>
-                        <a href="https://wa.me/923421402024" class="btn-pro">INITIALIZE PROTOCOL</a>
-                    </div>
-
-                    <h3 style="font-family:'Orbitron'; color:var(--primary); text-align:center; margin-bottom:20px;">DIGITAL FOOTPRINT</h3>
-                    <div class="social-grid">
-                        <a href="#" class="social-btn fb"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="social-btn ig"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="social-btn yt"><i class="fa-brands fa-youtube"></i></a>
-                        <a href="https://github.com/Tajamalshah72" class="social-btn gh"><i class="fa-brands fa-github"></i></a>
+                    <div style="background:rgba(37,211,102,0.1); padding:40px; border-radius:30px; border:1px solid #25D366; text-align:center;">
+                        <i class="fa-brands fa-whatsapp" style="font-size:70px; color:#25D366; margin-bottom:20px;"></i>
+                        <h3 style="font-family:'Orbitron'; margin-bottom:20px;">ENCRYPTED LINE</h3>
+                        <a href="https://wa.me/923421402024" style="background:#25D366; color:#000; padding:15px 40px; border-radius:30px; font-weight:bold; text-decoration:none; display:inline-block;">INITIALIZE CHAT</a>
                     </div>
                 </section>
 
@@ -439,212 +157,39 @@
     <nav class="mobile-nav">
         <div class="m-item active" data-tab="core"><i class="fa-solid fa-microchip"></i><span>Core</span></div>
         <div class="m-item" data-tab="royal"><i class="fa-solid fa-crown"></i><span>Empire</span></div>
-        <div class="m-item" data-tab="assets"><i class="fa-solid fa-boxes-stacked"></i><span>Assets</span></div>
-        <div class="m-item" data-tab="matrix"><i class="fa-solid fa-gamepad"></i><span>Matrix</span></div>
+        <div class="m-item" data-tab="blog"><i class="fa-solid fa-newspaper"></i><span>Intel</span></div>
         <div class="m-item" data-tab="comms"><i class="fa-solid fa-shield-halved"></i><span>Comms</span></div>
     </nav>
 
     <script>
-        // 1. BOOT SEQUENCE (PRELOADER)
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('preloader').style.display = 'none';
-                    document.getElementById('app').classList.add('ready');
-                    startTyping(); 
-                }, 1500);
-            }, 2500); // 2.5s to show off the loader
-        });
-
-        // 2. LIVE CLOCK (PKT TIME)
-        function updateClock() {
-            const now = new Date();
-            // Convert to Pakistan Standard Time (UTC+5)
-            const pktTime = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3600000 * 5));
-            let h = pktTime.getHours();
-            let m = pktTime.getMinutes();
-            let s = pktTime.getSeconds();
-            let ampm = h >= 12 ? 'PM' : 'AM';
-            h = h % 12; h = h ? h : 12; 
-            m = m < 10 ? '0'+m : m; s = s < 10 ? '0'+s : s;
-            document.getElementById('clock').innerHTML = `<i class="fa-regular fa-clock" style="margin-right:8px;"></i> ${h}:${m}:${s} ${ampm} PKT`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // 3. TERMINAL TYPING EFFECT
-        const terminalText = "Accessing Kazmi Labs Servers...\nAuthentication: SUCCESS\nWelcome, Tajamal Abbas Shah.\n\nLoading portfolio assets...\nLoading Amazon Influencer Data...\nEstablishing Secure Connection...\n\nSYSTEM FULLY OPERATIONAL. READY FOR COMMAND.";
-        let charIndex = 0;
-        function startTyping() {
-            if (charIndex < terminalText.length) {
-                let char = terminalText.charAt(charIndex);
-                if(char === '\n') {
-                    document.getElementById('typed-text').innerHTML += '<br>';
-                } else {
-                    document.getElementById('typed-text').innerHTML += char;
-                }
-                charIndex++;
-                setTimeout(startTyping, 30);
-            }
-        }
-
-        // 4. NAVIGATION TAB SWITCHING
+        // Tab Switching Logic
         const switchTab = (tabId) => {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(sec => {
-                sec.classList.remove('active');
-            });
-            // Remove active class from all nav items
-            document.querySelectorAll('.nav-item, .m-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            
-            // Show target section and active nav
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-item, .m-item').forEach(nav => nav.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             document.querySelectorAll(`[data-tab="${tabId}"]`).forEach(el => el.classList.add('active'));
-            
-            // Scroll to top of content area on mobile
             document.querySelector('.content-area').scrollTop = 0;
         };
-
-        // Attach events to Navigations
-        document.querySelectorAll('.nav-item').forEach(item => { 
-            item.addEventListener('click', () => switchTab(item.dataset.tab)); 
-        });
-        document.querySelectorAll('.m-item').forEach(item => { 
+        document.querySelectorAll('.nav-item, .m-item').forEach(item => { 
             item.addEventListener('click', () => switchTab(item.dataset.tab)); 
         });
 
-        // 5. MAGIC CURSOR & 3D PARALLAX (DESKTOP ONLY)
-        if (window.innerWidth > 1024) {
-            const dot = document.getElementById('c-dot');
-            const ring = document.getElementById('c-ring');
-            
-            window.addEventListener('mousemove', (e) => {
-                dot.style.left = `${e.clientX}px`; dot.style.top = `${e.clientY}px`;
-                ring.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 100, fill: "forwards" });
-            });
-
-            // Hover effects for links and buttons
-            document.querySelectorAll('a, .nav-item, button, .game-cell, .store-card').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    ring.style.width = '70px'; ring.style.height = '70px'; 
-                    ring.style.background = 'rgba(0, 240, 255, 0.1)';
-                    dot.style.transform = 'translate(-50%, -50%) scale(2)';
-                });
-                el.addEventListener('mouseleave', () => {
-                    ring.style.width = '50px'; ring.style.height = '50px'; 
-                    ring.style.background = 'transparent';
-                    dot.style.transform = 'translate(-50%, -50%) scale(1)';
-                });
-            });
-            
-            // Subtle 3D Dashboard Tilt
-            const board = document.getElementById('parallax-board');
-            window.addEventListener('mousemove', (e) => {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 80;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 80;
-                board.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            });
-        }
-
-        // 6. DYNAMIC BACKGROUND MATRIX (HTML5 CANVAS)
+        // Simple Background Particles
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        
         let particles = [];
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 1.5;
-                this.vy = (Math.random() - 0.5) * 1.5;
-                this.color = Math.random() > 0.5 ? '#00f0ff' : '#ff9900';
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                if(this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if(this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-            draw() {
-                ctx.fillStyle = this.color; ctx.beginPath();
-                ctx.arc(this.x, this.y, 1.5, 0, Math.PI*2); ctx.fill();
-            }
+        for(let j=0; j<50; j++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, v: Math.random()*1 });
+        function drawBg() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = '#00f0ff';
+            particles.forEach(p => {
+                ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI*2); ctx.fill();
+                p.y -= p.v; if(p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(drawBg);
         }
-        
-        // Spawn 80 particles
-        for(let j=0; j<80; j++) particles.push(new Particle());
-        
-        function animateNetwork() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for(let a=0; a<particles.length; a++) {
-                particles[a].update(); particles[a].draw();
-                // Draw connecting lines
-                for(let b=a; b<particles.length; b++) {
-                    let dx = particles[a].x - particles[b].x;
-                    let dy = particles[a].y - particles[b].y;
-                    let dist = dx*dx + dy*dy;
-                    if(dist < 15000) {
-                        ctx.beginPath(); 
-                        ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 - dist/100000})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particles[a].x, particles[a].y);
-                        ctx.lineTo(particles[b].x, particles[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animateNetwork);
-        }
-        animateNetwork();
-        
-        // Handle Resize
-        window.addEventListener('resize', () => { 
-            canvas.width = window.innerWidth; 
-            canvas.height = window.innerHeight; 
-        });
-
-        // 7. NEON TIC-TAC-TOE (THE MATRIX)
-        const cells = document.querySelectorAll('.game-cell');
-        const statusTxt = document.getElementById('g-status');
-        let turn = 'X', gameOn = true, boardState = ["", "", "", "", "", "", "", "", ""];
-        const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-
-        cells.forEach(c => c.addEventListener('click', e => {
-            let idx = e.target.dataset.idx;
-            if(boardState[idx] || !gameOn) return;
-            
-            boardState[idx] = turn; 
-            e.target.innerText = turn; 
-            e.target.classList.add(turn.toLowerCase());
-            
-            // Check Win
-            if(wins.some(w => boardState[w[0]] && boardState[w[0]] === boardState[w[1]] && boardState[w[0]] === boardState[w[2]])) {
-                statusTxt.innerText = `PROTOCOL BREACH: ${turn} WINS!`;
-                statusTxt.style.color = turn === 'X' ? 'var(--secondary)' : 'var(--primary)';
-                gameOn = false; return;
-            }
-            // Check Draw
-            if(!boardState.includes("")) { 
-                statusTxt.innerText = 'STALEMATE DETECTED.';
-                statusTxt.style.color = '#fff';
-                gameOn = false; return; 
-            }
-            
-            // Next Turn
-            turn = turn === 'X' ? 'O' : 'X';
-            statusTxt.innerText = `AWAITING INPUT: ${turn}'S TURN`;
-            statusTxt.style.color = 'var(--amazon)';
-        }));
-
-        window.resetBoard = () => { 
-            turn = 'X'; gameOn = true; boardState.fill(""); 
-            statusTxt.innerText = 'SYSTEM REBOOTED. X GOES FIRST.';
-            statusTxt.style.color = 'var(--amazon)';
-            cells.forEach(c => { c.innerText = ""; c.classList.remove('x','o'); }); 
-        }
+        drawBg();
     </script>
 </body>
 </html>
