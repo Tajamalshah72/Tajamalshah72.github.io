@@ -3,150 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tajamal | Ecosystems & Data</title>
+    <title>TAJAMAL | STRATEGIC SYSTEMS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Outfit:wght@100;400;900&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #050505; 
-            color: #f5f5f5; 
-        }
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-        }
-        .fade-in { 
-            animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-            opacity: 0; 
-            transform: translateY(30px); 
-        }
-        @keyframes fadeIn { 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
+        :root { --accent: #ffffff; --bg: #000000; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: var(--bg); color: #fff; overflow-x: hidden; }
+        .outfit { font-family: 'Outfit', sans-serif; }
         
-        .nav-link { position: relative; color: #a3a3a3; transition: color 0.3s ease; }
-        .nav-link:hover { color: #fff; }
-        .nav-link::after { 
-            content: ''; position: absolute; width: 0; height: 1px; 
-            bottom: -4px; left: 0; background-color: #fff; transition: width 0.4s ease; 
+        /* High-End Animations */
+        @keyframes reveal { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .reveal { animation: reveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+        
+        .bento-card {
+            background: rgba(15, 15, 15, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .nav-link:hover::after { width: 100%; }
+        .bento-card:hover { border-color: rgba(255, 255, 255, 0.3); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        
+        .hotkey {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #888;
+        }
 
-        .active-tab { border-left: 2px solid #fff; color: #fff; opacity: 1; }
-        .inactive-tab { border-left: 2px solid transparent; color: #737373; opacity: 0.6; transition: all 0.3s ease; }
-        .inactive-tab:hover { opacity: 1; color: #d4d4d4; }
+        .gradient-text { background: linear-gradient(to right, #fff, #444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Terminal Effect */
+        #command-line { border-left: 2px solid #fff; animation: blink 1s infinite; }
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        .active-mode { background: #fff !important; color: #000 !important; }
     </style>
 </head>
-<body class="antialiased selection:bg-white selection:text-black min-h-screen flex flex-col">
+<body class="antialiased">
 
-    <header class="w-full max-w-6xl mx-auto px-6 py-12 flex justify-between items-center fade-in">
-        <div class="text-2xl font-extrabold tracking-tighter">TAJAMAL<span class="text-gray-600">.ME</span></div>
-        <a href="mailto:hello@tajamal.me" class="nav-link text-xs uppercase tracking-widest font-semibold">Contact Hub</a>
-    </header>
+    <div class="fixed top-0 left-0 w-full h-1 bg-white/5 z-50">
+        <div id="scroll-progress" class="h-full bg-white w-0 transition-all duration-100"></div>
+    </div>
 
-    <main class="flex-grow w-full max-w-6xl mx-auto px-6 flex flex-col justify-center mt-10 mb-24">
-        <div class="max-w-4xl fade-in delay-1">
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-8">
-                Engineering <span class="text-gray-600">Systems.</span><br>
-                Decoding <span class="text-gray-600">Data.</span>
+    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-40 mix-blend-difference">
+        <span class="outfit font-black text-xl tracking-tighter">TAJAMAL.ME</span>
+        <div class="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.3em] font-bold">
+            <a href="#dossier" class="hover:opacity-50 transition-opacity">Portfolio</a>
+            <a href="#identity" class="hover:opacity-50 transition-opacity">Expertise</a>
+            <a href="mailto:hello@tajamal.me" class="hover:opacity-50 transition-opacity">hello@tajamal</a>
+        </div>
+    </nav>
+
+    <section class="min-h-screen flex flex-col justify-center px-6 md:px-24">
+        <div class="reveal">
+            <span class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-4 block">Available May 2026</span>
+            <h1 class="outfit text-[12vw] md:text-[8vw] font-black leading-[0.85] tracking-tighter mb-10">
+                SYSTEMS<br><span class="gradient-text">ARCHITECT.</span>
             </h1>
-            <p class="text-lg md:text-xl text-gray-400 font-light leading-relaxed mb-16 max-w-2xl">
-                Bridging the gap between high-performance digital commerce and advanced computational frameworks. Select a discipline below to pull the relevant dossier.
-            </p>
+            <div class="flex flex-col md:flex-row gap-12 items-start">
+                <p class="max-w-md text-gray-400 leading-relaxed text-lg">
+                    Multidisciplinary engineer bridging the gap between <span class="text-white">Bioinformatics</span>, <span class="text-white">E-Commerce infrastructure</span>, and <span class="text-white">Scientific Education</span>.
+                </p>
+                <div class="flex gap-4">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-gray-600 uppercase font-bold mb-2">Primary Node</span>
+                        <span class="text-sm border-l border-white/20 pl-4">DigitalOcean Core</span>
+                    </div>
+                    <div class="flex flex-col ml-8">
+                        <span class="text-[10px] text-gray-600 uppercase font-bold mb-2">Protocol</span>
+                        <span class="text-sm border-l border-white/20 pl-4">Full-Stack Deployment</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dossier" class="py-32 px-6 md:px-24 bg-[#0a0a0a]">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div>
+                <h2 class="text-4xl font-bold mb-4 outfit tracking-tight">Dossier Engine</h2>
+                <p class="text-gray-500">Tap a protocol or use keyboard shortcuts <span class="hotkey">1</span> <span class="hotkey">2</span> <span class="hotkey">3</span> to reconfigure site data.</p>
+            </div>
+            <div id="status-terminal" class="bg-black border border-white/10 p-4 rounded text-[10px] font-mono text-green-500 w-full md:w-64">
+                [SYSTEM]: READY_FOR_DEPLOYMENT<br>
+                [MODE]: <span id="current-mode-label">IT_STRATEGIST</span>
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 glass-panel rounded-3xl p-10 fade-in delay-2">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+            <button onclick="setMode('it')" id="btn-it" class="bento-card p-8 rounded-2xl text-left active-mode">
+                <i data-lucide="terminal" class="mb-6"></i>
+                <h3 class="text-xl font-bold mb-2">IT & E-Commerce</h3>
+                <p class="text-sm opacity-60">Scale. SEO. Automation.</p>
+            </button>
+            <button onclick="setMode('bio')" id="btn-bio" class="bento-card p-8 rounded-2xl text-left">
+                <i data-lucide="dna" class="mb-6"></i>
+                <h3 class="text-xl font-bold mb-2">Bioinformatics</h3>
+                <p class="text-sm opacity-60">Genomics. Data. Analysis.</p>
+            </button>
+            <button onclick="setMode('teach')" id="btn-teach" class="bento-card p-8 rounded-2xl text-left">
+                <i data-lucide="book-open" class="mb-6"></i>
+                <h3 class="text-xl font-bold mb-2">Academic/Teaching</h3>
+                <p class="text-sm opacity-60">Mentorship. Pedagogy. Logic.</p>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 bento-card p-12 rounded-3xl min-h-[500px]">
+                <div id="output-content">
+                    <h4 class="text-xs uppercase tracking-widest text-white/40 mb-6">Live Profile Generation</h4>
+                    <div id="profile-text" class="text-3xl md:text-5xl font-light leading-tight">
+                        Optimizing <span class="text-white font-bold">Dropshipping Supply Chains</span> through automated SEO and server-side logic.
+                    </div>
+                    <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/10 pt-12" id="profile-stats">
+                        </div>
+                </div>
+            </div>
             
-            <div class="md:col-span-4 flex flex-col gap-8">
-                <button onclick="activateTab('tech')" id="tab-tech" class="text-left pl-6 py-2 active-tab group cursor-pointer">
-                    <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">01</div>
-                    <div class="text-xl font-semibold tracking-tight">E-Commerce & SEO</div>
-                </button>
-                <button onclick="activateTab('science')" id="tab-science" class="text-left pl-6 py-2 inactive-tab group cursor-pointer">
-                    <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">02</div>
-                    <div class="text-xl font-semibold tracking-tight">Bioinformatics</div>
-                </button>
-                <button onclick="activateTab('academia')" id="tab-academia" class="text-left pl-6 py-2 inactive-tab group cursor-pointer">
-                    <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">03</div>
-                    <div class="text-xl font-semibold tracking-tight">Academia</div>
-                </button>
-            </div>
-
-            <div class="md:col-span-8 flex flex-col justify-center pl-0 md:pl-8">
-                
-                <div id="content-tech" class="block transition-opacity duration-500">
-                    <h2 class="text-4xl font-bold tracking-tight mb-4">Digital Architect</h2>
-                    <p class="text-gray-400 font-light mb-10 max-w-xl leading-relaxed">
-                        Scaling e-commerce infrastructure, deploying aggressive SEO workflows, and managing global dropshipping logistics via automated digital hubs.
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <button class="bg-white text-black px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">Generate CV</button>
-                        <button class="border border-gray-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:border-white transition-colors">Access Cover Letter</button>
+            <div class="lg:col-span-4 flex flex-col gap-4">
+                <a href="#" class="bento-card p-8 rounded-3xl flex justify-between items-center group overflow-hidden">
+                    <div>
+                        <span class="text-[10px] text-gray-500 block mb-1">DOWNLOAD</span>
+                        <span class="font-bold">CURRICULUM VITAE</span>
+                    </div>
+                    <i data-lucide="arrow-right" class="group-hover:translate-x-2 transition-transform"></i>
+                </a>
+                <a href="#" class="bento-card p-8 rounded-3xl flex justify-between items-center group">
+                    <div>
+                        <span class="text-[10px] text-gray-500 block mb-1">GENERATE</span>
+                        <span class="font-bold">COVER LETTER</span>
+                    </div>
+                    <i data-lucide="file-text" class="group-hover:scale-110 transition-transform"></i>
+                </a>
+                <div class="bento-card p-8 rounded-3xl flex-grow">
+                    <span class="text-[10px] text-gray-500 block mb-4">CONNECT</span>
+                    <div class="flex flex-col gap-4">
+                        <span class="text-xl font-bold">hello@tajamal.me</span>
+                        <span class="text-sm text-gray-400">Jauharabad, Punjab, PK</span>
                     </div>
                 </div>
-
-                <div id="content-science" class="hidden transition-opacity duration-500">
-                    <h2 class="text-4xl font-bold tracking-tight mb-4">Computational Analyst</h2>
-                    <p class="text-gray-400 font-light mb-10 max-w-xl leading-relaxed">
-                        Applying advanced computational techniques to complex biological datasets. Driving research efficiency and optimizing lab methodologies through code.
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <button class="bg-white text-black px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">Generate CV</button>
-                        <button class="border border-gray-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:border-white transition-colors">Access Cover Letter</button>
-                    </div>
-                </div>
-
-                <div id="content-academia" class="hidden transition-opacity duration-500">
-                    <h2 class="text-4xl font-bold tracking-tight mb-4">Knowledge Facilitator</h2>
-                    <p class="text-gray-400 font-light mb-10 max-w-xl leading-relaxed">
-                        Translating complex scientific and technical frameworks into accessible, high-retention curricula for advanced education and training.
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <button class="bg-white text-black px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">Generate CV</button>
-                        <button class="border border-gray-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:border-white transition-colors">Access Cover Letter</button>
-                    </div>
-                </div>
-
             </div>
         </div>
-    </main>
+    </section>
 
-    <footer class="w-full max-w-6xl mx-auto px-6 py-10 border-t border-gray-900 text-gray-600 text-[10px] uppercase tracking-widest flex flex-col md:flex-row justify-between items-center gap-4 fade-in delay-2">
-        <div>© 2026 TAJAMAL. ALL RIGHTS RESERVED.</div>
-        <div class="flex gap-6">
-            <span class="hover:text-white transition-colors cursor-pointer">DigitalOcean Hosted</span>
-            <span class="hover:text-white transition-colors cursor-pointer">System Status: Active</span>
+    <footer class="p-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-gray-600 text-[10px] font-mono">
+        <div>CORE_VERSION: 2026.4.20 // BUILT_ON_DIGITAL_OCEAN</div>
+        <div class="flex gap-8">
+            <a href="#" class="hover:text-white transition-colors">LINKEDIN</a>
+            <a href="#" class="hover:text-white transition-colors">GITHUB</a>
+            <a href="#" class="hover:text-white transition-colors">WHITEPAPERS</a>
         </div>
     </footer>
 
     <script>
-        function activateTab(tabId) {
-            // Hide all content areas
-            ['tech', 'science', 'academia'].forEach(id => {
-                document.getElementById('content-' + id).classList.add('hidden');
-                document.getElementById('content-' + id).classList.remove('block');
-                
-                // Reset tab styles
-                const tab = document.getElementById('tab-' + id);
-                tab.classList.remove('active-tab');
-                tab.classList.add('inactive-tab');
-            });
+        // Init Icons
+        lucide.createIcons();
 
-            // Show selected content with a slight delay for smoothness
-            const activeContent = document.getElementById('content-' + tabId);
-            activeContent.classList.remove('hidden');
-            activeContent.classList.add('block');
+        // Scroll Progress
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+        };
+
+        const profiles = {
+            it: {
+                label: "IT_STRATEGIST",
+                text: "Scaling <span class='text-white font-bold underline'>E-Commerce</span> infrastructure and dominating search engines with systematic SEO workflows.",
+                stats: ["99.9% Uptime", "SEO Rank 1", "AWS/DO", "Affiliate Ops"]
+            },
+            bio: {
+                label: "BIO_ANALYST",
+                text: "Leveraging <span class='text-white font-bold underline'>Computational Biology</span> to decode complex genomic sequences and lab-driven data.",
+                stats: ["Python/R", "BLAST", "NGS Data", "Bio-Ethics"]
+            },
+            teach: {
+                label: "FACILITATOR",
+                text: "Transforming high-level <span class='text-white font-bold underline'>Technical Concepts</span> into digestible academic modules and student mentorship.",
+                stats: ["Curriculum", "Leadership", "Public Speech", "Mentorship"]
+            }
+        };
+
+        function setMode(mode) {
+            const data = profiles[mode];
             
-            // Activate selected tab style
-            const activeTab = document.getElementById('tab-' + tabId);
-            activeTab.classList.remove('inactive-tab');
-            activeTab.classList.add('active-tab');
+            // Visual Update
+            document.getElementById('profile-text').innerHTML = data.text;
+            document.getElementById('current-mode-label').innerText = data.label;
+            
+            // Update Buttons
+            ['it', 'bio', 'teach'].forEach(m => {
+                document.getElementById('btn-' + m).classList.remove('active-mode');
+            });
+            document.getElementById('btn-' + mode).classList.add('active-mode');
+
+            // Update Stats
+            const statsContainer = document.getElementById('profile-stats');
+            statsContainer.innerHTML = data.stats.map(s => `
+                <div class="flex flex-col">
+                    <span class="text-white font-bold text-xs">${s}</span>
+                    <span class="text-[8px] text-gray-600 uppercase">Verified Skill</span>
+                </div>
+            `).join('');
         }
+
+        // Keyboard Shortcuts
+        window.addEventListener('keydown', (e) => {
+            if (e.key === '1') setMode('it');
+            if (e.key === '2') setMode('bio');
+            if (e.key === '3') setMode('teach');
+        });
+
+        // Init stats
+        setMode('it');
     </script>
 </body>
 </html>
