@@ -3,223 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAJAMAL | STRATEGIC SYSTEMS</title>
+    <title>TAJAMAL | GLOBAL SYSTEMS ARCHITECT</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Outfit:wght@100;400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --accent: #ffffff; --bg: #000000; }
-        body { font-family: 'Space Grotesk', sans-serif; background-color: var(--bg); color: #fff; overflow-x: hidden; }
-        .outfit { font-family: 'Outfit', sans-serif; }
-        
-        /* High-End Animations */
-        @keyframes reveal { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .reveal { animation: reveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
-        
-        .bento-card {
-            background: rgba(15, 15, 15, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        :root {
+            --bg: #050505;
+            --accent: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Cinematic Background */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* Glassmorphism Components */
+        .glass {
+            background: var(--glass);
             backdrop-filter: blur(20px);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .bento-card:hover { border-color: rgba(255, 255, 255, 0.3); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        
-        .hotkey {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            color: #888;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        .gradient-text { background: linear-gradient(to right, #fff, #444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        /* Terminal Effect */
-        #command-line { border-left: 2px solid #fff; animation: blink 1s infinite; }
-        @keyframes blink { 50% { border-color: transparent; } }
+        .glass:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
 
-        .active-mode { background: #fff !important; color: #000 !important; }
+        /* Perspective Hero Text */
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+        /* Mode Activation Styles */
+        .mode-active {
+            background: #fff !important;
+            color: #000 !important;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeInUp 0.6s ease forwards; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stagger-item { opacity: 0; }
     </style>
 </head>
 <body class="antialiased">
 
-    <div class="fixed top-0 left-0 w-full h-1 bg-white/5 z-50">
-        <div id="scroll-progress" class="h-full bg-white w-0 transition-all duration-100"></div>
-    </div>
+    <canvas id="canvas-bg"></canvas>
 
-    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-40 mix-blend-difference">
-        <span class="outfit font-black text-xl tracking-tighter">TAJAMAL.ME</span>
-        <div class="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.3em] font-bold">
-            <a href="#dossier" class="hover:opacity-50 transition-opacity">Portfolio</a>
-            <a href="#identity" class="hover:opacity-50 transition-opacity">Expertise</a>
-            <a href="mailto:hello@tajamal.me" class="hover:opacity-50 transition-opacity">hello@tajamal</a>
+    <nav class="fixed top-0 w-full z-50 px-6 py-8 flex justify-between items-center pointer-events-none">
+        <div class="glass px-6 py-3 flex items-center gap-3 pointer-events-auto">
+            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span class="text-[10px] uppercase tracking-widest font-bold opacity-70">Status: System Active</span>
+        </div>
+        <div class="flex gap-4 pointer-events-auto">
+            <a href="mailto:hello@tajamal.me" class="glass px-6 py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-white hover:text-black transition-all">
+                Contact Dossier
+            </a>
         </div>
     </nav>
 
-    <section class="min-h-screen flex flex-col justify-center px-6 md:px-24">
-        <div class="reveal">
-            <span class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-4 block">Available May 2026</span>
-            <h1 class="outfit text-[12vw] md:text-[8vw] font-black leading-[0.85] tracking-tighter mb-10">
-                SYSTEMS<br><span class="gradient-text">ARCHITECT.</span>
+    <section class="relative min-h-screen flex flex-col justify-center px-6 md:px-24 pt-20">
+        <div class="max-w-6xl">
+            <span class="mono text-blue-500 text-sm mb-4 block tracking-tighter stagger-item">// INITIALIZING_IDENTITY_PROTOCOL_2026</span>
+            <h1 class="hero-title mb-10 stagger-item">
+                TAJAMAL<br>
+                <span class="opacity-20">ENTERPRISE.</span>
             </h1>
-            <div class="flex flex-col md:flex-row gap-12 items-start">
-                <p class="max-w-md text-gray-400 leading-relaxed text-lg">
-                    Multidisciplinary engineer bridging the gap between <span class="text-white">Bioinformatics</span>, <span class="text-white">E-Commerce infrastructure</span>, and <span class="text-white">Scientific Education</span>.
-                </p>
-                <div class="flex gap-4">
-                    <div class="flex flex-col">
-                        <span class="text-[10px] text-gray-600 uppercase font-bold mb-2">Primary Node</span>
-                        <span class="text-sm border-l border-white/20 pl-4">DigitalOcean Core</span>
-                    </div>
-                    <div class="flex flex-col ml-8">
-                        <span class="text-[10px] text-gray-600 uppercase font-bold mb-2">Protocol</span>
-                        <span class="text-sm border-l border-white/20 pl-4">Full-Stack Deployment</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="dossier" class="py-32 px-6 md:px-24 bg-[#0a0a0a]">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-            <div>
-                <h2 class="text-4xl font-bold mb-4 outfit tracking-tight">Dossier Engine</h2>
-                <p class="text-gray-500">Tap a protocol or use keyboard shortcuts <span class="hotkey">1</span> <span class="hotkey">2</span> <span class="hotkey">3</span> to reconfigure site data.</p>
-            </div>
-            <div id="status-terminal" class="bg-black border border-white/10 p-4 rounded text-[10px] font-mono text-green-500 w-full md:w-64">
-                [SYSTEM]: READY_FOR_DEPLOYMENT<br>
-                [MODE]: <span id="current-mode-label">IT_STRATEGIST</span>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-            <button onclick="setMode('it')" id="btn-it" class="bento-card p-8 rounded-2xl text-left active-mode">
-                <i data-lucide="terminal" class="mb-6"></i>
-                <h3 class="text-xl font-bold mb-2">IT & E-Commerce</h3>
-                <p class="text-sm opacity-60">Scale. SEO. Automation.</p>
-            </button>
-            <button onclick="setMode('bio')" id="btn-bio" class="bento-card p-8 rounded-2xl text-left">
-                <i data-lucide="dna" class="mb-6"></i>
-                <h3 class="text-xl font-bold mb-2">Bioinformatics</h3>
-                <p class="text-sm opacity-60">Genomics. Data. Analysis.</p>
-            </button>
-            <button onclick="setMode('teach')" id="btn-teach" class="bento-card p-8 rounded-2xl text-left">
-                <i data-lucide="book-open" class="mb-6"></i>
-                <h3 class="text-xl font-bold mb-2">Academic/Teaching</h3>
-                <p class="text-sm opacity-60">Mentorship. Pedagogy. Logic.</p>
-            </button>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div class="lg:col-span-8 bento-card p-12 rounded-3xl min-h-[500px]">
-                <div id="output-content">
-                    <h4 class="text-xs uppercase tracking-widest text-white/40 mb-6">Live Profile Generation</h4>
-                    <div id="profile-text" class="text-3xl md:text-5xl font-light leading-tight">
-                        Optimizing <span class="text-white font-bold">Dropshipping Supply Chains</span> through automated SEO and server-side logic.
-                    </div>
-                    <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/10 pt-12" id="profile-stats">
-                        </div>
-                </div>
-            </div>
             
-            <div class="lg:col-span-4 flex flex-col gap-4">
-                <a href="#" class="bento-card p-8 rounded-3xl flex justify-between items-center group overflow-hidden">
-                    <div>
-                        <span class="text-[10px] text-gray-500 block mb-1">DOWNLOAD</span>
-                        <span class="font-bold">CURRICULUM VITAE</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-end stagger-item">
+                <p class="text-xl text-gray-400 font-light leading-relaxed">
+                    A multi-threaded professional architect specializing in <span class="text-white">Bio-Computational Analysis</span>, <span class="text-white">Global E-Commerce Logistics</span>, and <span class="text-white">Advanced Pedagogy</span>.
+                </p>
+                <div class="flex flex-col gap-2 mono text-[10px] text-gray-500 uppercase">
+                    <div class="flex justify-between border-b border-white/10 pb-2">
+                        <span>Location</span> <span class="text-white">Jauharabad, PK</span>
                     </div>
-                    <i data-lucide="arrow-right" class="group-hover:translate-x-2 transition-transform"></i>
-                </a>
-                <a href="#" class="bento-card p-8 rounded-3xl flex justify-between items-center group">
-                    <div>
-                        <span class="text-[10px] text-gray-500 block mb-1">GENERATE</span>
-                        <span class="font-bold">COVER LETTER</span>
+                    <div class="flex justify-between border-b border-white/10 pb-2">
+                        <span>Infrastructure</span> <span class="text-white">DigitalOcean / Linux</span>
                     </div>
-                    <i data-lucide="file-text" class="group-hover:scale-110 transition-transform"></i>
-                </a>
-                <div class="bento-card p-8 rounded-3xl flex-grow">
-                    <span class="text-[10px] text-gray-500 block mb-4">CONNECT</span>
-                    <div class="flex flex-col gap-4">
-                        <span class="text-xl font-bold">hello@tajamal.me</span>
-                        <span class="text-sm text-gray-400">Jauharabad, Punjab, PK</span>
+                    <div class="flex justify-between">
+                        <span>Degree Status</span> <span class="text-white">Final Phase [1 Month]</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="p-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-gray-600 text-[10px] font-mono">
-        <div>CORE_VERSION: 2026.4.20 // BUILT_ON_DIGITAL_OCEAN</div>
-        <div class="flex gap-8">
-            <a href="#" class="hover:text-white transition-colors">LINKEDIN</a>
-            <a href="#" class="hover:text-white transition-colors">GITHUB</a>
-            <a href="#" class="hover:text-white transition-colors">WHITEPAPERS</a>
+    <section id="engine" class="py-32 px-6 md:px-24">
+        <div class="mb-20 text-center">
+            <h2 class="text-xs uppercase tracking-[1em] text-gray-500 mb-4">The Strategic Dossier</h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="switchMode('it')" id="btn-it" class="glass px-8 py-4 text-sm font-bold mode-active">01. IT & COMMERCE</button>
+                <button onclick="switchMode('bio')" id="btn-bio" class="glass px-8 py-4 text-sm font-bold">02. BIOINFORMATICS</button>
+                <button onclick="switchMode('edu')" id="btn-edu" class="glass px-8 py-4 text-sm font-bold">03. ACADEMIA</button>
+            </div>
+        </div>
+
+        <div id="content-it" class="tab-content active">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 glass p-10">
+                    <div class="flex justify-between items-start mb-10">
+                        <div>
+                            <h3 class="text-3xl font-extrabold mb-2">Systems Architecture</h3>
+                            <p class="text-gray-400">SEO performance and dropshipping logistics analytics.</p>
+                        </div>
+                        <i data-lucide="bar-chart-3" class="text-blue-500"></i>
+                    </div>
+                    <div class="h-[300px]">
+                        <canvas id="itChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass p-10 flex flex-col justify-between">
+                    <div>
+                        <h4 class="mono text-[10px] text-blue-500 uppercase mb-6">Technical Stack</h4>
+                        <ul class="space-y-4">
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span>SEO Operations</span> <span class="text-xs text-gray-500 italic">Advanced</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span>Affiliate Marketing</span> <span class="text-xs text-gray-500 italic">Enterprise</span>
+                            </li>
+                            <li class="flex justify-between items-center">
+                                <span>DigitalOcean Ops</span> <span class="text-xs text-gray-500 italic">Architecture</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-4 bg-white text-black font-black text-xs uppercase rounded-xl hover:scale-105 transition-transform">Download IT CV</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-bio" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-4 glass p-10">
+                    <i data-lucide="dna" class="text-green-500 mb-6"></i>
+                    <h3 class="text-3xl font-extrabold mb-4">Computational Analysis</h3>
+                    <p class="text-gray-400 mb-8 leading-relaxed">Processing complex biological datasets through customized Python pipelines and NGS analysis protocols.</p>
+                    <div class="space-y-2">
+                        <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-full bg-green-500 w-[90%]"></div>
+                        </div>
+                        <span class="text-[10px] mono uppercase text-gray-500">Genomics Research / 90%</span>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 glass p-10 bg-gradient-to-br from-green-950/20 to-transparent">
+                    <h4 class="mono text-[10px] text-green-500 uppercase mb-10">Key Lab Protocols</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                        <div>
+                            <span class="block text-2xl font-bold">BLAST</span>
+                            <span class="text-xs text-gray-500">Sequence Alignment</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-bold">R-Lang</span>
+                            <span class="text-xs text-gray-500">Statistical Genetics</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-bold">Python</span>
+                            <span class="text-xs text-gray-500">Bio-scripting</span>
+                        </div>
+                    </div>
+                    <button class="mt-12 px-10 py-4 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all">Generate Bio-Dossier</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-edu" class="tab-content">
+            <div class="glass p-20 text-center max-w-4xl mx-auto">
+                <i data-lucide="graduation-cap" class="mx-auto mb-8 text-yellow-500 w-12 h-12"></i>
+                <h3 class="text-4xl font-black mb-6 italic">Empowering the Next Generation</h3>
+                <p class="text-xl text-gray-400 mb-10 leading-relaxed">Combining industry-level SEO knowledge with scientific rigor to mentor students in the intersection of Technology and Biology.</p>
+                <div class="flex justify-center gap-6">
+                    <div class="px-6 py-3 border border-white/10 rounded-lg">Mentorship</div>
+                    <div class="px-6 py-3 border border-white/10 rounded-lg">Curriculum Dev</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 md:px-24 border-t border-white/5">
+        <h2 class="text-5xl font-black mb-20">TIMELINE.</h2>
+        <div class="space-y-24">
+            <div class="flex flex-col md:flex-row gap-12 relative">
+                <div class="md:w-1/4 mono text-gray-600">2023 - 2026</div>
+                <div class="md:w-3/4">
+                    <h3 class="text-2xl font-bold mb-2">University Honors & Final Phase</h3>
+                    <p class="text-gray-400">Completing advanced studies in Bioinformatics while maintaining enterprise digital assets.</p>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/4 mono text-gray-600">2024 - PRESENT</div>
+                <div class="md:w-3/4">
+                    <h3 class="text-2xl font-bold mb-2">E-Commerce Infrastructure Founder</h3>
+                    <p class="text-gray-400">Built and scaled a dropshipping/affiliate hub on .com using SEO-first methodologies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 px-6 md:px-24 bg-white text-black">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-10">
+            <div>
+                <h2 class="text-[10vw] font-black leading-none tracking-tighter">CONTACT.</h2>
+                <p class="text-xl font-bold mt-4">hello@tajamal.me</p>
+            </div>
+            <div class="text-right">
+                <p class="mono text-[10px] mb-4 uppercase font-bold">System Location: Jauharabad, Punjab</p>
+                <div class="flex gap-4">
+                    <span class="p-4 border border-black/10 rounded-full cursor-pointer hover:bg-black hover:text-white transition-all"><i data-lucide="linkedin"></i></span>
+                    <span class="p-4 border border-black/10 rounded-full cursor-pointer hover:bg-black hover:text-white transition-all"><i data-lucide="github"></i></span>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Init Icons
+        // Initialize Icons
         lucide.createIcons();
 
-        // Scroll Progress
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("scroll-progress").style.width = scrolled + "%";
-        };
+        // 1. Background Animation (Particles)
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-        const profiles = {
-            it: {
-                label: "IT_STRATEGIST",
-                text: "Scaling <span class='text-white font-bold underline'>E-Commerce</span> infrastructure and dominating search engines with systematic SEO workflows.",
-                stats: ["99.9% Uptime", "SEO Rank 1", "AWS/DO", "Affiliate Ops"]
-            },
-            bio: {
-                label: "BIO_ANALYST",
-                text: "Leveraging <span class='text-white font-bold underline'>Computational Biology</span> to decode complex genomic sequences and lab-driven data.",
-                stats: ["Python/R", "BLAST", "NGS Data", "Bio-Ethics"]
-            },
-            teach: {
-                label: "FACILITATOR",
-                text: "Transforming high-level <span class='text-white font-bold underline'>Technical Concepts</span> into digestible academic modules and student mentorship.",
-                stats: ["Curriculum", "Leadership", "Public Speech", "Mentorship"]
-            }
-        };
-
-        function setMode(mode) {
-            const data = profiles[mode];
-            
-            // Visual Update
-            document.getElementById('profile-text').innerHTML = data.text;
-            document.getElementById('current-mode-label').innerText = data.label;
-            
-            // Update Buttons
-            ['it', 'bio', 'teach'].forEach(m => {
-                document.getElementById('btn-' + m).classList.remove('active-mode');
-            });
-            document.getElementById('btn-' + mode).classList.add('active-mode');
-
-            // Update Stats
-            const statsContainer = document.getElementById('profile-stats');
-            statsContainer.innerHTML = data.stats.map(s => `
-                <div class="flex flex-col">
-                    <span class="text-white font-bold text-xs">${s}</span>
-                    <span class="text-[8px] text-gray-600 uppercase">Verified Skill</span>
-                </div>
-            `).join('');
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
 
-        // Keyboard Shortcuts
-        window.addEventListener('keydown', (e) => {
-            if (e.key === '1') setMode('it');
-            if (e.key === '2') setMode('bio');
-            if (e.key === '3') setMode('teach');
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        initCanvas();
+        for(let i=0; i<100; i++) particles.push(new Particle());
+        animate();
+
+        // 2. GSAP Entrance Animations
+        gsap.to(".stagger-item", {
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            duration: 1.5,
+            ease: "power4.out"
         });
 
-        // Init stats
-        setMode('it');
+        // 3. Mode Switching Engine
+        function switchMode(mode) {
+            // Update Buttons
+            document.querySelectorAll('#engine button').forEach(b => b.classList.remove('mode-active'));
+            document.getElementById('btn-' + mode).classList.add('mode-active');
+
+            // Update Content
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('content-' + mode).classList.add('active');
+        }
+
+        // 4. Data Visualization (Chart.js)
+        const itCtx = document.getElementById('itChart').getContext('2d');
+        new Chart(itCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'SEO Traffic Optimization',
+                    data: [12, 19, 3, 5, 20, 35],
+                    borderColor: '#3b82f6',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { display: false },
+                    x: { grid: { display: false }, ticks: { color: '#444' } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        window.addEventListener('resize', initCanvas);
     </script>
 </body>
 </html>
