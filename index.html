@@ -1,89 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tajamal | Professional Hub</title>
+    <title>Tajamal | Ecosystems & Data</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        .profile-card { transition: all 0.3s ease; }
-        .active-btn { background-color: #2563eb !important; color: white !important; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #f5f5f5; 
+        }
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.02); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+        }
+        .fade-in { 
+            animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            opacity: 0; 
+            transform: translateY(30px); 
+        }
+        @keyframes fadeIn { 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        
+        .nav-link { position: relative; color: #a3a3a3; transition: color 0.3s ease; }
+        .nav-link:hover { color: #fff; }
+        .nav-link::after { 
+            content: ''; position: absolute; width: 0; height: 1px; 
+            bottom: -4px; left: 0; background-color: #fff; transition: width 0.4s ease; 
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .active-tab { border-left: 2px solid #fff; color: #fff; opacity: 1; }
+        .inactive-tab { border-left: 2px solid transparent; color: #737373; opacity: 0.6; transition: all 0.3s ease; }
+        .inactive-tab:hover { opacity: 1; color: #d4d4d4; }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="antialiased selection:bg-white selection:text-black min-h-screen flex flex-col">
 
-    <nav class="bg-white shadow-sm p-4">
-        <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600 tracking-tight">tajamal.me</h1>
-            <a href="mailto:hello@tajamal.me" class="text-gray-600 hover:text-blue-600 font-medium">hello@tajamal.me</a>
-        </div>
-    </nav>
+    <header class="w-full max-w-6xl mx-auto px-6 py-12 flex justify-between items-center fade-in">
+        <div class="text-2xl font-extrabold tracking-tighter">TAJAMAL<span class="text-gray-600">.ME</span></div>
+        <a href="mailto:hello@tajamal.me" class="nav-link text-xs uppercase tracking-widest font-semibold">Contact Hub</a>
+    </header>
 
-    <section class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md border border-gray-100">
-        <div class="text-center mb-8">
-            <h2 class="text-lg font-semibold text-gray-700 uppercase tracking-widest">Command Center</h2>
-            <p class="text-sm text-gray-500">Select a profile to generate your professional documents</p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <button onclick="switchProfile('it')" id="btn-it" class="profile-btn p-4 border-2 border-blue-100 rounded-lg hover:border-blue-500 active-btn">
-                <span class="block text-xl">💻</span>
-                <span class="font-bold">1. IT & E-commerce</span>
-            </button>
-            <button onclick="switchProfile('bio')" id="btn-bio" class="profile-btn p-4 border-2 border-blue-100 rounded-lg hover:border-blue-500 text-gray-600">
-                <span class="block text-xl">🧬</span>
-                <span class="font-bold">2. Bioinformatics</span>
-            </button>
-            <button onclick="switchProfile('teach')" id="btn-teach" class="profile-btn p-4 border-2 border-blue-100 rounded-lg hover:border-blue-500 text-gray-600">
-                <span class="block text-xl">📖</span>
-                <span class="font-bold">3. Teaching</span>
-            </button>
+    <main class="flex-grow w-full max-w-6xl mx-auto px-6 flex flex-col justify-center mt-10 mb-24">
+        <div class="max-w-4xl fade-in delay-1">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-8">
+                Engineering <span class="text-gray-600">Systems.</span><br>
+                Decoding <span class="text-gray-600">Data.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 font-light leading-relaxed mb-16 max-w-2xl">
+                Bridging the gap between high-performance digital commerce and advanced computational frameworks. Select a discipline below to pull the relevant dossier.
+            </p>
         </div>
 
-        <div id="content-display" class="border-t pt-6">
-            <div class="flex justify-between items-center">
-                <h3 id="profile-title" class="text-2xl font-bold text-gray-800 italic">IT & E-commerce Specialist</h3>
-                <div class="space-x-2">
-                    <button class="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700">Download CV</button>
-                    <button class="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-black">Copy Cover Letter</button>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 glass-panel rounded-3xl p-10 fade-in delay-2">
             
-            <div id="profile-body" class="mt-4 text-gray-600 leading-relaxed">
-                <p class="mb-4">Focused on dropshipping logistics, SEO optimization, and digital marketing. Managing .com assets and technical infrastructure.</p>
-                <ul class="list-disc ml-5 space-y-2">
-                    <li>Search Engine Optimization (SEO) & Keyword Strategy</li>
-                    <li>Digital Store Management & Affiliate Marketing</li>
-                    <li>Full-stack deployment on DigitalOcean</li>
-                </ul>
+            <div class="md:col-span-4 flex flex-col gap-8">
+                <button onclick="activateTab('tech')" id="tab-tech" class="text-left pl-6 py-2 active-tab group cursor-pointer">
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">01</div>
+                    <div class="text-xl font-semibold tracking-tight">E-Commerce & SEO</div>
+                </button>
+                <button onclick="activateTab('science')" id="tab-science" class="text-left pl-6 py-2 inactive-tab group cursor-pointer">
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">02</div>
+                    <div class="text-xl font-semibold tracking-tight">Bioinformatics</div>
+                </button>
+                <button onclick="activateTab('academia')" id="tab-academia" class="text-left pl-6 py-2 inactive-tab group cursor-pointer">
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">03</div>
+                    <div class="text-xl font-semibold tracking-tight">Academia</div>
+                </button>
+            </div>
+
+            <div class="md:col-span-8 flex flex-col justify-center pl-0 md:pl-8">
+                
+                <div id="content-tech" class="block transition-opacity duration-500">
+                    <h2 class="text-4xl font-bold tracking-tight mb-4">Digital Architect</h2>
+                    <p class="text-gray-400 font-light mb-10 max-w-xl leading-relaxed">
+                        Scaling e-commerce infrastructure, deploying aggressive SEO workflows, and managing global dropshipping logistics via automated digital hubs.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-white text-black px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">Generate CV</button>
+                        <button class="border border-gray-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:border-white transition-colors">Access Cover Letter</button>
+                    </div>
+                </div>
+
+                <div id="content-science" class="hidden transition-opacity duration-500">
+                    <h2 class="text-4xl font-bold tracking-tight mb-4">Computational Analyst</h2>
+                    <p class="text-gray-400 font-light mb-10 max-w-xl leading-relaxed">
+                        Applying advanced computational techniques to complex biological datasets. Driving research efficiency and optimizing lab methodologies through code.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-white text-black px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">Generate CV</button>
+                        <button class="border border-gray-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:border-white transition-colors">Access Cover Letter</button>
+                    </div>
+                </div>
+
+                <div id="content-academia" class="hidden transition-opacity duration-500">
+                    <h2 class="text-4xl font-bold tracking-tight mb-4">Knowledge Facilitator</h2>
+                    <p class="text-gray-400 font-light mb-10 max-w-xl leading-relaxed">
+                        Translating complex scientific and technical frameworks into accessible, high-retention curricula for advanced education and training.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-white text-black px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">Generate CV</button>
+                        <button class="border border-gray-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:border-white transition-colors">Access Cover Letter</button>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </section>
+    </main>
+
+    <footer class="w-full max-w-6xl mx-auto px-6 py-10 border-t border-gray-900 text-gray-600 text-[10px] uppercase tracking-widest flex flex-col md:flex-row justify-between items-center gap-4 fade-in delay-2">
+        <div>© 2026 TAJAMAL. ALL RIGHTS RESERVED.</div>
+        <div class="flex gap-6">
+            <span class="hover:text-white transition-colors cursor-pointer">DigitalOcean Hosted</span>
+            <span class="hover:text-white transition-colors cursor-pointer">System Status: Active</span>
+        </div>
+    </footer>
 
     <script>
-        const data = {
-            it: {
-                title: "IT & E-commerce Specialist",
-                body: "<p class='mb-4'>Focused on dropshipping logistics, SEO optimization, and digital marketing.</p><ul class='list-disc ml-5'><li>SEO & Keyword Strategy</li><li>Affiliate Marketing Management</li><li>Server Management (DigitalOcean)</li></ul>"
-            },
-            bio: {
-                title: "Bioinformatics Researcher",
-                body: "<p class='mb-4'>Specializing in biological data analysis and computational modeling.</p><ul class='list-disc ml-5'><li>Genomic Sequencing Analysis</li><li>Python & R for Data Science</li><li>Lab Protocol Optimization</li></ul>"
-            },
-            teach: {
-                title: "Professional Educator",
-                body: "<p class='mb-4'>Dedicated to simplifying complex technical and scientific concepts for students.</p><ul class='list-disc ml-5'><li>Curriculum Development</li><li>Science & IT Tutoring</li><li>Student Mentorship</li></ul>"
-            }
-        };
+        function activateTab(tabId) {
+            // Hide all content areas
+            ['tech', 'science', 'academia'].forEach(id => {
+                document.getElementById('content-' + id).classList.add('hidden');
+                document.getElementById('content-' + id).classList.remove('block');
+                
+                // Reset tab styles
+                const tab = document.getElementById('tab-' + id);
+                tab.classList.remove('active-tab');
+                tab.classList.add('inactive-tab');
+            });
 
-        function switchProfile(type) {
-            // Update Text
-            document.getElementById('profile-title').innerText = data[type].title;
-            document.getElementById('profile-body').innerHTML = data[type].body;
-
-            // Update Buttons
-            document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('active-btn'));
-            document.getElementById('btn-' + type).classList.add('active-btn');
+            // Show selected content with a slight delay for smoothness
+            const activeContent = document.getElementById('content-' + tabId);
+            activeContent.classList.remove('hidden');
+            activeContent.classList.add('block');
+            
+            // Activate selected tab style
+            const activeTab = document.getElementById('tab-' + tabId);
+            activeTab.classList.remove('inactive-tab');
+            activeTab.classList.add('active-tab');
         }
     </script>
 </body>
