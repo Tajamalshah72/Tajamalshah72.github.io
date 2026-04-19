@@ -3,352 +3,499 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAJAMAL | GLOBAL SYSTEMS ARCHITECT</title>
+    <title>TAJAMAL | SYSTEM_ARCHITECT_v3.0</title>
+    
+    <meta name="description" content="Professional Hub of Tajamal - Bioinformatics, E-Commerce, and IT Systems.">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg: #050505;
-            --accent: #ffffff;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
+            --primary: #ffffff;
+            --accent: #3b82f6;
+            --bg: #030303;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --bio-color: #10b981;
+            --it-color: #3b82f6;
+            --edu-color: #f59e0b;
         }
 
         body {
             background-color: var(--bg);
-            color: #fff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--primary);
+            font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
+            margin: 0;
         }
 
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Cinematic Background */
-        #canvas-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            opacity: 0.4;
-        }
-
-        /* Glassmorphism Components */
-        .glass {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .glass:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Perspective Hero Text */
-        .hero-title {
-            font-size: clamp(3rem, 10vw, 8rem);
-            font-weight: 800;
-            line-height: 0.9;
-            letter-spacing: -0.04em;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
+        /* Custom Scrollbar - Minimalist */
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #444; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #fff; }
 
-        /* Mode Activation Styles */
-        .mode-active {
-            background: #fff !important;
-            color: #000 !important;
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        /* Glassmorphism Classes */
+        .glass {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass:hover { border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.06); }
+
+        /* 3D Background Canvas */
+        #webgl-bg { position: fixed; top: 0; left: 0; z-index: -1; }
+
+        /* Loader Animation */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 100; display: flex;
+            justify-content: center; align-items: center; flex-direction: column;
         }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeInUp 0.6s ease forwards; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Scanline Effect */
+        .scanline::before {
+            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 10; background-size: 100% 2px, 3px 100%; pointer-events: none;
         }
 
-        .stagger-item { opacity: 0; }
+        /* Dynamic Title */
+        .hero-title { font-size: clamp(3rem, 12vw, 10rem); font-weight: 700; line-height: 0.8; letter-spacing: -0.05em; }
+
+        /* Terminal Simulation */
+        .terminal-window {
+            background: #0a0a0a; border-radius: 12px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5); overflow: hidden;
+        }
+        .terminal-header { background: #1a1a1a; padding: 10px 15px; display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .terminal-body { padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; }
+
+        /* Interaction States */
+        .nav-link { font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.5; transition: 0.3s; }
+        .nav-link:hover { opacity: 1; transform: translateX(5px); }
+        .active-tab { color: #fff !important; opacity: 1 !important; border-left: 2px solid #fff; padding-left: 10px; }
+
+        /* Grid Background */
+        .grid-bg {
+            background-image: linear-gradient(to right, #111 1px, transparent 1px), linear-gradient(to bottom, #111 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Content Sections */
+        .section-padding { padding: 120px 0; }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased scanline">
 
-    <canvas id="canvas-bg"></canvas>
-
-    <nav class="fixed top-0 w-full z-50 px-6 py-8 flex justify-between items-center pointer-events-none">
-        <div class="glass px-6 py-3 flex items-center gap-3 pointer-events-auto">
-            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span class="text-[10px] uppercase tracking-widest font-bold opacity-70">Status: System Active</span>
+    <div id="loader">
+        <div class="mono text-xs mb-4 text-blue-500 animate-pulse">INITIATING_SYSTEM_BOOT...</div>
+        <div class="w-48 h-[1px] bg-white/10 relative overflow-hidden">
+            <div id="loader-bar" class="absolute top-0 left-0 h-full bg-white w-0"></div>
         </div>
-        <div class="flex gap-4 pointer-events-auto">
-            <a href="mailto:hello@tajamal.me" class="glass px-6 py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-white hover:text-black transition-all">
-                Contact Dossier
-            </a>
+        <div class="mt-4 mono text-[10px] text-gray-600" id="loader-status">CORE_ASSETS_LOADED</div>
+    </div>
+
+    <canvas id="webgl-bg"></canvas>
+
+    <nav class="fixed top-0 left-0 h-full w-20 hidden lg:flex flex-col justify-between items-center py-12 z-50 border-r border-white/5 bg-black/20 backdrop-blur-md">
+        <div class="font-bold text-xl tracking-tighter mix-blend-difference">T.</div>
+        <div class="flex flex-col gap-12 -rotate-90">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#dossier" class="nav-link">Dossier</a>
+            <a href="#expertise" class="nav-link">Expertise</a>
+            <a href="#contact" class="nav-link">Connect</a>
+        </div>
+        <div class="flex flex-col gap-4">
+            <i data-lucide="github" class="w-4 h-4 cursor-pointer hover:text-blue-500"></i>
+            <i data-lucide="linkedin" class="w-4 h-4 cursor-pointer hover:text-blue-500"></i>
         </div>
     </nav>
 
-    <section class="relative min-h-screen flex flex-col justify-center px-6 md:px-24 pt-20">
-        <div class="max-w-6xl">
-            <span class="mono text-blue-500 text-sm mb-4 block tracking-tighter stagger-item">// INITIALIZING_IDENTITY_PROTOCOL_2026</span>
-            <h1 class="hero-title mb-10 stagger-item">
-                TAJAMAL<br>
-                <span class="opacity-20">ENTERPRISE.</span>
-            </h1>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-end stagger-item">
-                <p class="text-xl text-gray-400 font-light leading-relaxed">
-                    A multi-threaded professional architect specializing in <span class="text-white">Bio-Computational Analysis</span>, <span class="text-white">Global E-Commerce Logistics</span>, and <span class="text-white">Advanced Pedagogy</span>.
+    <main class="lg:ml-20">
+        
+        <section id="home" class="min-h-screen flex flex-col justify-center px-6 md:px-20 relative overflow-hidden">
+            <div class="z-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="px-3 py-1 border border-blue-500/30 text-blue-500 text-[10px] mono uppercase tracking-widest rounded-full">Available May 2026</span>
+                    <span class="text-gray-600 text-[10px] mono uppercase">DigitalOcean Node 01</span>
+                </div>
+                <h1 class="hero-title opacity-0 translate-y-10" id="hero-main-text">
+                    TAJAMAL<br>
+                    <span class="text-gray-500">DYNAMICS.</span>
+                </h1>
+                <p class="mt-12 max-w-2xl text-xl md:text-2xl text-gray-400 font-light leading-relaxed opacity-0 translate-y-5" id="hero-sub-text">
+                    Synthesizing <span class="text-white">Bioinformatics</span>, <span class="text-white">Global Commerce</span>, and <span class="text-white">Digital Infrastructure</span> into a single professional ecosystem.
                 </p>
-                <div class="flex flex-col gap-2 mono text-[10px] text-gray-500 uppercase">
-                    <div class="flex justify-between border-b border-white/10 pb-2">
-                        <span>Location</span> <span class="text-white">Jauharabad, PK</span>
-                    </div>
-                    <div class="flex justify-between border-b border-white/10 pb-2">
-                        <span>Infrastructure</span> <span class="text-white">DigitalOcean / Linux</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Degree Status</span> <span class="text-white">Final Phase [1 Month]</span>
-                    </div>
+                <div class="mt-12 flex flex-wrap gap-6 opacity-0" id="hero-actions">
+                    <a href="#dossier" class="px-10 py-5 bg-white text-black font-bold uppercase text-xs tracking-widest rounded-full hover:bg-blue-500 hover:text-white transition-all">Explore Dossier</a>
+                    <a href="mailto:hello@tajamal.me" class="px-10 py-5 border border-white/20 font-bold uppercase text-xs tracking-widest rounded-full hover:border-white transition-all">Direct Contact</a>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section id="engine" class="py-32 px-6 md:px-24">
-        <div class="mb-20 text-center">
-            <h2 class="text-xs uppercase tracking-[1em] text-gray-500 mb-4">The Strategic Dossier</h2>
-            <div class="flex flex-wrap justify-center gap-4">
-                <button onclick="switchMode('it')" id="btn-it" class="glass px-8 py-4 text-sm font-bold mode-active">01. IT & COMMERCE</button>
-                <button onclick="switchMode('bio')" id="btn-bio" class="glass px-8 py-4 text-sm font-bold">02. BIOINFORMATICS</button>
-                <button onclick="switchMode('edu')" id="btn-edu" class="glass px-8 py-4 text-sm font-bold">03. ACADEMIA</button>
+            <div class="absolute bottom-10 right-10 hidden md:block mono text-[10px] text-gray-600 text-right">
+                LAT: 32.2968 | LONG: 72.2755<br>
+                JAUHARABAD_PUNJAB_PK<br>
+                SYSTEM_STABILITY: 99.9%
             </div>
-        </div>
+        </section>
 
-        <div id="content-it" class="tab-content active">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 glass p-10">
-                    <div class="flex justify-between items-start mb-10">
-                        <div>
-                            <h3 class="text-3xl font-extrabold mb-2">Systems Architecture</h3>
-                            <p class="text-gray-400">SEO performance and dropshipping logistics analytics.</p>
+        <section id="dossier" class="section-padding px-6 md:px-20 bg-[#050505] grid-bg">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-start mb-24 gap-12">
+                    <div class="md:w-1/2">
+                        <h2 class="text-xs uppercase tracking-[1em] text-blue-500 mb-6">Intelligence Protocol</h2>
+                        <h3 class="text-5xl font-bold mb-8 tracking-tighter">Unified Data Portfolio.</h3>
+                        <p class="text-gray-400 leading-relaxed text-lg">
+                            My architecture allows for real-time document generation based on the industry requirement. Select a sector to reconfigure the platform data.
+                        </p>
+                    </div>
+                    
+                    <div class="md:w-1/3 terminal-window w-full">
+                        <div class="terminal-header">
+                            <div class="dot bg-red-500"></div>
+                            <div class="dot bg-yellow-500"></div>
+                            <div class="dot bg-green-500"></div>
+                            <span class="text-[9px] mono text-gray-500 ml-2">tajamal_shell — -bash</span>
                         </div>
-                        <i data-lucide="bar-chart-3" class="text-blue-500"></i>
-                    </div>
-                    <div class="h-[300px]">
-                        <canvas id="itChart"></canvas>
+                        <div class="terminal-body mono text-gray-400" id="terminal-output">
+                            <span class="text-green-500">$</span> run system_check<br>
+                            > All nodes online...<br>
+                            > Degree status: FINAL_MONTH<br>
+                            > E-comm revenue: OPTIMIZED<br>
+                            > Bioinformatics lab: ACTIVE<br>
+                            <span class="text-green-500">$</span> <span id="cursor">_</span>
+                        </div>
                     </div>
                 </div>
-                <div class="glass p-10 flex flex-col justify-between">
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                    <div class="lg:col-span-3 flex flex-col gap-6">
+                        <button onclick="switchTab('it')" id="tab-it" class="text-left py-4 px-6 glass active-tab">
+                            <div class="text-[10px] mono text-blue-500 mb-2">01. ENGINE</div>
+                            <div class="text-xl font-bold">IT & Commerce</div>
+                        </button>
+                        <button onclick="switchTab('bio')" id="tab-bio" class="text-left py-4 px-6 glass opacity-50">
+                            <div class="text-[10px] mono text-green-500 mb-2">02. ANALYSIS</div>
+                            <div class="text-xl font-bold">Bioinformatics</div>
+                        </button>
+                        <button onclick="switchTab('edu')" id="tab-edu" class="text-left py-4 px-6 glass opacity-50">
+                            <div class="text-[10px] mono text-yellow-500 mb-2">03. ACADEMIA</div>
+                            <div class="text-xl font-bold">Education</div>
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-9 glass p-10 md:p-16 rounded-3xl relative overflow-hidden min-h-[600px]">
+                        <div id="tab-glow" class="absolute -top-20 -right-20 w-64 h-64 bg-blue-500/10 blur-[100px]"></div>
+                        
+                        <div id="content-it" class="tab-content block">
+                            <div class="flex flex-col md:flex-row justify-between gap-12">
+                                <div class="md:w-3/5">
+                                    <h4 class="text-4xl font-black mb-6 italic">Full-Stack Commerce Specialist</h4>
+                                    <p class="text-gray-400 mb-10 text-lg leading-relaxed">
+                                        Architecting highly scalable dropshipping funnels and affiliate hubs on .com. Specialized in DigitalOcean deployments, SEO saturation, and keyword-driven content strategies.
+                                    </p>
+                                    <div class="grid grid-cols-2 gap-8 mb-12">
+                                        <div>
+                                            <span class="block text-white font-bold text-2xl">99.9%</span>
+                                            <span class="text-xs text-gray-500 uppercase mono">Uptime Efficiency</span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-white font-bold text-2xl">TOP 1%</span>
+                                            <span class="text-xs text-gray-500 uppercase mono">SEO Saturation</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-wrap gap-4">
+                                        <button class="px-8 py-4 bg-blue-600 text-white font-bold uppercase text-[10px] rounded hover:bg-blue-700">Get IT Resume</button>
+                                        <button class="px-8 py-4 border border-white/10 text-white font-bold uppercase text-[10px] rounded hover:border-white">Case Studies</button>
+                                    </div>
+                                </div>
+                                <div class="md:w-2/5 flex flex-col gap-4">
+                                    <div class="glass p-6 rounded-xl">
+                                        <span class="text-[10px] mono text-blue-500">SKILL_MATRIX</span>
+                                        <div class="mt-4 space-y-4">
+                                            <div class="h-1 bg-white/5 w-full rounded"><div class="h-full bg-blue-500 w-[95%]"></div></div>
+                                            <div class="h-1 bg-white/5 w-full rounded"><div class="h-full bg-blue-500 w-[88%]"></div></div>
+                                            <div class="h-1 bg-white/5 w-full rounded"><div class="h-full bg-blue-500 w-[92%]"></div></div>
+                                        </div>
+                                    </div>
+                                    <canvas id="itChart" class="max-h-[200px]"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="content-bio" class="tab-content hidden">
+                            <div class="flex flex-col md:flex-row justify-between gap-12">
+                                <div class="md:w-3/5">
+                                    <h4 class="text-4xl font-black mb-6 italic text-green-500">Computational Biology Analyst</h4>
+                                    <p class="text-gray-400 mb-10 text-lg leading-relaxed">
+                                        Bridging biological research with computational power. Processing large-scale genomic data, sequence alignment (BLAST), and structural modeling using Python and R.
+                                    </p>
+                                    <div class="space-y-4 mb-12">
+                                        <div class="flex items-center gap-4 text-sm"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i> NGS Data Processing</div>
+                                        <div class="flex items-center gap-4 text-sm"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i> Statistical Genetics in R</div>
+                                        <div class="flex items-center gap-4 text-sm"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i> Protein Modeling</div>
+                                    </div>
+                                    <button class="px-8 py-4 bg-green-600 text-white font-bold uppercase text-[10px] rounded">Bio-Research CV</button>
+                                </div>
+                                <div class="md:w-2/5 glass p-8 rounded-2xl flex flex-col justify-center items-center text-center">
+                                    <i data-lucide="dna" class="w-16 h-16 text-green-500 mb-6 animate-bounce"></i>
+                                    <span class="text-xs mono text-gray-500">LAB_STATUS: DATA_PROCESSING</span>
+                                    <div class="mt-6 text-2xl font-bold">BS Bioinformatics</div>
+                                    <div class="text-[10px] text-gray-600 uppercase mt-2">Class of 2026</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="content-edu" class="tab-content hidden">
+                            <div class="text-center py-12">
+                                <i data-lucide="graduation-cap" class="w-12 h-12 text-yellow-500 mx-auto mb-6"></i>
+                                <h4 class="text-4xl font-black mb-6">Academic Leadership</h4>
+                                <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                                    Transforming complex scientific concepts into digestible curricula. Specializing in science tutoring and IT mentorship for undergraduate programs.
+                                </p>
+                                <div class="flex justify-center gap-4">
+                                    <div class="glass px-6 py-3 rounded-full text-xs font-bold">Curriculum Dev</div>
+                                    <div class="glass px-6 py-3 rounded-full text-xs font-bold">Public Speaking</div>
+                                    <div class="glass px-6 py-3 rounded-full text-xs font-bold">Workshops</div>
+                                </div>
+                                <button class="mt-12 px-10 py-5 bg-yellow-500 text-black font-black uppercase text-xs tracking-tighter">Academic CV</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding bg-black overflow-hidden">
+            <div class="px-6 md:px-20 mb-20">
+                <h2 class="text-xs uppercase tracking-[1em] text-gray-600 mb-4">Infrastructure</h2>
+                <h3 class="text-6xl font-bold tracking-tighter">The Portfolio.</h3>
+            </div>
+            
+            <div class="flex gap-10 px-6 md:px-20" id="project-slider">
+                <div class="min-w-[400px] h-[500px] glass p-10 flex flex-col justify-between group cursor-pointer">
                     <div>
-                        <h4 class="mono text-[10px] text-blue-500 uppercase mb-6">Technical Stack</h4>
-                        <ul class="space-y-4">
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span>SEO Operations</span> <span class="text-xs text-gray-500 italic">Advanced</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span>Affiliate Marketing</span> <span class="text-xs text-gray-500 italic">Enterprise</span>
-                            </li>
-                            <li class="flex justify-between items-center">
-                                <span>DigitalOcean Ops</span> <span class="text-xs text-gray-500 italic">Architecture</span>
-                            </li>
-                        </ul>
+                        <div class="text-[10px] mono text-blue-500 mb-4">DEPLOYMENT_001</div>
+                        <h4 class="text-3xl font-bold group-hover:text-blue-500 transition-colors">Global E-Comm Hub</h4>
+                        <p class="mt-4 text-gray-500">Full-scale dropshipping automation with 10k monthly impressions.</p>
                     </div>
-                    <button class="w-full py-4 bg-white text-black font-black text-xs uppercase rounded-xl hover:scale-105 transition-transform">Download IT CV</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="content-bio" class="tab-content">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-4 glass p-10">
-                    <i data-lucide="dna" class="text-green-500 mb-6"></i>
-                    <h3 class="text-3xl font-extrabold mb-4">Computational Analysis</h3>
-                    <p class="text-gray-400 mb-8 leading-relaxed">Processing complex biological datasets through customized Python pipelines and NGS analysis protocols.</p>
-                    <div class="space-y-2">
-                        <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                            <div class="h-full bg-green-500 w-[90%]"></div>
-                        </div>
-                        <span class="text-[10px] mono uppercase text-gray-500">Genomics Research / 90%</span>
+                    <div class="flex justify-between items-end">
+                        <span class="text-[10px] uppercase font-bold text-gray-600">DigitalOcean / SEO</span>
+                        <i data-lucide="external-link" class="w-6 h-6"></i>
                     </div>
                 </div>
-                <div class="lg:col-span-8 glass p-10 bg-gradient-to-br from-green-950/20 to-transparent">
-                    <h4 class="mono text-[10px] text-green-500 uppercase mb-10">Key Lab Protocols</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
-                        <div>
-                            <span class="block text-2xl font-bold">BLAST</span>
-                            <span class="text-xs text-gray-500">Sequence Alignment</span>
+                <div class="min-w-[400px] h-[500px] glass p-10 flex flex-col justify-between group cursor-pointer">
+                    <div>
+                        <div class="text-[10px] mono text-green-500 mb-4">DEPLOYMENT_002</div>
+                        <h4 class="text-3xl font-bold group-hover:text-green-500 transition-colors">Sequence Parser</h4>
+                        <p class="mt-4 text-gray-500">Python-based CLI tool for analyzing NGS biological data.</p>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <span class="text-[10px] uppercase font-bold text-gray-600">Python / Biopython</span>
+                        <i data-lucide="github" class="w-6 h-6"></i>
+                    </div>
+                </div>
+                <div class="min-w-[400px] h-[500px] glass p-10 flex flex-col justify-between group cursor-pointer">
+                    <div>
+                        <div class="text-[10px] mono text-yellow-500 mb-4">DEPLOYMENT_003</div>
+                        <h4 class="text-3xl font-bold group-hover:text-yellow-500 transition-colors">tajamal.me Hub</h4>
+                        <p class="mt-4 text-gray-500">This dynamic OS-style professional dashboard.</p>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <span class="text-[10px] uppercase font-bold text-gray-600">Three.js / GSAP</span>
+                        <i data-lucide="terminal" class="w-6 h-6"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer id="contact" class="section-padding px-6 md:px-20 border-t border-white/5 relative bg-[#030303]">
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-20">
+                <div class="lg:w-1/2">
+                    <h2 class="text-[15vw] lg:text-[10vw] font-black leading-none tracking-tighter opacity-10">HIRE.</h2>
+                    <div class="mt-10 space-y-8">
+                        <div class="group">
+                            <span class="text-[10px] uppercase text-gray-500 block mb-2 font-bold tracking-widest">Primary Email</span>
+                            <a href="mailto:hello@tajamal.me" class="text-3xl md:text-5xl font-bold hover:text-blue-500 transition-colors underline decoration-white/10 underline-offset-8">hello@tajamal.me</a>
                         </div>
-                        <div>
-                            <span class="block text-2xl font-bold">R-Lang</span>
-                            <span class="text-xs text-gray-500">Statistical Genetics</span>
-                        </div>
-                        <div>
-                            <span class="block text-2xl font-bold">Python</span>
-                            <span class="text-xs text-gray-500">Bio-scripting</span>
+                        <div class="group">
+                            <span class="text-[10px] uppercase text-gray-500 block mb-2 font-bold tracking-widest">Global Status</span>
+                            <p class="text-xl text-gray-400">Available for Enterprise IT Consultations & Bioinformatics Research Roles starting June 2026.</p>
                         </div>
                     </div>
-                    <button class="mt-12 px-10 py-4 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all">Generate Bio-Dossier</button>
                 </div>
-            </div>
-        </div>
 
-        <div id="content-edu" class="tab-content">
-            <div class="glass p-20 text-center max-w-4xl mx-auto">
-                <i data-lucide="graduation-cap" class="mx-auto mb-8 text-yellow-500 w-12 h-12"></i>
-                <h3 class="text-4xl font-black mb-6 italic">Empowering the Next Generation</h3>
-                <p class="text-xl text-gray-400 mb-10 leading-relaxed">Combining industry-level SEO knowledge with scientific rigor to mentor students in the intersection of Technology and Biology.</p>
-                <div class="flex justify-center gap-6">
-                    <div class="px-6 py-3 border border-white/10 rounded-lg">Mentorship</div>
-                    <div class="px-6 py-3 border border-white/10 rounded-lg">Curriculum Dev</div>
+                <div class="lg:w-1/3 glass p-10 rounded-3xl">
+                    <h4 class="text-xl font-bold mb-8">Send Dossier Request</h4>
+                    <form class="space-y-6">
+                        <div>
+                            <input type="text" placeholder="Your Name" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-lg focus:outline-none focus:border-blue-500 transition-colors text-sm">
+                        </div>
+                        <div>
+                            <select class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-lg focus:outline-none focus:border-blue-500 transition-colors text-sm text-gray-400">
+                                <option>IT / E-Commerce Inquiry</option>
+                                <option>Bioinformatics Research</option>
+                                <option>Academic Mentorship</option>
+                            </select>
+                        </div>
+                        <div>
+                            <textarea placeholder="Briefly describe your project/goal" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-lg focus:outline-none focus:border-blue-500 transition-colors text-sm h-32"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-5 bg-white text-black font-black uppercase text-xs tracking-widest rounded-lg hover:bg-blue-500 hover:text-white transition-all">Submit Protocol</button>
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section class="py-32 px-6 md:px-24 border-t border-white/5">
-        <h2 class="text-5xl font-black mb-20">TIMELINE.</h2>
-        <div class="space-y-24">
-            <div class="flex flex-col md:flex-row gap-12 relative">
-                <div class="md:w-1/4 mono text-gray-600">2023 - 2026</div>
-                <div class="md:w-3/4">
-                    <h3 class="text-2xl font-bold mb-2">University Honors & Final Phase</h3>
-                    <p class="text-gray-400">Completing advanced studies in Bioinformatics while maintaining enterprise digital assets.</p>
+            <div class="mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between text-[10px] mono text-gray-600 gap-4">
+                <div>© 2026 TAJAMAL - ENGINEERED IN JAUHARABAD, PK</div>
+                <div class="flex gap-8">
+                    <span>HOSTED_ON: DIGITAL_OCEAN</span>
+                    <span>ENCRYPTION: SSL_SECURED</span>
+                    <span>LAST_MODIFIED: 2026.04.20</span>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row gap-12">
-                <div class="md:w-1/4 mono text-gray-600">2024 - PRESENT</div>
-                <div class="md:w-3/4">
-                    <h3 class="text-2xl font-bold mb-2">E-Commerce Infrastructure Founder</h3>
-                    <p class="text-gray-400">Built and scaled a dropshipping/affiliate hub on .com using SEO-first methodologies.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </footer>
 
-    <footer class="py-20 px-6 md:px-24 bg-white text-black">
-        <div class="flex flex-col md:flex-row justify-between items-end gap-10">
-            <div>
-                <h2 class="text-[10vw] font-black leading-none tracking-tighter">CONTACT.</h2>
-                <p class="text-xl font-bold mt-4">hello@tajamal.me</p>
-            </div>
-            <div class="text-right">
-                <p class="mono text-[10px] mb-4 uppercase font-bold">System Location: Jauharabad, Punjab</p>
-                <div class="flex gap-4">
-                    <span class="p-4 border border-black/10 rounded-full cursor-pointer hover:bg-black hover:text-white transition-all"><i data-lucide="linkedin"></i></span>
-                    <span class="p-4 border border-black/10 rounded-full cursor-pointer hover:bg-black hover:text-white transition-all"><i data-lucide="github"></i></span>
-                </div>
-            </div>
-        </div>
-    </footer>
+    </main>
 
     <script>
-        // Initialize Icons
+        // 1. Initial State & Icons
         lucide.createIcons();
-
-        // 1. Background Animation (Particles)
-        const canvas = document.getElementById('canvas-bg');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-
-        initCanvas();
-        for(let i=0; i<100; i++) particles.push(new Particle());
-        animate();
-
-        // 2. GSAP Entrance Animations
-        gsap.to(".stagger-item", {
-            opacity: 1,
-            y: 0,
-            stagger: 0.2,
-            duration: 1.5,
-            ease: "power4.out"
+        
+        // 2. Loading Animation
+        window.addEventListener('load', () => {
+            const bar = document.getElementById('loader-bar');
+            const status = document.getElementById('loader-status');
+            
+            let prog = 0;
+            const interval = setInterval(() => {
+                prog += Math.random() * 20;
+                if(prog >= 100) {
+                    prog = 100;
+                    clearInterval(interval);
+                    gsap.to('#loader', { opacity: 0, duration: 1, delay: 0.5, onComplete: () => {
+                        document.getElementById('loader').style.display = 'none';
+                        startHeroAnimation();
+                    }});
+                }
+                bar.style.width = prog + '%';
+                status.innerText = prog > 50 ? 'INJECTING_SCRIPTS...' : 'LOADING_SYSTEM_RESOURCES...';
+            }, 100);
         });
 
-        // 3. Mode Switching Engine
-        function switchMode(mode) {
-            // Update Buttons
-            document.querySelectorAll('#engine button').forEach(b => b.classList.remove('mode-active'));
-            document.getElementById('btn-' + mode).classList.add('mode-active');
+        // 3. Three.js Background
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-bg'), alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
-            // Update Content
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById('content-' + mode).classList.add('active');
+        const geometry = new THREE.BufferGeometry();
+        const vertices = [];
+        for (let i = 0; i < 5000; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(2000)); // x
+            vertices.push(THREE.MathUtils.randFloatSpread(2000)); // y
+            vertices.push(THREE.MathUtils.randFloatSpread(2000)); // z
+        }
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x333333, size: 2 }));
+        scene.add(particles);
+        camera.position.z = 1000;
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            particles.rotation.y += 0.0005;
+            renderer.render(scene, camera);
+        }
+        animate3D();
+
+        // 4. Hero Entry GSAP
+        function startHeroAnimation() {
+            const tl = gsap.timeline();
+            tl.to("#hero-main-text", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" })
+              .to("#hero-sub-text", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" }, "-=1")
+              .to("#hero-actions", { opacity: 1, duration: 1 }, "-=0.5");
         }
 
-        // 4. Data Visualization (Chart.js)
-        const itCtx = document.getElementById('itChart').getContext('2d');
-        new Chart(itCtx, {
+        // 5. Tab Switching Logic
+        function switchTab(mode) {
+            const colors = { it: '#3b82f6', bio: '#10b981', edu: '#f59e0b' };
+            const labels = { it: 'IT_STRATEGIST', bio: 'BIO_ANALYST', edu: 'FACILITATOR' };
+            
+            // Terminal Feedback
+            const terminal = document.getElementById('terminal-output');
+            terminal.innerHTML += `<br><span class="text-blue-500">$</span> switch_mode --${mode}<br>> CONFIGURED_FOR_${labels[mode]}`;
+            terminal.scrollTop = terminal.scrollHeight;
+
+            // UI Feedback
+            document.querySelectorAll('.tab-content').forEach(c => {
+                c.classList.add('hidden');
+                c.classList.remove('block');
+            });
+            document.getElementById('content-' + mode).classList.remove('hidden');
+            document.getElementById('content-' + mode).classList.add('block');
+            
+            document.querySelectorAll('#dossier button').forEach(b => b.classList.remove('active-tab', 'opacity-100'));
+            document.getElementById('tab-' + mode).classList.add('active-tab', 'opacity-100');
+            
+            document.getElementById('tab-glow').style.backgroundColor = colors[mode] + '1a';
+        }
+
+        // 6. Charts Integration
+        const ctx = document.getElementById('itChart').getContext('2d');
+        new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
                 datasets: [{
-                    label: 'SEO Traffic Optimization',
-                    data: [12, 19, 3, 5, 20, 35],
+                    label: 'SEO Visibility',
+                    data: [30, 45, 62, 85, 100],
                     borderColor: '#3b82f6',
+                    borderWidth: 2,
                     tension: 0.4,
-                    fill: true,
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                    pointRadius: 0
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
                 scales: {
-                    y: { display: false },
-                    x: { grid: { display: false }, ticks: { color: '#444' } }
-                },
-                plugins: { legend: { display: false } }
+                    x: { display: false },
+                    y: { display: false }
+                }
             }
         });
 
-        window.addEventListener('resize', initCanvas);
+        // 7. Horizontal Scroll Animation
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to("#project-slider", {
+            x: "-50%",
+            scrollTrigger: {
+                trigger: "#project-slider",
+                start: "top center",
+                end: "bottom top",
+                scrub: 1
+            }
+        });
+
+        // Window Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
     </script>
 </body>
 </html>
