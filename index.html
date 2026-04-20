@@ -1,726 +1,578 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAJAMAL.OS | KINETIC_ENTERPRISE_FRAMEWORK</title>
-    <meta name="description" content="Tajamal | Bioinformatics, Systems Architecture, and Global E-Commerce">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@100;300;600;900&family=Fira+Code:wght@300;500;700&display=swap" rel="stylesheet">
-
+    <title>Tajamal Abbas Shah - Premium Utility Hub</title>
     <style>
         :root {
-            --bg-base: #020202;
-            --grid-color: rgba(255, 255, 255, 0.03);
-            --accent-it: #3b82f6;
-            --accent-bio: #10b981;
-            --accent-edu: #f59e0b;
-            --panel-bg: rgba(10, 10, 10, 0.6);
-            --panel-border: rgba(255, 255, 255, 0.05);
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --accent: #10b981;
         }
 
-        * { cursor: none !important; } /* Custom Cursor Override */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
         body {
-            background-color: var(--bg-base);
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
             overflow-x: hidden;
-            margin: 0;
-            background-image: 
-                linear-gradient(var(--grid-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-            background-size: 50px 50px;
-            background-position: center center;
         }
 
-        .font-display { font-family: 'Syncopate', sans-serif; }
-        .font-mono { font-family: 'Fira Code', monospace; }
-
-        /* Custom Kinetic Cursor */
-        #cursor-dot, #cursor-ring {
+        /* Modal / Gateway Styles */
+        #gatewayModal {
             position: fixed;
-            top: 0; left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            pointer-events: none;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 9999;
+            padding: 20px;
         }
-        #cursor-dot { width: 4px; height: 4px; background: white; transition: background 0.2s; }
-        #cursor-ring { 
-            width: 30px; height: 30px; 
-            border: 1px solid rgba(255,255,255,0.4); 
-            transition: width 0.3s, height 0.3s, border-color 0.3s, background 0.3s; 
-        }
-        .cursor-hover #cursor-ring { width: 50px; height: 50px; border-color: transparent; background: rgba(255,255,255,0.1); backdrop-filter: blur(2px); }
 
-        /* Complex Glassmorphism */
-        .glass-panel {
-            background: var(--panel-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--panel-border);
+        .modal-content {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--border);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.4s;
+            text-align: center;
         }
-        .glass-panel:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
 
-        /* Glitch Effect */
-        .glitch-wrapper { position: relative; display: inline-block; }
-        .glitch-text::before, .glitch-text::after {
-            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-base);
+        .modal-content h2 {
+            margin-bottom: 15px;
+            color: var(--primary);
         }
-        .glitch-text::before { left: 2px; text-shadow: -2px 0 red; clip: rect(24px, 550px, 90px, 0); animation: glitch-anim-2 3s infinite linear alternate-reverse; }
-        .glitch-text::after { left: -2px; text-shadow: -2px 0 blue; clip: rect(85px, 550px, 140px, 0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
-        @keyframes glitch-anim { 0% { clip: rect(10px, 9999px, 44px, 0); } 100% { clip: rect(85px, 9999px, 140px, 0); } }
-        @keyframes glitch-anim-2 { 0% { clip: rect(65px, 9999px, 100px, 0); } 100% { clip: rect(15px, 9999px, 140px, 0); } }
 
-        /* Interactive Terminal */
-        .cli-container { height: 400px; overflow-y: auto; scroll-behavior: smooth; }
-        .cli-input-line { display: flex; align-items: center; }
-        .cli-input { background: transparent; border: none; color: #fff; flex-grow: 1; outline: none; font-family: 'Fira Code', monospace; }
-        .cli-input::selection { background: var(--accent-it); color: #fff; }
+        .modal-content p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
 
-        /* 3D Canvas */
-        #canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; }
-        .vignette { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; box-shadow: 0 0 200px rgba(0,0,0,0.9) inset; z-index: -1; pointer-events: none; }
+        .sponsor-link {
+            display: block;
+            background: #3b82f6;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 25px;
+            transition: 0.3s;
+        }
+        
+        .sponsor-link:hover { background: var(--primary-hover); }
 
-        /* Modals & Overlays */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 999; opacity: 0; pointer-events: none; transition: 0.4s; }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { transform: scale(0.9) translateY(20px); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-base); }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
 
-        /* Loaders */
-        .system-loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .loader-ring { width: 200px; height: 200px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; border-top-color: var(--accent-it); animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-dark);
+            color: white;
+            outline: none;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background: var(--primary-hover); }
+
+        /* Main Dashboard Styles */
+        #dashboard {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        header {
+            background: var(--bg-card);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-info h1 { font-size: 20px; }
+        .header-info p { color: var(--text-muted); font-size: 13px; margin-top: 5px; }
+        
+        .admin-controls button {
+            background: var(--accent);
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .main-layout {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background: var(--bg-card);
+            padding: 20px;
+            border-right: 1px solid var(--border);
+        }
+
+        .category-btn {
+            width: 100%;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            padding: 12px;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .tool-card h3 { margin-bottom: 10px; font-size: 18px; }
+        .tool-card p { color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+
+        /* Active Tool Workspace */
+        #activeToolWorkspace {
+            display: none;
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .back-btn {
+            background: none;
+            color: var(--text-muted);
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .back-btn:hover { color: white; }
+
+        .tool-input {
+            width: 100%;
+            min-height: 150px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .result-box {
+            background: var(--bg-dark);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+            margin-top: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-layout { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); display: flex; overflow-x: auto; padding: 10px; }
+            .category-btn { width: auto; white-space: nowrap; margin-right: 10px; margin-bottom: 0; }
+            header { flex-direction: column; text-align: center; gap: 15px; }
+            .content { padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="cursor-dot"></div>
-    <div id="cursor-ring"></div>
+    <div id="gatewayModal">
+        <div class="modal-content">
+            <h2>Welcome to Premium Utilities</h2>
+            <p>Developed & Maintained by <strong>Tajamal Abbas Shah</strong></p>
+            
+            <a href="http://varezon.xom" target="_blank" class="sponsor-link" onclick="sponsorClicked = true;">
+                ⚠️ Action Required: Visit varezon.xom before starting
+            </a>
 
-    <div class="system-loader" id="system-boot">
-        <div class="loader-ring absolute"></div>
-        <div class="loader-ring absolute" style="width: 150px; height: 150px; animation-direction: reverse; border-top-color: var(--accent-bio);"></div>
-        <div class="font-mono text-xs mt-64 text-center">
-            <div id="boot-log" class="text-gray-500 h-20 overflow-hidden leading-tight"></div>
-            <div class="mt-4 text-white animate-pulse">MOUNTING_FILESYSTEM...</div>
+            <form id="registrationForm" onsubmit="handleRegistration(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" id="regNumber" required placeholder="Enter active number">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="regGender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="regAge" required min="10" max="100" placeholder="Your age">
+                </div>
+                <button type="submit" class="btn">Access Tools Now</button>
+            </form>
+            <p style="margin-top: 15px; font-size: 11px;">100% Secure. Runs client-side to protect system integrity.</p>
         </div>
     </div>
 
-    <div id="canvas-container"></div>
-    <div class="vignette"></div>
-
-    <nav class="fixed top-0 w-full p-6 flex justify-between items-start z-50 pointer-events-none">
-        <div class="flex flex-col gap-1 pointer-events-auto interactive">
-            <span class="font-display font-bold text-2xl tracking-tighter mix-blend-difference">TAJAMAL<span class="text-blue-500">.OS</span></span>
-            <span class="font-mono text-[9px] text-gray-500 uppercase">Sys_Loc: Jauharabad_PK | Uptime: <span id="uptime-counter">00:00:00</span></span>
-        </div>
-        <div class="flex gap-4 pointer-events-auto">
-            <button onclick="toggleModal('cmd-modal')" class="glass-panel p-3 rounded-full interactive hover:bg-white hover:text-black transition-colors">
-                <i data-lucide="terminal" class="w-4 h-4"></i>
-            </button>
-            <a href="mailto:hello@tajamal.me" class="glass-panel px-6 py-3 rounded-full font-mono text-[10px] uppercase font-bold interactive flex items-center gap-2 hover:bg-white hover:text-black transition-colors">
-                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div> Network Active
-            </a>
-        </div>
-    </nav>
-
-    <main class="w-full relative z-10">
-        
-        <section class="min-h-screen flex flex-col justify-center px-6 lg:px-24 pt-20">
-            <div class="max-w-7xl w-full mx-auto relative">
-                <div class="absolute -right-20 top-0 hidden lg:block opacity-20">
-                    <svg width="400" height="400" viewBox="0 0 400 400">
-                        <circle cx="200" cy="200" r="190" stroke="white" stroke-width="1" fill="none" stroke-dasharray="4 4" class="animate-[spin_60s_linear_infinite]" />
-                        <circle cx="200" cy="200" r="150" stroke="white" stroke-width="1" fill="none" class="animate-[spin_40s_linear_infinite_reverse]" />
-                        <path d="M200,10 L200,390 M10,200 L390,200" stroke="white" stroke-width="0.5" />
-                    </svg>
-                </div>
-
-                <div class="font-mono text-blue-500 text-xs mb-6 uppercase tracking-[0.3em] gs-reveal">Degree Finalization Phase: May 2026</div>
-                <div class="glitch-wrapper gs-reveal">
-                    <h1 class="text-[12vw] lg:text-[8rem] font-display font-bold leading-[0.8] tracking-tighter uppercase glitch-text" data-text="SYSTEMS">SYSTEMS</h1>
-                </div>
-                <h1 class="text-[12vw] lg:text-[8rem] font-display font-bold leading-[0.8] tracking-tighter uppercase text-transparent stroke-text mb-12 gs-reveal" style="-webkit-text-stroke: 2px rgba(255,255,255,0.2);">ARCHITECT</h1>
-                
-                <div class="flex flex-col lg:flex-row gap-12 items-start max-w-5xl gs-reveal">
-                    <p class="text-xl lg:text-2xl font-light text-gray-400 leading-relaxed lg:w-1/2">
-                        I engineer ecosystems. From automated <span class="text-white font-semibold border-b border-white">E-Commerce infrastructures</span> on DigitalOcean to parsing genomic data in <span class="text-white font-semibold border-b border-white">Bioinformatics</span>.
-                    </p>
-                    <div class="lg:w-1/2 flex flex-col gap-6 font-mono text-xs text-gray-500">
-                        <div class="flex justify-between border-b border-white/10 pb-4">
-                            <span class="uppercase">Current Deployment</span>
-                            <span class="text-white">tajamal.me / .com Dropship</span>
-                        </div>
-                        <div class="flex justify-between border-b border-white/10 pb-4">
-                            <span class="uppercase">Core Focus</span>
-                            <span class="text-white">SEO Logic & Lab Analytics</span>
-                        </div>
-                        <div class="flex gap-4 mt-4">
-                            <button onclick="scrollToSection('engine')" class="interactive px-8 py-4 bg-white text-black font-bold uppercase rounded-sm hover:bg-blue-500 hover:text-white transition-all">Initialize Dossier</button>
-                            <button onclick="toggleModal('cmd-modal')" class="interactive px-8 py-4 border border-white/20 font-bold uppercase rounded-sm hover:border-white transition-all">Run Terminal</button>
-                        </div>
-                    </div>
-                </div>
+    <div id="dashboard">
+        <header>
+            <div class="header-info">
+                <h1>Tajamal's Professional Utility System</h1>
+                <p>Support: <strong>hello@tajamal.me</strong> | System Status: Optimal (Zero Server Load)</p>
             </div>
-        </section>
+            <div class="admin-controls">
+                <button onclick="downloadCustomerRecords()">⬇️ Download Customer Records (Excel/CSV)</button>
+            </div>
+        </header>
 
-        <section id="engine" class="py-32 px-6 lg:px-24 border-t border-white/5 relative bg-gradient-to-b from-transparent to-[#050505]">
-            <div class="max-w-7xl mx-auto">
-                <div class="flex justify-between items-end mb-16">
-                    <div>
-                        <h2 class="font-display text-4xl lg:text-6xl font-bold uppercase tracking-tighter">Command Center</h2>
-                        <p class="font-mono text-sm text-gray-500 mt-4">Select operations protocol to fetch relevant data parameters.</p>
-                    </div>
+        <div class="main-layout">
+            <div class="sidebar" id="categorySidebar">
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="content">
+                <div id="toolsGrid" class="tools-grid">
+                    </div>
+
+                <div id="activeToolWorkspace">
+                    <button class="back-btn" onclick="closeTool()">← Back to Categories</button>
+                    <h2 id="toolTitle" style="margin-bottom: 10px; color: var(--primary);">Tool Name</h2>
+                    <p id="toolDesc" style="color: var(--text-muted); margin-bottom: 20px; font-size: 14px;">Description</p>
                     
-                    <div class="lg:col-span-3 flex flex-col gap-4 relative z-10">
-                        <button onclick="activateProtocol('it')" id="btn-it" class="interactive glass-panel p-6 text-left border-l-4 border-l-blue-500 relative overflow-hidden group">
-                            <div class="absolute inset-0 bg-blue-500/10 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-                            <span class="font-mono text-[10px] text-blue-500 block mb-2">PROTOCOL_01</span>
-                            <span class="font-bold text-xl block">IT & E-Commerce</span>
-                        </button>
-                        <button onclick="activateProtocol('bio')" id="btn-bio" class="interactive glass-panel p-6 text-left border-l-4 border-l-transparent opacity-50 hover:opacity-100">
-                            <span class="font-mono text-[10px] text-green-500 block mb-2">PROTOCOL_02</span>
-                            <span class="font-bold text-xl block">Bioinformatics</span>
-                        </button>
-                        <button onclick="activateProtocol('edu')" id="btn-edu" class="interactive glass-panel p-6 text-left border-l-4 border-l-transparent opacity-50 hover:opacity-100">
-                            <span class="font-mono text-[10px] text-yellow-500 block mb-2">PROTOCOL_03</span>
-                            <span class="font-bold text-xl block">Academic Leadership</span>
-                        </button>
-
-                        <div class="glass-panel p-6 mt-8">
-                            <span class="font-mono text-xs text-gray-500 block mb-4 border-b border-white/10 pb-2">SYSTEM_RESOURCE</span>
-                            <canvas id="resourceChart" height="150"></canvas>
+                    <div id="toolInterface">
                         </div>
-                    </div>
-
-                    <div class="lg:col-span-9 glass-panel p-8 lg:p-12 relative overflow-hidden min-h-[700px]">
-                        <div id="protocol-glow" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[120px] transition-colors duration-1000"></div>
-                        
-                        <div id="panel-it" class="protocol-panel block relative z-10">
-                            <div class="flex flex-col lg:flex-row gap-12">
-                                <div class="lg:w-2/3">
-                                    <div class="flex items-center gap-4 mb-6">
-                                        <i data-lucide="server" class="w-8 h-8 text-blue-500"></i>
-                                        <h3 class="font-display text-3xl font-bold">Digital Architect</h3>
-                                    </div>
-                                    <p class="text-gray-400 text-lg leading-relaxed mb-8">
-                                        Architecting resilient E-Commerce ecosystems and orchestrating automated dropshipping supply chains. Mastering search engine saturation via algorithmic SEO methodologies and deploying scalable assets on DigitalOcean.
-                                    </p>
-                                    
-                                    <div class="grid grid-cols-2 gap-6 mb-12">
-                                        <div class="border border-white/10 p-6 rounded-lg bg-black/50">
-                                            <span class="text-4xl font-display font-bold text-white block mb-2">> 10k</span>
-                                            <span class="font-mono text-[10px] text-gray-500 uppercase">Monthly Organic Traffic</span>
-                                        </div>
-                                        <div class="border border-white/10 p-6 rounded-lg bg-black/50">
-                                            <span class="text-4xl font-display font-bold text-white block mb-2">99%</span>
-                                            <span class="font-mono text-[10px] text-gray-500 uppercase">Server Reliability</span>
-                                        </div>
-                                    </div>
-
-                                    <h4 class="font-mono text-xs text-blue-500 mb-4 uppercase">Core Competencies</h4>
-                                    <div class="flex flex-wrap gap-3">
-                                        <span class="px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-xs font-mono">DigitalOcean Ops</span>
-                                        <span class="px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-xs font-mono">Technical SEO</span>
-                                        <span class="px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-xs font-mono">Affiliate Funnels</span>
-                                        <span class="px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-xs font-mono">CMS Architecture</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="lg:w-1/3">
-                                    <div class="glass-panel p-6 border-blue-500/20">
-                                        <h4 class="font-mono text-xs text-gray-400 mb-6 border-b border-white/10 pb-2">SEO_TRAJECTORY</h4>
-                                        <canvas id="seoChart" height="250"></canvas>
-                                    </div>
-                                    <button class="interactive w-full mt-6 py-4 bg-blue-600 text-white font-display uppercase text-xs font-bold tracking-widest hover:bg-blue-500 transition-colors">Download IT CV</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="panel-bio" class="protocol-panel hidden relative z-10">
-                            <div class="flex flex-col lg:flex-row gap-12">
-                                <div class="lg:w-2/3">
-                                    <div class="flex items-center gap-4 mb-6">
-                                        <i data-lucide="dna" class="w-8 h-8 text-green-500 animate-pulse"></i>
-                                        <h3 class="font-display text-3xl font-bold">Computational Biologist</h3>
-                                    </div>
-                                    <p class="text-gray-400 text-lg leading-relaxed mb-8">
-                                        Applying computational logic to complex biological frameworks. Graduating May 2026 with a BS in Bioinformatics, specializing in processing genomic sequences, molecular modeling, and lab data automation.
-                                    </p>
-                                    
-                                    <div class="space-y-4 mb-10">
-                                        <div class="flex items-center gap-4 border border-white/5 p-4 rounded bg-black/30">
-                                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                                            <span class="font-mono text-sm">Sequence Alignment & BLAST Pipelines</span>
-                                        </div>
-                                        <div class="flex items-center gap-4 border border-white/5 p-4 rounded bg-black/30">
-                                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                                            <span class="font-mono text-sm">Statistical Genetics using R</span>
-                                        </div>
-                                        <div class="flex items-center gap-4 border border-white/5 p-4 rounded bg-black/30">
-                                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                                            <span class="font-mono text-sm">Python Scripting for Bio-Data</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="lg:w-1/3 flex flex-col justify-between">
-                                    <div class="glass-panel p-6 border-green-500/20 text-center flex-grow flex flex-col justify-center items-center">
-                                        <div class="text-6xl font-display font-bold text-green-500 mb-4">BS</div>
-                                        <span class="font-mono text-xs text-gray-400 uppercase tracking-widest">Bioinformatics<br>Class of 2026</span>
-                                    </div>
-                                    <button class="interactive w-full mt-6 py-4 bg-green-600 text-white font-display uppercase text-xs font-bold tracking-widest hover:bg-green-500 transition-colors">Download Bio CV</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="panel-edu" class="protocol-panel hidden relative z-10">
-                            <div class="text-center max-w-3xl mx-auto py-12">
-                                <i data-lucide="graduation-cap" class="w-16 h-16 text-yellow-500 mx-auto mb-8"></i>
-                                <h3 class="font-display text-4xl font-bold mb-6">Pedagogical Systems</h3>
-                                <p class="text-gray-400 text-xl leading-relaxed mb-12">
-                                    Translating elite-level technical and scientific architecture into accessible, engaging academic curricula. Empowering the next generation through direct mentorship and logical pedagogy.
-                                </p>
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                                    <div class="border border-white/10 p-8 rounded-xl bg-black/40">
-                                        <i data-lucide="users" class="w-6 h-6 text-yellow-500 mx-auto mb-4"></i>
-                                        <span class="font-mono text-sm font-bold block">Mentorship</span>
-                                    </div>
-                                    <div class="border border-white/10 p-8 rounded-xl bg-black/40">
-                                        <i data-lucide="book-open" class="w-6 h-6 text-yellow-500 mx-auto mb-4"></i>
-                                        <span class="font-mono text-sm font-bold block">Curriculum Dev</span>
-                                    </div>
-                                    <div class="border border-white/10 p-8 rounded-xl bg-black/40">
-                                        <i data-lucide="mic" class="w-6 h-6 text-yellow-500 mx-auto mb-4"></i>
-                                        <span class="font-mono text-sm font-bold block">Lecturing</span>
-                                    </div>
-                                </div>
-                                <button class="interactive px-12 py-4 bg-yellow-500 text-black font-display uppercase text-xs font-bold tracking-widest hover:bg-yellow-400 transition-colors">Download Academic CV</button>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
-            </div>
-        </section>
-
-        <section class="py-32 px-6 lg:px-24 bg-[#020202]">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="font-display text-4xl lg:text-6xl font-bold uppercase tracking-tighter mb-24 text-center">Chronology</h2>
-                
-                <div class="relative wrap overflow-hidden p-10 h-full">
-                    <div class="absolute border-opacity-20 border-white h-full border left-1/2 transform -translate-x-1/2"></div>
-                    
-                    <div class="mb-16 flex justify-between items-center w-full right-timeline gs-timeline-item">
-                        <div class="order-1 w-5/12"></div>
-                        <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-4 h-4 rounded-full border-2 border-blue-500"></div>
-                        <div class="order-1 glass-panel rounded-lg shadow-xl w-5/12 px-8 py-6">
-                            <h3 class="mb-1 font-bold text-white text-xl">Digital Platform Founder</h3>
-                            <div class="font-mono text-xs text-blue-500 mb-4">2024 - Present | .com Hub</div>
-                            <p class="text-sm leading-relaxed text-gray-400">Architected, deployed, and scaled a comprehensive dropshipping and affiliate marketing platform. Orchestrated entire SEO logic and content structure to ensure continuous organic ranking.</p>
-                        </div>
-                    </div>
-
-                    <div class="mb-16 flex justify-between flex-row-reverse items-center w-full left-timeline gs-timeline-item">
-                        <div class="order-1 w-5/12"></div>
-                        <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-4 h-4 rounded-full border-2 border-green-500"></div>
-                        <div class="order-1 glass-panel rounded-lg shadow-xl w-5/12 px-8 py-6 text-right">
-                            <h3 class="mb-1 font-bold text-white text-xl">Bioinformatics Research</h3>
-                            <div class="font-mono text-xs text-green-500 mb-4">2023 - 2026 | Academia</div>
-                            <p class="text-sm leading-relaxed text-gray-400">Engaged in high-level biological data processing. Executing sequence alignments, utilizing analytical tools, and preparing for final degree completion.</p>
-                        </div>
-                    </div>
-
-                    <div class="mb-16 flex justify-between items-center w-full right-timeline gs-timeline-item">
-                        <div class="order-1 w-5/12"></div>
-                        <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-4 h-4 rounded-full border-2 border-white animate-pulse"></div>
-                        <div class="order-1 glass-panel rounded-lg shadow-xl w-5/12 px-8 py-6">
-                            <h3 class="mb-1 font-bold text-white text-xl">tajamal.me Deployment</h3>
-                            <div class="font-mono text-xs text-white mb-4">Current | DigitalOcean</div>
-                            <p class="text-sm leading-relaxed text-gray-400">Launched a centralized, OS-style professional portfolio hub to consolidate IT, Bioinformatics, and Educational dossiers into a single accessible node.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-32 px-6 lg:px-24 border-t border-white/5 relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/10 to-transparent pointer-events-none"></div>
-            
-            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
-                <div class="lg:w-1/2 gs-reveal">
-                    <span class="font-mono text-blue-500 text-xs uppercase tracking-[0.2em] mb-4 block">Initialization Protocol</span>
-                    <h2 class="font-display text-5xl lg:text-7xl font-bold uppercase tracking-tighter leading-none mb-10">Establish<br>Connection.</h2>
-                    
-                    <div class="glass-panel p-8 rounded-2xl mb-8">
-                        <div class="font-mono text-xs text-gray-500 uppercase mb-2">Direct Communications Node</div>
-                        <a href="mailto:hello@tajamal.me" class="interactive font-display text-2xl lg:text-4xl font-bold text-white hover:text-blue-500 transition-colors">hello@tajamal.me</a>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-6 font-mono text-xs text-gray-400">
-                        <div class="border border-white/5 p-4 rounded bg-black/20">
-                            <i data-lucide="map-pin" class="mb-2"></i>
-                            Location: Jauharabad
-                        </div>
-                        <div class="border border-white/5 p-4 rounded bg-black/20">
-                            <i data-lucide="server" class="mb-2"></i>
-                            Host: DigitalOcean
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:w-1/2 gs-reveal">
-                    <form class="glass-panel p-10 rounded-2xl flex flex-col gap-6" onsubmit="event.preventDefault(); alert('Connection protocol initiated. Form data captured locally.');">
-                        <h3 class="font-mono text-sm uppercase text-gray-400 border-b border-white/10 pb-4">Data Transmission Form</h3>
-                        
-                        <div class="flex flex-col gap-2">
-                            <label class="font-mono text-[10px] uppercase text-blue-500">Entity Name</label>
-                            <input type="text" class="interactive w-full bg-black/50 border border-white/10 rounded p-4 text-white font-mono text-sm focus:border-blue-500 outline-none transition-colors" required>
-                        </div>
-                        
-                        <div class="flex flex-col gap-2">
-                            <label class="font-mono text-[10px] uppercase text-blue-500">Request Category</label>
-                            <select class="interactive w-full bg-black/50 border border-white/10 rounded p-4 text-white font-mono text-sm focus:border-blue-500 outline-none transition-colors">
-                                <option>IT Architecture / E-Commerce</option>
-                                <option>Bioinformatics Collaboration</option>
-                                <option>Academic Request</option>
-                            </select>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label class="font-mono text-[10px] uppercase text-blue-500">Encrypted Message</label>
-                            <textarea rows="4" class="interactive w-full bg-black/50 border border-white/10 rounded p-4 text-white font-mono text-sm focus:border-blue-500 outline-none transition-colors" required></textarea>
-                        </div>
-
-                        <button type="submit" class="interactive w-full py-5 bg-white text-black font-display uppercase font-bold text-xs tracking-widest hover:bg-blue-500 hover:text-white transition-all mt-4">Transmit Data</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <footer class="py-8 px-6 lg:px-24 border-t border-white/5 bg-black flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="font-mono text-[10px] text-gray-600 uppercase">© 2026 TAJAMAL. ME / ALL SYSTEMS OPERATIONAL</div>
-            <div class="flex gap-6">
-                <a href="#" class="interactive text-gray-600 hover:text-white transition-colors"><i data-lucide="github" class="w-4 h-4"></i></a>
-                <a href="#" class="interactive text-gray-600 hover:text-white transition-colors"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
-            </div>
-        </footer>
-    </main>
-
-    <div id="cmd-modal" class="modal-overlay flex justify-center items-center">
-        <div class="modal-content w-full max-w-4xl glass-panel border border-white/20 rounded-xl overflow-hidden shadow-2xl relative">
-            <button onclick="toggleModal('cmd-modal')" class="interactive absolute top-4 right-4 text-gray-500 hover:text-white z-50">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-            <div class="bg-[#111] px-4 py-3 border-b border-white/10 flex items-center gap-2">
-                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                <span class="font-mono text-xs text-gray-500 ml-4">root@tajamal-os:~</span>
-            </div>
-            <div class="cli-container p-6 bg-[#0a0a0a]" id="cli-output" onclick="document.getElementById('cli-input').focus()">
-                <div class="font-mono text-sm text-green-400 mb-4">
-                    TAJAMAL.OS Terminal v1.0.0<br>
-                    Type 'help' to see available commands.
-                </div>
-                </div>
-            <div class="bg-[#0a0a0a] px-6 pb-6 cli-input-line">
-                <span class="font-mono text-sm text-green-500 mr-2">root@tajamal-os:~$</span>
-                <input type="text" id="cli-input" class="cli-input text-sm" autocomplete="off" spellcheck="false">
             </div>
         </div>
     </div>
 
     <script>
-        // --- 1. CORE INITIALIZATION ---
-        lucide.createIcons();
-
-        // System Clock Simulation
-        setInterval(() => {
-            const d = new Date();
-            document.getElementById('uptime-counter').innerText = d.toISOString().substr(11, 8);
-        }, 1000);
-
-        // --- 2. BOOT SEQUENCE LOADER ---
-        const bootLogs = [
-            "Initializing kernel components...",
-            "Mounting DigitalOcean filesystems...",
-            "Loading IT & E-Commerce modules...",
-            "Loading Bioinformatics datasets...",
-            "Establishing connection to Jauharabad node...",
-            "Verifying SEO algorithms...",
-            "Boot sequence complete. Welcome."
-        ];
+        // --- 1. System Database & Gateway Logic ---
+        let sponsorClicked = false;
         
-        let logIndex = 0;
-        const logEl = document.getElementById('boot-log');
-        
-        const bootInterval = setInterval(() => {
-            if (logIndex < bootLogs.length) {
-                logEl.innerHTML += `<div>> ${bootLogs[logIndex]}</div>`;
-                logIndex++;
-            } else {
-                clearInterval(bootInterval);
-                setTimeout(() => {
-                    gsap.to('#system-boot', {
-                        opacity: 0,
-                        duration: 1,
-                        ease: "power2.inOut",
-                        onComplete: () => {
-                            document.getElementById('system-boot').style.display = 'none';
-                            initHeroAnimations();
-                        }
-                    });
-                }, 500);
+        // Initialize local database if empty
+        if (!localStorage.getItem('tajamal_customer_records')) {
+            localStorage.setItem('tajamal_customer_records', JSON.stringify([]));
+        }
+
+        function handleRegistration(e) {
+            e.preventDefault();
+            if (!sponsorClicked) {
+                alert("Please click the link to visit varezon.xom first to support the site.");
+                return;
             }
-        }, 300);
 
-        // --- 3. CUSTOM KINETIC CURSOR ---
-        const dot = document.getElementById("cursor-dot");
-        const ring = document.getElementById("cursor-ring");
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let ringX = mouseX;
-        let ringY = mouseY;
+            const userData = {
+                name: document.getElementById('regName').value,
+                number: document.getElementById('regNumber').value,
+                gender: document.getElementById('regGender').value,
+                age: document.getElementById('regAge').value,
+                visitDate: new Date().toLocaleString(),
+                visitCount: 1
+            };
 
-        window.addEventListener("mousemove", (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-        });
-
-        function renderCursor() {
-            ringX += (mouseX - ringX) * 0.15;
-            ringY += (mouseY - ringY) * 0.15;
-            ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
-            requestAnimationFrame(renderCursor);
-        }
-        renderCursor();
-
-        document.querySelectorAll('.interactive, a, button, input, textarea').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-        });
-
-        // --- 4. WEBGL 3D BACKGROUND (THREE.JS) ---
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-        // Create abstract data node network
-        const geometry = new THREE.BufferGeometry();
-        const vertices = [];
-        for ( let i = 0; i < 2000; i ++ ) {
-            const x = 2000 * Math.random() - 1000;
-            const y = 2000 * Math.random() - 1000;
-            const z = 2000 * Math.random() - 1000;
-            vertices.push( x, y, z );
-        }
-        geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
-        
-        // Custom Shader Material for glowing dots
-        const material = new THREE.PointsMaterial({ 
-            color: 0xffffff, 
-            size: 2,
-            transparent: true,
-            opacity: 0.4,
-            sizeAttenuation: true
-        });
-        
-        const particles = new THREE.Points( geometry, material );
-        scene.add( particles );
-        camera.position.z = 500;
-
-        let targetRotationX = 0;
-        let targetRotationY = 0;
-
-        window.addEventListener('mousemove', (e) => {
-            targetRotationY = (e.clientX - window.innerWidth/2) * 0.0005;
-            targetRotationX = (e.clientY - window.innerHeight/2) * 0.0005;
-        });
-
-        function animate3D() {
-            requestAnimationFrame(animate3D);
-            particles.rotation.y += 0.0005 + (targetRotationY - particles.rotation.y) * 0.05;
-            particles.rotation.x += 0.0005 + (targetRotationX - particles.rotation.x) * 0.05;
-            renderer.render(scene, camera);
-        }
-        animate3D();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // --- 5. GSAP SCROLL ANIMATIONS ---
-        gsap.registerPlugin(ScrollTrigger);
-
-        function initHeroAnimations() {
-            gsap.fromTo(".gs-reveal", 
-                { y: 50, opacity: 0 },
-                { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out" }
-            );
-        }
-
-        // Timeline Animation
-        gsap.utils.toArray('.gs-timeline-item').forEach((item, i) => {
-            gsap.from(item, {
-                scrollTrigger: { trigger: item, start: "top 80%" },
-                x: i % 2 === 0 ? 50 : -50,
-                opacity: 0,
-                duration: 1,
-                ease: "power2.out"
-            });
-        });
-
-        // --- 6. COMMAND CENTER PROTOCOL LOGIC ---
-        const protocols = {
-            it: { color: 'var(--accent-it)', border: 'border-l-blue-500' },
-            bio: { color: 'var(--accent-bio)', border: 'border-l-green-500' },
-            edu: { color: 'var(--accent-edu)', border: 'border-l-yellow-500' }
-        };
-
-        function activateProtocol(type) {
-            // UI Button Updates
-            ['it', 'bio', 'edu'].forEach(p => {
-                const btn = document.getElementById('btn-' + p);
-                btn.classList.remove('border-l-blue-500', 'border-l-green-500', 'border-l-yellow-500', 'opacity-100');
-                btn.classList.add('opacity-50', 'border-l-transparent');
-                
-                // Hide content panels
-                document.getElementById('panel-' + p).classList.add('hidden');
-                document.getElementById('panel-' + p).classList.remove('block');
-            });
-
-            // Activate Selected
-            const activeBtn = document.getElementById('btn-' + type);
-            activeBtn.classList.remove('opacity-50', 'border-l-transparent');
-            activeBtn.classList.add('opacity-100', protocols[type].border);
+            // Retrieve, Update, and Save Records
+            let records = JSON.parse(localStorage.getItem('tajamal_customer_records'));
             
-            document.getElementById('panel-' + type).classList.remove('hidden');
-            document.getElementById('panel-' + type).classList.add('block');
+            // Check if returning user based on number
+            const existingUserIndex = records.findIndex(r => r.number === userData.number);
+            if (existingUserIndex >= 0) {
+                records[existingUserIndex].visitCount += 1;
+                records[existingUserIndex].visitDate = userData.visitDate; // Update last visit
+            } else {
+                records.push(userData);
+            }
 
-            // Update Glow Color
-            document.getElementById('protocol-glow').style.backgroundColor = protocols[type].color;
-            document.getElementById('protocol-glow').style.opacity = '0.1';
-
-            // Animation
-            gsap.fromTo('#panel-' + type, { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5 });
+            localStorage.setItem('tajamal_customer_records', JSON.stringify(records));
+            
+            // Grant Access
+            document.getElementById('gatewayModal').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'flex';
+            loadCategory('Academic & Text'); // Load default category
         }
 
-        // --- 7. DATA VISUALIZATION (CHART.JS) ---
-        Chart.defaults.color = '#666';
-        Chart.defaults.font.family = "'Fira Code', monospace";
-
-        // Radar Chart (Skills)
-        new Chart(document.getElementById('resourceChart').getContext('2d'), {
-            type: 'radar',
-            data: {
-                labels: ['SEO', 'Bio-Data', 'DevOps', 'E-Comm', 'Pedagogy'],
-                datasets: [{
-                    label: 'Capability',
-                    data: [95, 85, 90, 98, 80],
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    borderColor: '#fff',
-                    pointBackgroundColor: '#fff',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: { r: { ticks: { display: false }, grid: { color: 'rgba(255,255,255,0.1)' }, angleLines: { color: 'rgba(255,255,255,0.1)' } } },
-                plugins: { legend: { display: false } }
+        function downloadCustomerRecords() {
+            const records = JSON.parse(localStorage.getItem('tajamal_customer_records'));
+            if (records.length === 0) {
+                alert("No customer records found yet.");
+                return;
             }
-        });
 
-        // Line Chart (SEO Analytics)
-        new Chart(document.getElementById('seoChart').getContext('2d'), {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                datasets: [{
-                    data: [1000, 2500, 5000, 8000, 10500],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: { x: { display: false }, y: { display: false } },
-                plugins: { legend: { display: false } }
-            }
-        });
+            // Create CSV format
+            const headers = "Name,Phone Number,Gender,Age,Last Visit Date,Total Visits\n";
+            const rows = records.map(r => `${r.name},${r.number},${r.gender},${r.age},"${r.visitDate}",${r.visitCount}`).join("\n");
+            const csvContent = "data:text/csv;charset=utf-8," + headers + rows;
 
-        // --- 8. TERMINAL LOGIC ---
-        const cliInput = document.getElementById('cli-input');
-        const cliOutput = document.getElementById('cli-output');
-        
-        const commands = {
-            help: "Available commands:<br>  about     - Core identity string<br>  skills    - List system modules<br>  contact   - Retrieve network addresses<br>  clear     - Wipe buffer",
-            about: "TAJAMAL_OS v3.0.<br>Location: Jauharabad, Punjab, PK.<br>Architecture: E-Commerce, Bioinformatics, Full-Stack.<br>Degree Status: Completing May 2026.",
-            skills: "Modules Loaded:<br>  > DigitalOcean Deployment<br>  > Advanced SEO & Dropshipping<br>  > Computational Biology (Python, R, BLAST)<br>  > Academic Instruction",
-            contact: "Establishing secure line...<br>Email: hello@tajamal.me<br>Domain: tajamal.me",
-            clear: "" // Handled uniquely
+            // Trigger Download
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Tajamal_Customer_Records.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- 2. Tools Database Structure ---
+        const toolCategories = {
+            "Academic & Text": [
+                {
+                    id: "wordCounter",
+                    name: "Advanced Word & Reading Time Counter",
+                    desc: "Perfect for students. Instantly count words, characters, and estimate academic reading time.",
+                    render: () => `
+                        <textarea id="wcInput" class="tool-input" placeholder="Paste your essay or text here..."></textarea>
+                        <div class="result-box">
+                            <h3 style="color: var(--primary);">Results:</h3>
+                            <p>Words: <strong id="wcWords">0</strong></p>
+                            <p>Characters: <strong id="wcChars">0</strong></p>
+                            <p>Est. Reading Time: <strong id="wcTime">0 min</strong></p>
+                        </div>
+                    `,
+                    script: () => {
+                        document.getElementById('wcInput').addEventListener('input', (e) => {
+                            const text = e.target.value.trim();
+                            const words = text ? text.split(/\s+/).length : 0;
+                            document.getElementById('wcWords').innerText = words;
+                            document.getElementById('wcChars').innerText = text.length;
+                            document.getElementById('wcTime').innerText = Math.ceil(words / 200) + ' min';
+                        });
+                    }
+                },
+                {
+                    id: "multiToneParaphraser",
+                    name: "Multi-Tone AI Paraphraser (Simulated)",
+                    desc: "Rewrites text based on selected fields (Medical, Legal, Student). Uses pure client-side synonym swapping to protect server.",
+                    render: () => `
+                        <select id="paraTone" class="tool-input" style="min-height: 40px; margin-bottom: 10px;">
+                            <option value="student">Student / Academic Tone</option>
+                            <option value="medical">Medical Tone</option>
+                            <option value="legal">Legal Tone</option>
+                        </select>
+                        <textarea id="paraInput" class="tool-input" placeholder="Paste text to paraphrase..."></textarea>
+                        <button class="btn" onclick="runParaphraser()">Paraphrase Text</button>
+                        <div class="result-box">
+                            <h3 style="color: var(--accent);">Paraphrased Output:</h3>
+                            <p id="paraOutput" style="margin-top: 10px;">Your results will appear here...</p>
+                        </div>
+                    `,
+                    script: () => {
+                        window.runParaphraser = () => {
+                            const text = document.getElementById('paraInput').value;
+                            const tone = document.getElementById('paraTone').value;
+                            if(!text) return;
+                            
+                            // Client-side synonym dictionaries (Zero Server CPU)
+                            const dicts = {
+                                student: { "good": "excellent", "bad": "suboptimal", "big": "substantial", "show": "demonstrate" },
+                                medical: { "cut": "laceration", "bruise": "contusion", "pain": "discomfort", "doctor": "physician" },
+                                legal:   { "promise": "covenant", "rule": "stipulation", "agreement": "contract", "lie": "perjury" }
+                            };
+
+                            let words = text.split(' ');
+                            let result = words.map(word => {
+                                let cleanWord = word.toLowerCase().replace(/[^a-z]/g, '');
+                                let replacement = dicts[tone][cleanWord];
+                                return replacement ? replacement : word;
+                            }).join(' ');
+
+                            document.getElementById('paraOutput').innerText = result;
+                        };
+                    }
+                }
+            ],
+            "Business & Finance": [
+                {
+                    id: "marginCalc",
+                    name: "Dropshipping Profit Margin Calculator",
+                    desc: "Calculate your selling price and profit margins instantly.",
+                    render: () => `
+                        <div class="form-group"><label>Item Cost ($)</label><input type="number" id="mCost" placeholder="e.g. 15"></div>
+                        <div class="form-group"><label>Desired Margin (%)</label><input type="number" id="mMargin" placeholder="e.g. 40"></div>
+                        <button class="btn" onclick="calcMargin()">Calculate Selling Price</button>
+                        <div class="result-box">
+                            <p>You should sell for: <strong style="color:var(--accent); font-size:20px;">$<span id="mSell">0.00</span></strong></p>
+                            <p>Your Profit: $<span id="mProfit">0.00</span></p>
+                        </div>
+                    `,
+                    script: () => {
+                        window.calcMargin = () => {
+                            let cost = parseFloat(document.getElementById('mCost').value);
+                            let margin = parseFloat(document.getElementById('mMargin').value) / 100;
+                            if(cost && margin) {
+                                let sellPrice = cost / (1 - margin);
+                                let profit = sellPrice - cost;
+                                document.getElementById('mSell').innerText = sellPrice.toFixed(2);
+                                document.getElementById('mProfit').innerText = profit.toFixed(2);
+                            }
+                        };
+                    }
+                }
+            ],
+            "Developer Utilities": [
+                {
+                    id: "passGen",
+                    name: "Military-Grade Password Generator",
+                    desc: "Generate hyper-secure passwords client-side. No data is ever sent to a server.",
+                    render: () => `
+                        <button class="btn" onclick="genPass()">Generate Secure Password</button>
+                        <div class="result-box" style="text-align: center;">
+                            <h2 id="passResult" style="letter-spacing: 2px; margin: 15px 0;">Click Generate</h2>
+                        </div>
+                    `,
+                    script: () => {
+                        window.genPass = () => {
+                            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+                            let password = "";
+                            for (let i = 0; i < 16; i++) {
+                                password += chars.charAt(Math.floor(Math.random() * chars.length));
+                            }
+                            document.getElementById('passResult').innerText = password;
+                        };
+                    }
+                }
+            ]
         };
 
-        cliInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                const val = this.value.trim().toLowerCase();
-                this.value = '';
-                
-                cliOutput.innerHTML += `<br><span class="text-green-500">root@tajamal-os:~$</span> ${val}<br>`;
-                
-                if (val === 'clear') {
-                    cliOutput.innerHTML = '';
-                } else if (commands[val]) {
-                    cliOutput.innerHTML += `<span class="text-gray-300">${commands[val]}</span>`;
-                } else if (val !== '') {
-                    cliOutput.innerHTML += `<span class="text-red-400">bash: ${val}: command not found</span>`;
-                }
-                
-                cliOutput.scrollTop = cliOutput.scrollHeight;
-            }
-        });
-
-        // --- 9. MODAL / UTILITY ---
-        function toggleModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.toggle('active');
-            if(modal.classList.contains('active')) {
-                setTimeout(() => document.getElementById('cli-input').focus(), 100);
-            }
+        // --- 3. UI Rendering Engine ---
+        function initializeUI() {
+            const sidebar = document.getElementById('categorySidebar');
+            
+            Object.keys(toolCategories).forEach((cat, index) => {
+                const btn = document.createElement('button');
+                btn.className = `category-btn ${index === 0 ? 'active' : ''}`;
+                btn.innerText = cat;
+                btn.onclick = (e) => {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    loadCategory(cat);
+                };
+                sidebar.appendChild(btn);
+            });
         }
 
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        function loadCategory(categoryName) {
+            const grid = document.getElementById('toolsGrid');
+            const workspace = document.getElementById('activeToolWorkspace');
+            
+            grid.style.display = 'grid';
+            workspace.style.display = 'none';
+            grid.innerHTML = '';
+
+            toolCategories[categoryName].forEach(tool => {
+                const card = document.createElement('div');
+                card.className = 'tool-card';
+                card.innerHTML = `<h3>${tool.name}</h3><p>${tool.desc}</p>`;
+                card.onclick = () => openTool(tool);
+                grid.appendChild(card);
+            });
         }
+
+        function openTool(tool) {
+            document.getElementById('toolsGrid').style.display = 'none';
+            const workspace = document.getElementById('activeToolWorkspace');
+            workspace.style.display = 'block';
+            
+            document.getElementById('toolTitle').innerText = tool.name;
+            document.getElementById('toolDesc').innerText = tool.desc;
+            document.getElementById('toolInterface').innerHTML = tool.render();
+            
+            // Execute the tool's specific JavaScript logic
+            if(tool.script) tool.script();
+        }
+
+        function closeTool() {
+            document.getElementById('activeToolWorkspace').style.display = 'none';
+            document.getElementById('toolsGrid').style.display = 'grid';
+        }
+
+        // Initialize App
+        initializeUI();
     </script>
 </body>
 </html>
