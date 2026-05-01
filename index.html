@@ -3,364 +3,390 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOVEREIGN BRAIN | UNLIMITED EXECUTION ENGINE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <title>Digital Lab Manual - tajamal.me</title>
     <style>
         :root {
-            --bg-deep: #02040a;
-            --bg-card: rgba(13, 17, 23, 0.7);
-            --primary: #00f2ff;
-            --secondary: #7000ff;
-            --accent: #ff00c8;
-            --text-main: #e6edf3;
-            --glow-color: rgba(0, 242, 255, 0.4);
-            --border: rgba(255, 255, 255, 0.1);
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --sidebar-bg: #1e293b;
+            --sidebar-text: #f8fafc;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
         body {
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
             display: flex;
-            justify-content: center;
+            height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 300px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            overflow-y: auto;
+            padding: 20px 0;
+            transition: 0.3s;
+        }
+
+        #sidebar h2 {
+            padding: 0 20px 20px 20px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 10px;
+        }
+
+        .module-btn, .sub-btn, .test-btn {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            color: var(--sidebar-text);
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        .module-btn { font-weight: bold; font-size: 1.1rem; }
+        .sub-btn { padding-left: 40px; color: #cbd5e1; border-left: 2px solid transparent; }
+        .test-btn { padding-left: 60px; color: #94a3b8; font-size: 0.9rem; }
+
+        .module-btn:hover, .sub-btn:hover, .test-btn:hover {
+            background-color: #334155;
+        }
+        
+        .active-btn {
+            background-color: var(--primary);
+            border-left: 4px solid #60a5fa;
+            color: white;
+        }
+
+        .hidden { display: none; }
+
+        /* Main Content Styling */
+        #main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .header-container {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        h1 { color: var(--primary-dark); margin-bottom: 10px; }
+        .breadcrumb { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Card Styling for Data Sections */
+        .data-section {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-section h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
             align-items: center;
         }
 
-        /* Anti-Gravity Animated Background */
-        .background-engine {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #0d1117 0%, #010409 100%);
+        ul, ol {
+            padding-left: 20px;
+            line-height: 1.6;
         }
 
-        .floating-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.3;
-            animation: float-gravity 25s infinite ease-in-out alternate;
-        }
+        li { margin-bottom: 8px; }
 
-        .orb-1 { width: 500px; height: 500px; background: var(--primary); top: -10%; left: -10%; }
-        .orb-2 { width: 600px; height: 600px; background: var(--secondary); bottom: -10%; right: -10%; animation-delay: -7s; }
-        .orb-3 { width: 300px; height: 300px; background: var(--accent); top: 40%; left: 40%; animation-duration: 15s; }
-
-        @keyframes float-gravity {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(100px, -150px) scale(1.2); }
-            100% { transform: translate(-50px, 100px) scale(0.9); }
-        }
-
-        /* Main UI Frame */
-        .brain-core {
-            width: 95%;
-            max-width: 1000px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            padding: 40px;
-            backdrop-filter: blur(40px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: core-entry 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-        }
-
-        @keyframes core-entry {
-            0% { opacity: 0; transform: translateY(50px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .header-section { text-align: center; margin-bottom: 40px; }
-        .header-section h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: -2px;
-            background: linear-gradient(to right, #fff, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px var(--glow-color);
-        }
-        .header-section span { color: #8b949e; text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; font-weight: 600; }
-
-        /* Multi-Function Drop Zone */
-        .universal-input-zone {
-            border: 2px dashed var(--border);
-            border-radius: 24px;
-            padding: 80px 40px;
-            text-align: center;
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-            background: rgba(255, 255, 255, 0.02);
-            margin-bottom: 30px;
-        }
-
-        .universal-input-zone:hover {
-            border-color: var(--primary);
-            background: rgba(0, 242, 255, 0.05);
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.1);
-        }
-
-        .universal-input-zone h3 { font-size: 1.8rem; margin-bottom: 15px; }
-        .universal-input-zone p { color: #8b949e; }
-
-        /* Command Engine */
-        .command-console {
+        .welcome-screen {
             display: flex;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 10px;
-            gap: 10px;
-            transition: 0.3s;
-        }
-
-        .command-console:focus-within {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
-        }
-
-        .cmd-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #fff;
-            padding: 15px 20px;
-            font-size: 1.2rem;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .exec-button {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            border: none;
-            color: #fff;
-            padding: 0 40px;
-            border-radius: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
-        .exec-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px var(--glow-color);
-        }
-
-        /* Neural Terminal */
-        .terminal-output {
-            margin-top: 30px;
-            background: #000;
-            border-radius: 16px;
-            padding: 25px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            color: #50fa7b;
-            min-height: 150px;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #333;
-            display: none;
-            box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.05);
-        }
-
-        .terminal-line { margin-bottom: 8px; border-left: 2px solid #50fa7b; padding-left: 10px; animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
-
-        /* Results & Downloads */
-        .result-stage {
-            display: none;
-            margin-top: 30px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
             text-align: center;
-            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--text-muted);
         }
 
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            #sidebar { width: 100%; height: auto; max-height: 40vh; }
+            #main-content { padding: 20px; }
         }
-
-        .download-btn {
-            display: inline-block;
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 20px 50px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 1.1rem;
-            transition: 0.4s;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .download-btn:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 50px var(--glow-color);
-            transform: translateY(-5px);
-        }
-
-        #file-input { display: none; }
-        .file-preview { margin-top: 20px; color: var(--primary); font-family: 'JetBrains Mono'; font-size: 0.8rem; }
-
     </style>
 </head>
 <body>
 
-    <div class="background-engine">
-        <div class="floating-orb orb-1"></div>
-        <div class="floating-orb orb-2"></div>
-        <div class="floating-orb orb-3"></div>
+    <div id="sidebar">
+        <h2>Lab Modules</h2>
+        <div id="nav-container"></div>
     </div>
 
-    <main class="brain-core">
-        <div class="header-section">
-            <span>Universal Autonomous Intelligence</span>
-            <h1>SOVEREIGN BRAIN</h1>
+    <div id="main-content">
+        <div id="content-display">
+            <div class="welcome-screen">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 20px;">
+                    <path d="M9 2v20M15 2v20M2 12h20M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3H5z"/>
+                </svg>
+                <h2>Welcome to the Digital Lab Manual</h2>
+                <p>Select a module from the sidebar to view SOPs, principles, and procedures.</p>
+            </div>
         </div>
-
-        <div class="universal-input-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-            <h3 id="status-title">Feed the Brain</h3>
-            <p>Upload Files, Folders, Zips, or Bulk Objects</p>
-            <input type="file" id="file-input" multiple>
-            <div class="file-preview" id="file-list"></div>
-        </div>
-
-        <div class="command-console">
-            <input type="text" id="user-cmd" class="cmd-input" placeholder="Give a command (e.g. 'Build App', 'Zip all', 'Analyze Content')">
-            <button class="exec-button" onclick="initiateExecution()">Execute</button>
-        </div>
-
-        <div class="terminal-output" id="terminal"></div>
-
-        <div class="result-stage" id="result-stage">
-            <a href="#" id="main-download" class="download-btn" download="Sovereign_Output.zip">Download Compiled Result</a>
-        </div>
-    </main>
+    </div>
 
     <script>
-        const dropZone = document.getElementById('drop-zone');
-        const fileInput = document.getElementById('file-input');
-        const fileListDisplay = document.getElementById('file-list');
-        const cmdInput = document.getElementById('user-cmd');
-        const terminal = document.getElementById('terminal');
-        const resultStage = document.getElementById('result-stage');
-        const downloadBtn = document.getElementById('main-download');
-        const statusTitle = document.getElementById('status-title');
+        // Data Structure holding all modules, sub-modules, and specific tests
+        const labData = {
+            "Microbiology": {
+                "Bacteriology": {
+                    "Gram Stain": {
+                        purpose: "To differentiate bacterial species into two large groups (gram-positive and gram-negative) based on the physical properties of their cell walls.",
+                        principle: "Gram-positive bacteria retain the primary stain (crystal violet) due to a thick peptidoglycan layer. Gram-negative bacteria lose the primary stain during decolorization and take up the counterstain (safranin) due to a thinner peptidoglycan layer and high lipid content.",
+                        parameters: [
+                            "Gram Reaction (Positive/Negative)",
+                            "Morphology (Cocci, Bacilli, Coccobacilli)",
+                            "Arrangement (Clusters, Chains, Pairs)"
+                        ],
+                        procedure: [
+                            "Step 1: Prepare a thin smear of the sample on a clean glass slide and heat fix it.",
+                            "Step 2: Flood the slide with Crystal Violet (Primary Stain) for 1 minute, then wash with water.",
+                            "Step 3: Flood with Gram's Iodine (Mordant) for 1 minute, then wash with water.",
+                            "Step 4: Decolorize rapidly with 95% Ethanol or Acetone for 10-15 seconds, wash immediately.",
+                            "Step 5: Flood with Safranin (Counterstain) for 1 minute, wash, air dry, and observe under 100x oil immersion."
+                        ],
+                        normalRange: [
+                            "Sterile body fluids (e.g., CSF, Blood): No microorganisms seen.",
+                            "Non-sterile sites (e.g., Throat, Stool): Normal flora present."
+                        ],
+                        interpretation: "Purple/Blue cells indicate Gram-Positive. Pink/Red cells indicate Gram-Negative. The presence of WBCs (pus cells) indicates inflammation/infection.",
+                        qa_qc: "Run known control slides weekly. Use Staphylococcus aureus as a Gram-positive control and Escherichia coli as a Gram-negative control. Check stains for precipitates."
+                    }
+                }
+            },
+            "Routine Chemistry": {
+                "Liver Function Tests (LFTs)": {
+                    "ALT (SGPT)": {
+                        purpose: "To screen for and monitor liver damage or disease.",
+                        principle: "ALT catalyzes the transfer of an amino group from alanine to alpha-ketoglutarate, forming pyruvate and glutamate. Pyruvate is then reduced by NADH in the presence of Lactate Dehydrogenase (LDH). The rate of decrease in absorbance at 340 nm is directly proportional to ALT activity.",
+                        parameters: [
+                            "Serum Alanine Aminotransferase (ALT)"
+                        ],
+                        procedure: [
+                            "Step 1: Set automated analyzer parameters or water bath to 37°C.",
+                            "Step 2: Take 1000 µL of working ALT Reagent in a clean test tube.",
+                            "Step 3: Add 100 µL of patient Serum/Plasma (non-hemolyzed).",
+                            "Step 4: Mix immediately and incubate for 1 minute.",
+                            "Step 5: Read initial absorbance at 340 nm. Take subsequent readings at 1, 2, and 3 minutes to calculate the change in absorbance per minute (ΔA/min).",
+                            "Step 6: Multiply ΔA/min by the kinetic factor (usually 1746) to get IU/L."
+                        ],
+                        normalRange: [
+                            "Males: 10 - 40 IU/L",
+                            "Females: 7 - 35 IU/L",
+                            "Pediatric: Varies slightly by age, generally <50 IU/L"
+                        ],
+                        interpretation: "Marked elevations (>10x normal) suggest acute viral hepatitis or severe ischemia. Moderate elevations suggest chronic hepatitis, fatty liver, or drug toxicity.",
+                        qa_qc: "Run Normal and Pathological control serums daily before testing patient samples. Ensure values fall within the ±2SD range on the Levey-Jennings chart."
+                    }
+                }
+            },
+            "Special Chemistry": {
+                "Thyroid Profile": {
+                    "TSH (Thyroid Stimulating Hormone)": {
+                        purpose: "To evaluate thyroid function, diagnose thyroid disorders (hypo/hyperthyroidism), and monitor treatment.",
+                        principle: "Based on Chemiluminescence Immunoassay (CLIA) or ELISA. A sandwich technique is used where TSH in the sample binds to a solid-phase antibody and an enzyme-labeled antibody. The resulting light emission or color change is directly proportional to TSH concentration.",
+                        parameters: [
+                            "Serum TSH concentration"
+                        ],
+                        procedure: [
+                            "Step 1: Bring all assay reagents and patient serum to room temperature (20-25°C).",
+                            "Step 2: Dispense 50 µL of patient serum into the microtiter well/cuvette.",
+                            "Step 3: Add 100 µL of Enzyme Conjugate Reagent.",
+                            "Step 4: Incubate at room temperature for 60 minutes (or as per machine specific protocol).",
+                            "Step 5: Wash the wells 5 times with Wash Buffer to remove unbound material.",
+                            "Step 6: Add 100 µL of Substrate/Chemiluminescent substrate. Read in analyzer."
+                        ],
+                        normalRange: [
+                            "Adults: 0.4 - 4.0 mIU/L",
+                            "Pregnancy (1st Trimester): 0.1 - 2.5 mIU/L",
+                            "Neonates: Generally higher (up to 20 mIU/L in first few days)"
+                        ],
+                        interpretation: "High TSH indicates Primary Hypothyroidism (underactive thyroid). Low TSH indicates Primary Hyperthyroidism (overactive thyroid). Must be correlated with Free T4 levels.",
+                        qa_qc: "Three levels of commercial controls (Low, Normal, High) must be run. Perform routine calibration curve verification."
+                    }
+                }
+            },
+            "Hematology": {
+                "Routine Hematology": {
+                    "Complete Blood Count (CBC)": {
+                        purpose: "To evaluate overall health and detect a wide range of disorders, including anemia, infection, and leukemia.",
+                        principle: "Automated analyzers use Electrical Impedance (Coulter Principle) for cell counting and sizing, and Flow Cytometry/Laser Light Scattering for WBC differentiation. Hemoglobin is measured photometrically using the Cyanmethemoglobin or SLS-Hb method.",
+                        parameters: [
+                            "Red Blood Cell Count (RBC)",
+                            "Hemoglobin (Hb)",
+                            "Hematocrit (Hct / PCV)",
+                            "Mean Corpuscular Volume (MCV)",
+                            "White Blood Cell Count (WBC / TLC)",
+                            "Differential Leukocyte Count (Neutrophils, Lymphocytes, etc.)",
+                            "Platelet Count (PLT)"
+                        ],
+                        procedure: [
+                            "Step 1: Collect 2-3 ml of venous blood in an EDTA (Purple top) tube.",
+                            "Step 2: Gently invert the tube 8-10 times to ensure proper mixing and prevent micro-clots.",
+                            "Step 3: Check the sample for any visible clots using wooden applicator sticks if necessary.",
+                            "Step 4: Feed the barcode or manually enter the patient ID into the 3-part or 5-part hematology analyzer.",
+                            "Step 5: Aspirate the whole blood sample into the machine probe.",
+                            "Step 6: Review the generated results and histograms. If flags are present, prepare a peripheral blood smear for manual microscopy."
+                        ],
+                        normalRange: [
+                            "Hb: Male 13.8 - 17.2 g/dL | Female 12.1 - 15.1 g/dL",
+                            "WBC: 4,500 - 11,000 cells/mcL",
+                            "Platelets: 150,000 - 450,000 /mcL",
+                            "MCV: 80 - 100 fL"
+                        ],
+                        interpretation: "Low Hb/RBC indicates Anemia. High WBC indicates infection, inflammation, or leukemia. Low platelets (Thrombocytopenia) indicate bleeding risk.",
+                        qa_qc: "Run commercial Tri-level controls (Low, Normal, High) daily. Monitor moving averages of patient indices (MCV, MCH, MCHC) using Bull's algorithm."
+                    }
+                }
+            }
+        };
 
-        let loadedFiles = [];
+        // UI Generation Logic
+        const navContainer = document.getElementById('nav-container');
+        const contentDisplay = document.getElementById('content-display');
 
-        // 100% Functioning Drag and Drop
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => {
-            dropZone.addEventListener(e, (ev) => { ev.preventDefault(); ev.stopPropagation(); });
-        });
+        // Function to render the navigation menu
+        function renderNav() {
+            for (const [moduleName, subModules] of Object.entries(labData)) {
+                // Create Module Button
+                const modBtn = document.createElement('button');
+                modBtn.className = 'module-btn';
+                modBtn.textContent = `▶ ${moduleName}`;
+                
+                const subContainer = document.createElement('div');
+                subContainer.className = 'hidden';
 
-        dropZone.addEventListener('dragover', () => dropZone.style.borderColor = 'var(--primary)');
-        dropZone.addEventListener('dragleave', () => dropZone.style.borderColor = 'var(--border)');
+                modBtn.onclick = () => {
+                    subContainer.classList.toggle('hidden');
+                    modBtn.textContent = subContainer.classList.contains('hidden') ? `▶ ${moduleName}` : `▼ ${moduleName}`;
+                };
 
-        dropZone.addEventListener('drop', (e) => {
-            handleFileSelection(e.dataTransfer.files);
-        });
+                // Create Sub-modules
+                for (const [subModuleName, tests] of Object.entries(subModules)) {
+                    const subBtn = document.createElement('button');
+                    subBtn.className = 'sub-btn';
+                    subBtn.textContent = `▶ ${subModuleName}`;
+                    
+                    const testContainer = document.createElement('div');
+                    testContainer.className = 'hidden';
 
-        fileInput.addEventListener('change', (e) => {
-            handleFileSelection(e.target.files);
-        });
+                    subBtn.onclick = () => {
+                        testContainer.classList.toggle('hidden');
+                        subBtn.textContent = testContainer.classList.contains('hidden') ? `▶ ${subModuleName}` : `▼ ${subModuleName}`;
+                    };
 
-        function handleFileSelection(files) {
-            loadedFiles = Array.from(files);
-            statusTitle.innerText = `${loadedFiles.length} Objects Ingested`;
-            fileListDisplay.innerText = loadedFiles.map(f => f.name).join(' | ');
-            logTerminal(`Memory Load: ${loadedFiles.length} files successfully mapped to workspace.`);
-            resultStage.style.display = 'none';
-        }
+                    // Create Tests
+                    for (const [testName, testData] of Object.entries(tests)) {
+                        const testBtn = document.createElement('button');
+                        testBtn.className = 'test-btn';
+                        testBtn.textContent = testName;
+                        
+                        testBtn.onclick = () => {
+                            // Remove active class from all, add to current
+                            document.querySelectorAll('.test-btn').forEach(btn => btn.classList.remove('active-btn'));
+                            testBtn.classList.add('active-btn');
+                            displayContent(moduleName, subModuleName, testName, testData);
+                        };
 
-        function logTerminal(msg) {
-            terminal.style.display = 'block';
-            const line = document.createElement('div');
-            line.className = 'terminal-line';
-            line.innerText = `> ${msg}`;
-            terminal.appendChild(line);
-            terminal.scrollTop = terminal.scrollHeight;
-        }
+                        testContainer.appendChild(testBtn);
+                    }
 
-        // The Brain Logic - 100% Client Side Processing for GitHub
-        async function initiateExecution() {
-            const cmd = cmdInput.value.trim().toLowerCase();
-            if(!cmd) return logTerminal("Error: Intelligence requires a command string.");
+                    subContainer.appendChild(subBtn);
+                    subContainer.appendChild(testContainer);
+                }
 
-            logTerminal(`Initiating Task: ${cmd.toUpperCase()}`);
-            logTerminal("Detecting industry context and required dependencies...");
-            
-            // Simulation logic
-            await new Promise(r => setTimeout(r, 800));
-            logTerminal("Logic synthesis complete. Building adaptive code blocks...");
-            
-            if(loadedFiles.length === 0) {
-                logTerminal("Virtual Command Executed: Generating Intelligence Report...");
-                generateReport(cmd);
-            } else {
-                logTerminal(`Processing ${loadedFiles.length} files through requested logic...`);
-                await processAndZip(cmd);
+                navContainer.appendChild(modBtn);
+                navContainer.appendChild(subContainer);
             }
         }
 
-        // Actual ZIP Generation using JSZip for "100% Working" functionality on GitHub
-        async function processAndZip(command) {
-            const zip = new JSZip();
-            const folder = zip.folder("Sovereign_Result");
+        // Function to generate lists from arrays
+        function generateList(dataArray, isOrdered = false) {
+            if (!dataArray || dataArray.length === 0) return "<p>Data not available.</p>";
+            const listType = isOrdered ? 'ol' : 'ul';
+            let listHTML = `<${listType}>`;
+            dataArray.forEach(item => {
+                listHTML += `<li>${item}</li>`;
+            });
+            listHTML += `</${listType}>`;
+            return listHTML;
+        }
 
-            logTerminal("Constructing output binary... please wait.");
-
-            // Add original files
-            for(let f of loadedFiles) {
-                folder.file(f.name, f);
-            }
-
-            // Generate an AI Action Log based on the command
-            const manifest = `SOVEREIGN BRAIN ACTION LOG\nCOMMAND: ${command.toUpperCase()}\nSTATUS: SUCCESS\nVERSION: 1.0.0-PROTOTYPE\n\nThis package was synthesized autonomously based on your unique instructions. All logic footprints removed.`;
-            folder.file("MANIFEST.txt", manifest);
-
-            const content = await zip.generateAsync({type:"blob"});
-            const url = URL.createObjectURL(content);
+        // Function to display the selected test content
+        function displayContent(mod, sub, test, data) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            downloadBtn.href = url;
-            downloadBtn.innerText = `DOWNLOAD: ${command.toUpperCase()} RESULT`;
-            
-            finishTask();
+            contentDisplay.innerHTML = `
+                <div class="header-container">
+                    <div class="breadcrumb">${mod} / ${sub}</div>
+                    <h1>${test}</h1>
+                </div>
+
+                <div class="data-section">
+                    <h3>🎯 Purpose</h3>
+                    <p>${data.purpose}</p>
+                </div>
+
+                <div class="data-section">
+                    <h3>🔬 Principle</h3>
+                    <p>${data.principle}</p>
+                </div>
+
+                <div class="data-section">
+                    <h3>🧪 Parameters Analyzed</h3>
+                    ${generateList(data.parameters)}
+                </div>
+
+                <div class="data-section">
+                    <h3>📝 Step-by-Step Procedure (with Quantities)</h3>
+                    ${generateList(data.procedure, false)} </div>
+
+                <div class="data-section">
+                    <h3>📊 Normal Reference Ranges</h3>
+                    ${generateList(data.normalRange)}
+                </div>
+
+                <div class="data-section">
+                    <h3>⚕️ Result Interpretation</h3>
+                    <p>${data.interpretation}</p>
+                </div>
+
+                <div class="data-section">
+                    <h3>✅ Quality Control & Assurance (QA/QC)</h3>
+                    <p>${data.qa_qc}</p>
+                </div>
+            `;
         }
 
-        function generateReport(command) {
-            const blob = new Blob([`SYSTEM REPORT: ${command.toUpperCase()}\n\nNo files were provided, so the Brain has generated this strategic blueprint. Ready for mass production.`], {type: 'text/plain'});
-            const url = URL.createObjectURL(blob);
-            downloadBtn.href = url;
-            downloadBtn.download = "Strategic_Blueprint.txt";
-            downloadBtn.innerText = "DOWNLOAD BLUEPRINT";
-            finishTask();
-        }
-
-        function finishTask() {
-            setTimeout(() => {
-                logTerminal("Success: Task completed with Zero-AI footprint protocol.");
-                resultStage.style.display = 'block';
-                cmdInput.value = '';
-            }, 1000);
-        }
-
-        // Terminal Enter Key
-        cmdInput.addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') initiateExecution();
-        });
+        // Initialize App
+        renderNav();
     </script>
 </body>
 </html>
