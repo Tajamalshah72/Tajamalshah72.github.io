@@ -3,390 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Lab Manual - tajamal.me</title>
+    <title>Dentonic Reimagined | Gen Z Brand Identity</title>
     <style>
+        /* Premium Global Styles & CSS Variables */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Poppins:wght@300;400;600&display=swap');
+        
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --sidebar-bg: #1e293b;
-            --sidebar-text: #f8fafc;
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
-            --text-main: #334155;
-            --text-muted: #64748b;
+            --mint-primary: #2bc0a0;
+            --mint-dark: #197a65;
+            --charcoal: #222529;
+            --charcoal-light: #3a3f47;
+            --silver: #e2e8f0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
         }
 
         body {
-            display: flex;
-            height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-        }
-
-        /* Sidebar Styling */
-        #sidebar {
-            width: 300px;
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            overflow-y: auto;
-            padding: 20px 0;
-            transition: 0.3s;
-        }
-
-        #sidebar h2 {
-            padding: 0 20px 20px 20px;
-            font-size: 1.5rem;
-            border-bottom: 1px solid #334155;
-            margin-bottom: 10px;
-        }
-
-        .module-btn, .sub-btn, .test-btn {
-            width: 100%;
-            text-align: left;
-            background: none;
-            border: none;
-            color: var(--sidebar-text);
-            padding: 12px 20px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: 0.2s;
-        }
-
-        .module-btn { font-weight: bold; font-size: 1.1rem; }
-        .sub-btn { padding-left: 40px; color: #cbd5e1; border-left: 2px solid transparent; }
-        .test-btn { padding-left: 60px; color: #94a3b8; font-size: 0.9rem; }
-
-        .module-btn:hover, .sub-btn:hover, .test-btn:hover {
-            background-color: #334155;
-        }
-        
-        .active-btn {
-            background-color: var(--primary);
-            border-left: 4px solid #60a5fa;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--charcoal);
             color: white;
+            overflow-x: hidden;
         }
 
-        .hidden { display: none; }
-
-        /* Main Content Styling */
-        #main-content {
-            flex-grow: 1;
-            padding: 40px;
-            overflow-y: auto;
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
         }
 
-        .header-container {
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        h1 { color: var(--primary-dark); margin-bottom: 10px; }
-        .breadcrumb { color: var(--text-muted); font-size: 0.9rem; }
-
-        /* Card Styling for Data Sections */
-        .data-section {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .data-section h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-        }
-
-        ul, ol {
-            padding-left: 20px;
-            line-height: 1.6;
-        }
-
-        li { margin-bottom: 8px; }
-
-        .welcome-screen {
+        /* Hero Section */
+        .hero {
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%;
             text-align: center;
-            color: var(--text-muted);
+            background: radial-gradient(circle at center, var(--charcoal-light) 0%, var(--charcoal) 100%);
+            border-bottom: 2px solid var(--mint-primary);
+            padding: 20px;
         }
 
-        /* Responsive Design */
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, var(--mint-primary), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--silver);
+            max-width: 600px;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .badge {
+            background: var(--mint-primary);
+            color: var(--charcoal);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Main Grid Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--mint-primary);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+        }
+
+        /* Product Cards */
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(43, 192, 160, 0.15);
+            border-color: var(--mint-primary);
+        }
+
+        /* Simulated Image Placeholders (Until you add real AI images) */
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            font-weight: bold;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* Specific Gradients based on your prompts */
+        .tin-gradient {
+            background: linear-gradient(135deg, #2bc0a0 0%, #197a65 100%);
+            border-radius: 20px; /* Simulating cylindrical tin */
+        }
+
+        .tube-gradient {
+            background: linear-gradient(135deg, #e2e8f0 0%, #a0aec0 100%);
+            border-radius: 5px 50px 50px 5px; /* Simulating tube shape */
+        }
+
+        .sachet-gradient {
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            border-radius: 10px; /* Simulating flat sachet */
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.5); /* Foil effect */
+        }
+
+        .mouthwash-gradient {
+            background: linear-gradient(135deg, rgba(43, 192, 160, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px 30px 10px 10px; /* Simulating bottle */
+        }
+
+        /* Card Content */
+        .card h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            color: var(--mint-primary);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .card p {
+            color: #aaa;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #111;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #333;
+        }
+
         @media (max-width: 768px) {
-            body { flex-direction: column; }
-            #sidebar { width: 100%; height: auto; max-height: 40vh; }
-            #main-content { padding: 20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .product-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div id="sidebar">
-        <h2>Lab Modules</h2>
-        <div id="nav-container"></div>
-    </div>
+    <section class="hero">
+        <span class="badge">Academic Project</span>
+        <h1>Dentonic<br>Reimagined</h1>
+        <p>A strategic shift from traditional mass-market to a premium, Gen Z-focused herbal oral care brand. Same Heritage, New Evolution.</p>
+        <span class="badge" style="background: transparent; border: 1px solid var(--mint-primary); color: var(--mint-primary);">Scroll to view Brand Kit</span>
+    </section>
 
-    <div id="main-content">
-        <div id="content-display">
-            <div class="welcome-screen">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 20px;">
-                    <path d="M9 2v20M15 2v20M2 12h20M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3H5z"/>
-                </svg>
-                <h2>Welcome to the Digital Lab Manual</h2>
-                <p>Select a module from the sidebar to view SOPs, principles, and procedures.</p>
+    <div class="container">
+        <h2 class="section-title">The Complete Product Family</h2>
+        
+        <div class="product-grid">
+
+            <div class="card">
+                <div class="image-placeholder tin-gradient">
+                    [ AI Image: Premium Cylindrical Tin ]
+                </div>
+                <h2>Dentonic Classic Tin</h2>
+                <h3>The Herbal Powerhouse</h3>
+                <div class="tags">
+                    <span class="tag">Minty Teal Design</span>
+                    <span class="tag">Same Heritage</span>
+                    <span class="tag">99.9% Herbal</span>
+                </div>
+                <p>The iconic powder container upgraded with a matte minimalist finish. Features advanced sensitivity protection descriptions and a pure mint flavor profile to attract the modern aesthetic consumer.</p>
             </div>
+
+            <div class="card">
+                <div class="image-placeholder tube-gradient">
+                    [ AI Image: Herbal Toothpaste Tube ]
+                </div>
+                <h2>Dentonic Herbal Paste</h2>
+                <h3>Evolution of Trust - Since 1963</h3>
+                <div class="tags">
+                    <span class="tag">Charcoal & Silver</span>
+                    <span class="tag">Fluoride-Free</span>
+                    <span class="tag">All-Day Fresh</span>
+                </div>
+                <p>A brand new category for Dentonic. A sleek toothpaste tube featuring watercolor-style herbal illustrations of clove and neem. Positioned as a premium daily defense mechanism.</p>
+            </div>
+
+            <div class="card">
+                <div class="image-placeholder sachet-gradient" style="color: white;">
+                    [ AI Image: Portable Sachet Design ]
+                </div>
+                <h2>Dentonic GO Sachet</h2>
+                <h3>Your Pocket Doctor</h3>
+                <div class="tags">
+                    <span class="tag">Electric Blue Foil</span>
+                    <span class="tag">Travel Friendly</span>
+                    <span class="tag">Ice Mint Flavor</span>
+                </div>
+                <p>Bold, vibrant, and designed for Gen Z on the move. The sachet brings the legendary protection of Dentonic into a fast-paced, modern lifestyle format with eye-catching foil gradients.</p>
+            </div>
+
+            <div class="card">
+                <div class="image-placeholder mouthwash-gradient" style="color: white;">
+                    [ AI Image: Glass Mouthwash Bottle ]
+                </div>
+                <h2>Dentonic Breath Fresh</h2>
+                <h3>Zero Alcohol Formula</h3>
+                <div class="tags">
+                    <span class="tag">Crystal Clear</span>
+                    <span class="tag">Eucalyptus Extract</span>
+                    <span class="tag">Germ Protection</span>
+                </div>
+                <p>The ultimate premium addition. A beautifully crafted transparent bottle showcasing the clear, herbal liquid inside. Features minimal typography and splash graphics for a high-end pharmacy look.</p>
+            </div>
+
         </div>
     </div>
 
-    <script>
-        // Data Structure holding all modules, sub-modules, and specific tests
-        const labData = {
-            "Microbiology": {
-                "Bacteriology": {
-                    "Gram Stain": {
-                        purpose: "To differentiate bacterial species into two large groups (gram-positive and gram-negative) based on the physical properties of their cell walls.",
-                        principle: "Gram-positive bacteria retain the primary stain (crystal violet) due to a thick peptidoglycan layer. Gram-negative bacteria lose the primary stain during decolorization and take up the counterstain (safranin) due to a thinner peptidoglycan layer and high lipid content.",
-                        parameters: [
-                            "Gram Reaction (Positive/Negative)",
-                            "Morphology (Cocci, Bacilli, Coccobacilli)",
-                            "Arrangement (Clusters, Chains, Pairs)"
-                        ],
-                        procedure: [
-                            "Step 1: Prepare a thin smear of the sample on a clean glass slide and heat fix it.",
-                            "Step 2: Flood the slide with Crystal Violet (Primary Stain) for 1 minute, then wash with water.",
-                            "Step 3: Flood with Gram's Iodine (Mordant) for 1 minute, then wash with water.",
-                            "Step 4: Decolorize rapidly with 95% Ethanol or Acetone for 10-15 seconds, wash immediately.",
-                            "Step 5: Flood with Safranin (Counterstain) for 1 minute, wash, air dry, and observe under 100x oil immersion."
-                        ],
-                        normalRange: [
-                            "Sterile body fluids (e.g., CSF, Blood): No microorganisms seen.",
-                            "Non-sterile sites (e.g., Throat, Stool): Normal flora present."
-                        ],
-                        interpretation: "Purple/Blue cells indicate Gram-Positive. Pink/Red cells indicate Gram-Negative. The presence of WBCs (pus cells) indicates inflammation/infection.",
-                        qa_qc: "Run known control slides weekly. Use Staphylococcus aureus as a Gram-positive control and Escherichia coli as a Gram-negative control. Check stains for precipitates."
-                    }
-                }
-            },
-            "Routine Chemistry": {
-                "Liver Function Tests (LFTs)": {
-                    "ALT (SGPT)": {
-                        purpose: "To screen for and monitor liver damage or disease.",
-                        principle: "ALT catalyzes the transfer of an amino group from alanine to alpha-ketoglutarate, forming pyruvate and glutamate. Pyruvate is then reduced by NADH in the presence of Lactate Dehydrogenase (LDH). The rate of decrease in absorbance at 340 nm is directly proportional to ALT activity.",
-                        parameters: [
-                            "Serum Alanine Aminotransferase (ALT)"
-                        ],
-                        procedure: [
-                            "Step 1: Set automated analyzer parameters or water bath to 37°C.",
-                            "Step 2: Take 1000 µL of working ALT Reagent in a clean test tube.",
-                            "Step 3: Add 100 µL of patient Serum/Plasma (non-hemolyzed).",
-                            "Step 4: Mix immediately and incubate for 1 minute.",
-                            "Step 5: Read initial absorbance at 340 nm. Take subsequent readings at 1, 2, and 3 minutes to calculate the change in absorbance per minute (ΔA/min).",
-                            "Step 6: Multiply ΔA/min by the kinetic factor (usually 1746) to get IU/L."
-                        ],
-                        normalRange: [
-                            "Males: 10 - 40 IU/L",
-                            "Females: 7 - 35 IU/L",
-                            "Pediatric: Varies slightly by age, generally <50 IU/L"
-                        ],
-                        interpretation: "Marked elevations (>10x normal) suggest acute viral hepatitis or severe ischemia. Moderate elevations suggest chronic hepatitis, fatty liver, or drug toxicity.",
-                        qa_qc: "Run Normal and Pathological control serums daily before testing patient samples. Ensure values fall within the ±2SD range on the Levey-Jennings chart."
-                    }
-                }
-            },
-            "Special Chemistry": {
-                "Thyroid Profile": {
-                    "TSH (Thyroid Stimulating Hormone)": {
-                        purpose: "To evaluate thyroid function, diagnose thyroid disorders (hypo/hyperthyroidism), and monitor treatment.",
-                        principle: "Based on Chemiluminescence Immunoassay (CLIA) or ELISA. A sandwich technique is used where TSH in the sample binds to a solid-phase antibody and an enzyme-labeled antibody. The resulting light emission or color change is directly proportional to TSH concentration.",
-                        parameters: [
-                            "Serum TSH concentration"
-                        ],
-                        procedure: [
-                            "Step 1: Bring all assay reagents and patient serum to room temperature (20-25°C).",
-                            "Step 2: Dispense 50 µL of patient serum into the microtiter well/cuvette.",
-                            "Step 3: Add 100 µL of Enzyme Conjugate Reagent.",
-                            "Step 4: Incubate at room temperature for 60 minutes (or as per machine specific protocol).",
-                            "Step 5: Wash the wells 5 times with Wash Buffer to remove unbound material.",
-                            "Step 6: Add 100 µL of Substrate/Chemiluminescent substrate. Read in analyzer."
-                        ],
-                        normalRange: [
-                            "Adults: 0.4 - 4.0 mIU/L",
-                            "Pregnancy (1st Trimester): 0.1 - 2.5 mIU/L",
-                            "Neonates: Generally higher (up to 20 mIU/L in first few days)"
-                        ],
-                        interpretation: "High TSH indicates Primary Hypothyroidism (underactive thyroid). Low TSH indicates Primary Hyperthyroidism (overactive thyroid). Must be correlated with Free T4 levels.",
-                        qa_qc: "Three levels of commercial controls (Low, Normal, High) must be run. Perform routine calibration curve verification."
-                    }
-                }
-            },
-            "Hematology": {
-                "Routine Hematology": {
-                    "Complete Blood Count (CBC)": {
-                        purpose: "To evaluate overall health and detect a wide range of disorders, including anemia, infection, and leukemia.",
-                        principle: "Automated analyzers use Electrical Impedance (Coulter Principle) for cell counting and sizing, and Flow Cytometry/Laser Light Scattering for WBC differentiation. Hemoglobin is measured photometrically using the Cyanmethemoglobin or SLS-Hb method.",
-                        parameters: [
-                            "Red Blood Cell Count (RBC)",
-                            "Hemoglobin (Hb)",
-                            "Hematocrit (Hct / PCV)",
-                            "Mean Corpuscular Volume (MCV)",
-                            "White Blood Cell Count (WBC / TLC)",
-                            "Differential Leukocyte Count (Neutrophils, Lymphocytes, etc.)",
-                            "Platelet Count (PLT)"
-                        ],
-                        procedure: [
-                            "Step 1: Collect 2-3 ml of venous blood in an EDTA (Purple top) tube.",
-                            "Step 2: Gently invert the tube 8-10 times to ensure proper mixing and prevent micro-clots.",
-                            "Step 3: Check the sample for any visible clots using wooden applicator sticks if necessary.",
-                            "Step 4: Feed the barcode or manually enter the patient ID into the 3-part or 5-part hematology analyzer.",
-                            "Step 5: Aspirate the whole blood sample into the machine probe.",
-                            "Step 6: Review the generated results and histograms. If flags are present, prepare a peripheral blood smear for manual microscopy."
-                        ],
-                        normalRange: [
-                            "Hb: Male 13.8 - 17.2 g/dL | Female 12.1 - 15.1 g/dL",
-                            "WBC: 4,500 - 11,000 cells/mcL",
-                            "Platelets: 150,000 - 450,000 /mcL",
-                            "MCV: 80 - 100 fL"
-                        ],
-                        interpretation: "Low Hb/RBC indicates Anemia. High WBC indicates infection, inflammation, or leukemia. Low platelets (Thrombocytopenia) indicate bleeding risk.",
-                        qa_qc: "Run commercial Tri-level controls (Low, Normal, High) daily. Monitor moving averages of patient indices (MCV, MCH, MCHC) using Bull's algorithm."
-                    }
-                }
-            }
-        };
+    <footer>
+        <p>Design & Rebranding Strategy by UI/UX Design Student</p>
+        <p style="margin-top: 10px; font-size: 0.8rem; color: #444;">Tools: Adobe Illustrator, GitHub Pages, AI Generation</p>
+    </footer>
 
-        // UI Generation Logic
-        const navContainer = document.getElementById('nav-container');
-        const contentDisplay = document.getElementById('content-display');
-
-        // Function to render the navigation menu
-        function renderNav() {
-            for (const [moduleName, subModules] of Object.entries(labData)) {
-                // Create Module Button
-                const modBtn = document.createElement('button');
-                modBtn.className = 'module-btn';
-                modBtn.textContent = `▶ ${moduleName}`;
-                
-                const subContainer = document.createElement('div');
-                subContainer.className = 'hidden';
-
-                modBtn.onclick = () => {
-                    subContainer.classList.toggle('hidden');
-                    modBtn.textContent = subContainer.classList.contains('hidden') ? `▶ ${moduleName}` : `▼ ${moduleName}`;
-                };
-
-                // Create Sub-modules
-                for (const [subModuleName, tests] of Object.entries(subModules)) {
-                    const subBtn = document.createElement('button');
-                    subBtn.className = 'sub-btn';
-                    subBtn.textContent = `▶ ${subModuleName}`;
-                    
-                    const testContainer = document.createElement('div');
-                    testContainer.className = 'hidden';
-
-                    subBtn.onclick = () => {
-                        testContainer.classList.toggle('hidden');
-                        subBtn.textContent = testContainer.classList.contains('hidden') ? `▶ ${subModuleName}` : `▼ ${subModuleName}`;
-                    };
-
-                    // Create Tests
-                    for (const [testName, testData] of Object.entries(tests)) {
-                        const testBtn = document.createElement('button');
-                        testBtn.className = 'test-btn';
-                        testBtn.textContent = testName;
-                        
-                        testBtn.onclick = () => {
-                            // Remove active class from all, add to current
-                            document.querySelectorAll('.test-btn').forEach(btn => btn.classList.remove('active-btn'));
-                            testBtn.classList.add('active-btn');
-                            displayContent(moduleName, subModuleName, testName, testData);
-                        };
-
-                        testContainer.appendChild(testBtn);
-                    }
-
-                    subContainer.appendChild(subBtn);
-                    subContainer.appendChild(testContainer);
-                }
-
-                navContainer.appendChild(modBtn);
-                navContainer.appendChild(subContainer);
-            }
-        }
-
-        // Function to generate lists from arrays
-        function generateList(dataArray, isOrdered = false) {
-            if (!dataArray || dataArray.length === 0) return "<p>Data not available.</p>";
-            const listType = isOrdered ? 'ol' : 'ul';
-            let listHTML = `<${listType}>`;
-            dataArray.forEach(item => {
-                listHTML += `<li>${item}</li>`;
-            });
-            listHTML += `</${listType}>`;
-            return listHTML;
-        }
-
-        // Function to display the selected test content
-        function displayContent(mod, sub, test, data) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            contentDisplay.innerHTML = `
-                <div class="header-container">
-                    <div class="breadcrumb">${mod} / ${sub}</div>
-                    <h1>${test}</h1>
-                </div>
-
-                <div class="data-section">
-                    <h3>🎯 Purpose</h3>
-                    <p>${data.purpose}</p>
-                </div>
-
-                <div class="data-section">
-                    <h3>🔬 Principle</h3>
-                    <p>${data.principle}</p>
-                </div>
-
-                <div class="data-section">
-                    <h3>🧪 Parameters Analyzed</h3>
-                    ${generateList(data.parameters)}
-                </div>
-
-                <div class="data-section">
-                    <h3>📝 Step-by-Step Procedure (with Quantities)</h3>
-                    ${generateList(data.procedure, false)} </div>
-
-                <div class="data-section">
-                    <h3>📊 Normal Reference Ranges</h3>
-                    ${generateList(data.normalRange)}
-                </div>
-
-                <div class="data-section">
-                    <h3>⚕️ Result Interpretation</h3>
-                    <p>${data.interpretation}</p>
-                </div>
-
-                <div class="data-section">
-                    <h3>✅ Quality Control & Assurance (QA/QC)</h3>
-                    <p>${data.qa_qc}</p>
-                </div>
-            `;
-        }
-
-        // Initialize App
-        renderNav();
-    </script>
 </body>
 </html>
