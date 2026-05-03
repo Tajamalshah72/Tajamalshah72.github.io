@@ -3,693 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dentonic Reimagined | Complete Brand Identity</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Dentonic Digital Ecosystem | CSS & SVG Framework</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* =========================================
-           ROOT VARIABLES & GLOBAL STYLES
-           ========================================= */
         :root {
-            --primary: #2bc0a0;
-            --primary-glow: rgba(43, 192, 160, 0.6);
-            --secondary: #197a65;
-            --dark-bg: #0f1115;
-            --card-bg: #1a1d24;
-            --text-light: #f8f9fa;
-            --text-muted: #a0aec0;
-            --accent: #00c6ff;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --mint: #2bc0a0;
+            --mint-dark: #197a65;
+            --charcoal: #1a1d24;
+            --silver: #e2e8f0;
+            --accent-blue: #00c6ff;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
+            background-color: #0d0f12;
+            color: white;
             font-family: 'Poppins', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        /* =========================================
-           CUSTOM CURSOR
-           ========================================= */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--primary);
-            position: fixed;
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-        }
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--primary);
-            position: fixed;
-            border-radius: 50%;
-            z-index: 9998;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s;
-        }
-
-        /* =========================================
-           NAVIGATION BAR
-           ========================================= */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(15, 17, 21, 0.85);
-            backdrop-filter: blur(15px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            background: linear-gradient(90deg, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        /* =========================================
-           HERO SECTION
-           ========================================= */
-        .hero {
-            height: 100vh;
+        /* --- PRE-LOADER / INTRO --- */
+        .intro-header {
+            height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: radial-gradient(circle, #1a1d24 0%, #0d0f12 100%);
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            padding: 0 20px;
+            border-bottom: 1px solid var(--mint);
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80vw;
-            height: 80vw;
-            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            animation: pulse 6s infinite alternate;
+        .intro-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(to right, var(--mint), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
-            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.7; }
+        /* --- MASTER GRID --- */
+        .grid-system {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            padding: 80px 10%;
         }
 
-        .badge-main {
-            background: rgba(43, 192, 160, 0.15);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 8px 25px;
+        .product-card {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 30px;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            animation: fadeInDown 1s ease;
-        }
-
-        .hero h1 {
-            font-size: 5.5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            letter-spacing: -2px;
-        }
-
-        .hero h1 span {
-            color: transparent;
-            -webkit-text-stroke: 2px var(--text-light);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 650px;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-
-        .scroll-down {
-            position: absolute;
-            bottom: 40px;
-            animation: bounce 2s infinite;
-            color: var(--primary);
-            font-size: 2rem;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
-        }
-
-        /* =========================================
-           BRAND STRATEGY SECTION
-           ========================================= */
-        .section {
-            padding: 100px 10%;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .section-header {
+            padding: 40px;
             text-align: center;
-            margin-bottom: 80px;
+            transition: 0.5s ease;
+            position: relative;
         }
 
-        .section-header h2 {
-            font-size: 3.2rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .section-header p {
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto;
-            font-size: 1.15rem;
-        }
-
-        .strategy-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .strategy-card {
-            background: var(--card-bg);
-            padding: 45px;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            text-align: left;
-            transition: var(--transition);
-        }
-
-        .strategy-card:hover {
+        .product-card:hover {
             transform: translateY(-15px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 40px rgba(43, 192, 160, 0.15);
+            border-color: var(--mint);
+            background: rgba(43, 192, 160, 0.05);
         }
 
-        .strategy-card i {
-            font-size: 2.8rem;
-            color: var(--primary);
-            margin-bottom: 25px;
-        }
-
-        .strategy-card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 15px;
-        }
-
-        .strategy-card p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        /* =========================================
-           PRODUCT SHOWCASE SECTION
-           ========================================= */
-        .product-showcase {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 60px;
-        }
-
-        .product-item {
-            background: var(--card-bg);
-            border-radius: 25px;
-            overflow: hidden;
-            border: 1px solid var(--glass-border);
-            transition: var(--transition);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .product-item:hover {
-            border-color: var(--accent);
-            box-shadow: 0 20px 50px rgba(0, 198, 255, 0.15);
-            transform: scale(1.02);
-        }
-
-        /* Real Images replacing placeholders */
-        .product-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-bottom: 4px solid var(--primary);
-            transition: var(--transition);
-        }
-
-        .product-item:hover .product-image {
-            transform: scale(1.05);
-        }
-
-        .img-wrapper {
-            overflow: hidden;
-        }
-
-        .product-info {
-            padding: 45px;
-            position: relative;
-            background: linear-gradient(to bottom, var(--card-bg), #111317);
-        }
-
-        .product-category {
-            color: var(--primary);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 2.5px;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .product-info h3 {
-            font-size: 2.4rem;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        .product-info p {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            font-size: 1.05rem;
-        }
-
-        .feature-list {
-            list-style: none;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .feature-list li {
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #ccc;
-        }
-
-        .feature-list li i {
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-
-        /* =========================================
-           PROCESS / IMPLEMENTATION SECTION
-           ========================================= */
-        .timeline {
-            position: relative;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 3px;
-            background: var(--glass-border);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1.5px;
-        }
-
-        .timeline-item {
-            padding: 20px 50px;
-            position: relative;
-            background-color: inherit;
-            width: 50%;
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            right: -12px;
-            background-color: var(--dark-bg);
-            border: 5px solid var(--primary);
-            top: 30px;
-            border-radius: 50%;
-            z-index: 1;
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-
-        .left { left: 0; }
-        .right { left: 50%; }
+        /* --- CSS GENERATED PRODUCTS --- */
         
-        .right::after { left: -12px; }
-
-        .content {
-            padding: 35px;
-            background-color: var(--card-bg);
-            position: relative;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            transition: var(--transition);
-        }
-
-        .content:hover {
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(43, 192, 160, 0.1);
-        }
-
-        .content h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.5rem;}
-        .content p { color: var(--text-muted); font-size: 1rem; }
-
-        /* =========================================
-           FOOTER
-           ========================================= */
-        footer {
-            background: #08090a;
-            padding: 80px 20px 40px;
-            text-align: center;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .footer-logo {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #fff;
-            margin-bottom: 25px;
-            letter-spacing: 2px;
-        }
-
-        .social-links {
+        .visual-area {
+            height: 350px;
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin-bottom: 40px;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
-        .social-links a {
-            color: var(--text-muted);
+        /* 1. DIGITAL TIN (Powder) */
+        .css-tin {
+            width: 160px;
+            height: 220px;
+            background: linear-gradient(135deg, var(--mint-dark) 0%, var(--mint) 50%, var(--mint-dark) 100%);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .css-tin::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            width: 170px;
+            height: 35px;
+            background: linear-gradient(to bottom, #f0f0f0, #a0aec0);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .tin-content {
+            border: 1px solid rgba(255,255,255,0.3);
+            width: 80%;
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        /* 2. DIGITAL TUBE (Paste) */
+        .css-tube {
+            width: 280px;
+            height: 80px;
+            background: linear-gradient(to bottom, #eee, #fff, #ddd);
+            border-radius: 5px 40px 40px 5px;
+            position: relative;
+            transform: rotate(-10deg);
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+        }
+
+        .css-tube::after {
+            content: '';
+            position: absolute;
+            left: -15px;
+            width: 25px;
+            height: 50px;
+            background: var(--mint-dark);
+            border-radius: 5px;
+        }
+
+        .tube-label {
+            color: var(--mint-dark);
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        /* 3. DIGITAL SACHET (Foil) */
+        .css-sachet {
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0, 198, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .css-sachet::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -150%; }
+            100% { left: 150%; }
+        }
+
+        /* 4. DIGITAL BOTTLE (Mouthwash) */
+        .css-bottle {
+            width: 120px;
+            height: 240px;
+            background: rgba(43, 192, 160, 0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px 30px 15px 15px;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .css-bottle::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 35px;
+            background: #333;
+            border-radius: 5px;
+        }
+
+        /* --- TEXT STYLES --- */
+        .card-info h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--mint);
+            margin-bottom: 10px;
             font-size: 1.8rem;
-            transition: var(--transition);
         }
 
-        .social-links a:hover {
-            color: var(--primary);
-            transform: translateY(-8px);
+        .card-info p {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 20px;
         }
 
-        /* Responsive Design */
-        @media screen and (max-width: 900px) {
-            .hero h1 { font-size: 3.5rem; }
-            .strategy-grid { grid-template-columns: 1fr; }
-            .product-showcase { grid-template-columns: 1fr; }
-            .timeline::after { left: 31px; }
-            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
-            .left::after, .right::after { left: 19px; }
-            .right { left: 0%; }
+        .feature-tag {
+            display: inline-block;
+            background: rgba(43, 192, 160, 0.1);
+            color: var(--mint);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin: 5px;
+            border: 1px solid var(--mint);
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+            border-top: 1px solid #333;
+            color: #666;
         }
     </style>
 </head>
 <body>
 
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-outline" id="cursor-outline"></div>
-
-    <nav>
-        <div class="logo">DENTONIC.</div>
-        <ul class="nav-links">
-            <li><a href="#strategy">Strategy</a></li>
-            <li><a href="#products">Products</a></li>
-            <li><a href="#process">Process</a></li>
-        </ul>
-    </nav>
-
-    <section class="hero">
-        <div class="badge-main">Official Rebranding Project</div>
-        <h1>THE NEW <span>ERA</span> OF<br>HERBAL CARE.</h1>
-        <p>Transforming a traditional tooth powder into a premium, Gen Z-focused global oral care ecosystem. Complete redesign featuring physical packaging and visual assets.</p>
-        <a href="#products" style="text-decoration: none;">
-            <div class="scroll-down">
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-        </a>
+    <section class="intro-header">
+        <p style="letter-spacing: 5px; color: var(--mint);">GEN Z REBRANDING</p>
+        <h1>DENTONIC DIGITAL</h1>
+        <p style="max-width: 600px; margin-top: 20px; font-weight: 300;">یہ پورٹ فولیو خالص HTML/CSS کوڈ سے تیار کیا گیا ہے تاکہ ہر مصنوعہ کی "ڈیجیٹل لک" اور "برانڈ ایسنس" کو بغیر کسی بیرونی تصویر کے دکھایا جا سکے۔</p>
     </section>
 
-    <section id="strategy" class="section">
-        <div class="section-header">
-            <h2>The Strategy Shift</h2>
-            <p>Moving away from the chemical mass market aesthetic to a minimalist, trustworthy, and organic visual language.</p>
-        </div>
-        <div class="strategy-grid">
-            <div class="strategy-card">
-                <i class="fa-solid fa-seedling"></i>
-                <h3>Organic Visuals</h3>
-                <p>Replacing harsh yellows with soothing mint greens, teals, and charcoal to emphasize the 99.9% herbal and natural ingredients.</p>
-            </div>
-            <div class="strategy-card">
-                <i class="fa-solid fa-cubes"></i>
-                <h3>Product Expansion</h3>
-                <p>Evolving from a single powder tin to a complete oral care family: Tubes, On-the-go Sachets, and Premium Mouthwash.</p>
-            </div>
-            <div class="strategy-card">
-                <i class="fa-solid fa-crosshairs"></i>
-                <h3>Target Audience</h3>
-                <p>Specifically designed for Gen Z and Millennials who value transparency, aesthetic bathroom shelf appeal, and organic formulas.</p>
-            </div>
-        </div>
-    </section>
+    <div class="grid-system">
 
-    <section id="products" class="section" style="background: var(--glass-bg);">
-        <div class="section-header">
-            <h2>The Product Family</h2>
-            <p>Four distinct packaging executions derived from the new modern design system.</p>
-        </div>
-        
-        <div class="product-showcase">
-            <div class="product-item">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=1000&auto=format&fit=crop" alt="Dentonic Classic Tin Mockup" class="product-image">
-                </div>
-                <div class="product-info">
-                    <span class="product-category">Flagship Product</span>
-                    <h3>The Classic Tin</h3>
-                    <p>The iconic powder container redesigned with a sleek matte finish, utilizing the 'Minty Teal & Silver' gradient base.</p>
-                    <ul class="feature-list">
-                        <li><i class="fa-solid fa-check-circle"></i> Minimalist Logo</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Mint Fresh Icons</li>
-                        <li><i class="fa-solid fa-check-circle"></i> 'Same Heritage' Seal</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Sensitivity Guard</li>
-                    </ul>
+        <div class="product-card">
+            <div class="visual-area">
+                <div class="css-tin">
+                    <div class="tin-content">
+                        <span style="font-weight: 900; font-size: 0.8rem; letter-spacing: 2px;">DENTONIC</span>
+                        <hr style="width: 50%; margin: 5px 0; opacity: 0.5;">
+                        <span style="font-size: 0.5rem;">HERBAL POWER</span>
+                    </div>
                 </div>
             </div>
-
-            <div class="product-item">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1000&auto=format&fit=crop" alt="Dentonic Herbal Tube Mockup" class="product-image">
-                </div>
-                <div class="product-info">
-                    <span class="product-category">New Category</span>
-                    <h3>Herbal Paste Tube</h3>
-                    <p>A new horizontal tube layout featuring elegant botanical illustrations of aloe vera and clove on a premium charcoal base.</p>
-                    <ul class="feature-list">
-                        <li><i class="fa-solid fa-check-circle"></i> Horizontal Typography</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Fluoride-Free Seal</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Botanical Vectors</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Deep Grey Shading</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="product-item">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1624453960714-343202e811bc?q=80&w=1000&auto=format&fit=crop" alt="Dentonic Sachet Mockup" class="product-image" style="border-bottom-color: var(--accent);">
-                </div>
-                <div class="product-info">
-                    <span class="product-category">On-The-Go</span>
-                    <h3>Dentonic GO Sachet</h3>
-                    <p>Travel-friendly, vibrant sachet packaging with electric foil gradients and bold, sporty typography for instant freshness.</p>
-                    <ul class="feature-list">
-                        <li><i class="fa-solid fa-check-circle"></i> Foil Gradients</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Pocket Doctor Badge</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Ice Mint Accents</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Travel Optimized</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="product-item">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1000&auto=format&fit=crop" alt="Dentonic Mouthwash Bottle" class="product-image" style="border-bottom-color: #a0aec0;">
-                </div>
-                <div class="product-info">
-                    <span class="product-category">Premium Liquid</span>
-                    <h3>Breath Fresh Bottle</h3>
-                    <p>A beautifully crafted transparent glass bottle showing the clear liquid inside, featuring minimal wrap labels and herbal graphics.</p>
-                    <ul class="feature-list">
-                        <li><i class="fa-solid fa-check-circle"></i> Transparent Labeling</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Zero Alcohol Badge</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Eucalyptus Details</li>
-                        <li><i class="fa-solid fa-check-circle"></i> Glass Reflections</li>
-                    </ul>
-                </div>
+            <div class="card-info">
+                <h2>The Master Tin</h2>
+                <div class="feature-tag">Minty Teal</div>
+                <div class="feature-tag">Cylindrical</div>
+                <p>ری ڈیزائن کردہ پاؤڈر ڈبی جو اب السٹریٹر میں بنائے گئے ویکٹر لوگوز اور ہربل گرافکس کے ساتھ اس کوڈ میں فٹ کی گئی ہے۔</p>
             </div>
         </div>
-    </section>
 
-    <section id="process" class="section">
-        <div class="section-header">
-            <h2>The Technical Process</h2>
-            <p>From conceptualization to final physical prototype creation.</p>
-        </div>
-        
-        <div class="timeline">
-            <div class="timeline-item left">
-                <div class="content">
-                    <h3>1. Asset Generation</h3>
-                    <p>Crafting detailed master concepts for layout bases, typography variations, and high-quality herbal assets.</p>
+        <div class="product-card">
+            <div class="visual-area">
+                <div class="css-tube">
+                    <div class="tube-label">DENTONIC</div>
                 </div>
             </div>
-            <div class="timeline-item right">
-                <div class="content">
-                    <h3>2. Vector Tracing & Editing</h3>
-                    <p>Importing flat assets into Adobe Illustrator. Using Image Trace and the pen tool to clean up logos and flavor icons into scalable vectors.</p>
-                </div>
-            </div>
-            <div class="timeline-item left">
-                <div class="content">
-                    <h3>3. Dieline Application</h3>
-                    <p>Setting up exact print measurements. Applying the vector assets over the designated dielines for the packaging.</p>
-                </div>
-            </div>
-            <div class="timeline-item right">
-                <div class="content">
-                    <h3>4. Physical Prototyping</h3>
-                    <p>Sanding and spray-painting blank physical bottles with Plastic Primer and Acrylic paint. Applying custom printed transparent sticker labels.</p>
-                </div>
+            <div class="card-info">
+                <h2>Herbal Paste</h2>
+                <div class="feature-tag">Matte White</div>
+                <div class="feature-tag">Aloe & Neem</div>
+                <p>ڈینٹونک کی پہلی ٹوتھ پیسٹ ٹیوب جو کولگیٹ کے روایتی انداز کو جدید ہربل تھیم میں بدل دیتی ہے۔</p>
             </div>
         </div>
-    </section>
+
+        <div class="product-card">
+            <div class="visual-area">
+                <div class="css-sachet">
+                    <div style="padding: 20px; font-weight: 900; font-size: 1.2rem;">GO</div>
+                </div>
+            </div>
+            <div class="card-info">
+                <h2>Travel Sachet</h2>
+                <div class="feature-tag">Foil Gradient</div>
+                <div class="feature-tag">Pocket Size</div>
+                <p>نوجوان نسل کے لیے "On-the-go" حل۔ اس میں چمکدار فوائل ایفیکٹ کوڈ کے ذریعے اینیمیٹ کیا گیا ہے۔</p>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="visual-area">
+                <div class="css-bottle"></div>
+            </div>
+            <div class="card-info">
+                <h2>Breath Fresh</h2>
+                <div class="feature-tag">Glass Effect</div>
+                <div class="feature-tag">24H Shield</div>
+                <p>شفاف بوتل جو ڈینٹونک کو ایک مہنگے اور بین الاقوامی بیوٹی برانڈ کے طور پر پیش کرتی ہے۔</p>
+            </div>
+        </div>
+
+    </div>
 
     <footer>
-        <div class="footer-logo">DENTONIC.</div>
-        <div class="social-links">
-            <a href="#"><i class="fa-brands fa-behance"></i></a>
-            <a href="#"><i class="fa-brands fa-github"></i></a>
-            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-        </div>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 20px;">&copy; 2026 Academic Rebranding Project | Designed for Design Technologies.</p>
+        <p>&copy; 2026 Academic Project | Crafted with HTML, CSS & Brand Strategy</p>
     </footer>
 
-    <script>
-        // Custom Cursor Logic
-        const cursorDot = document.getElementById("cursor-dot");
-        const cursorOutline = document.getElementById("cursor-outline");
-
-        window.addEventListener("mousemove", function(e) {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
-        });
-
-        // Add hover effect to links and interactive elements
-        const interactiveElements = document.querySelectorAll('a, .product-item, .strategy-card');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursorOutline.style.width = '60px';
-                cursorOutline.style.height = '60px';
-                cursorOutline.style.backgroundColor = 'rgba(43, 192, 160, 0.15)';
-                cursorOutline.style.borderColor = 'rgba(43, 192, 160, 0.5)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursorOutline.style.width = '40px';
-                cursorOutline.style.height = '40px';
-                cursorOutline.style.backgroundColor = 'transparent';
-                cursorOutline.style.borderColor = 'var(--primary)';
-            });
-        });
-
-        // Scroll Reveal Animation
-        const revealElements = document.querySelectorAll('.section-header, .strategy-card, .product-item, .timeline-item');
-        
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            revealElements.forEach(el => {
-                const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) {
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                }
-            });
-        };
-
-        // Initialize elements with zero opacity for animation
-        revealElements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(40px)';
-            el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)';
-        });
-
-        window.addEventListener('scroll', revealOnScroll);
-        // Trigger once on load
-        revealOnScroll();
-    </script>
 </body>
 </html>
