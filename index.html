@@ -1025,6 +1025,67 @@
 
 
 
+    /* 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 */
+    /* ⚠️⚠️⚠️ PASTE PHASE 7 CODE EXACTLY BELOW THIS LINE ⚠️⚠️⚠️ */
+    /* 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼 */
+    
+    database.phase7_research = {
+        thesisRoadmap: {
+            name: "Complete Thesis / Research Roadmap",
+            inputs: [
+                { id: "topic", label: "Research Topic / Target Gene", default: "e.g., NDM & VIM genes in E. coli" },
+                { id: "sample", label: "Sample Type", default: "e.g., Clinical Urine Isolates" },
+                { id: "weeks", label: "Total Time Available (Weeks)", default: 24 }
+            ],
+            calculate: (inputs) => {
+                let t = inputs.topic;
+                let s = inputs.sample;
+                let w = parseInt(inputs.weeks);
+                
+                // Breaking down the time dynamically
+                let litWeeks = Math.max(1, Math.floor(w * 0.15));
+                let collectWeeks = Math.max(1, Math.floor(w * 0.25));
+                let labWeeks = Math.max(1, Math.floor(w * 0.30));
+                let writeWeeks = Math.max(1, Math.floor(w * 0.20));
+                let defenseWeeks = Math.max(1, Math.floor(w * 0.10));
+
+                return [
+                    `<span class="highlight">Phase 1: Synopsis & Literature Review (Allocated: ${litWeeks} weeks)</span> <i class="fas fa-book-open" style="color: #3b82f6; margin-left: 10px;"></i>`,
+                    `Conduct comprehensive literature search on <span class="highlight">${t}</span>.`,
+                    `Define clear objectives, hypothesis, and methodology.`,
+                    `Submit research synopsis to the Ethical Review Board / University Committee for approval.`,
+                    
+                    `<span class="highlight">Phase 2: Sample Collection & Storage (Allocated: ${collectWeeks} weeks)</span> <i class="fas fa-snowflake" style="color: #06b6d4; margin-left: 10px;"></i>`,
+                    `Gather <span class="highlight">${s}</span> from designated hospital wards or lab archives.`,
+                    `Ensure proper transport media and cold chain maintenance.`,
+                    `Log all patient demographics and sample details into a master Excel database.`,
+                    
+                    `<span class="highlight">Phase 3: Microbiological Bench Work (Allocated: ${labWeeks} weeks)</span> <i class="fas fa-flask fa-shake" style="color: #10b981; margin-left: 10px;"></i>`,
+                    `Perform primary culture, Gram staining, and biochemical identification (Catalase, Oxidase, TSI, Indole, etc.) on all <span class="highlight">${s}</span>.`,
+                    `Perform Antimicrobial Susceptibility Testing (AST) using Kirby-Bauer disk diffusion.`,
+                    `Identify and isolate multi-drug resistant (MDR) strains relevant to <span class="highlight">${t}</span>.`,
+                    `Extract DNA using spin-column kits and quantify purity/concentration.`,
+                    `Run Molecular tests (Multiplex PCR, Gel Electrophoresis) to detect specific target markers.`,
+                    
+                    `<span class="highlight">Phase 4: Data Analysis & Statistics (Allocated: ${writeWeeks} weeks)</span> <i class="fas fa-chart-pie" style="color: #f59e0b; margin-left: 10px;"></i>`,
+                    `Compile all AST zone diameters and PCR band results.`,
+                    `Use SPSS or GraphPad to calculate prevalence, P-values, and statistical significance of your findings regarding <span class="highlight">${t}</span>.`,
+                    
+                    `<span class="highlight">Phase 5: Thesis Writing & Finalizing</span> <i class="fas fa-pen-nib" style="color: #8b5cf6; margin-left: 10px;"></i>`,
+                    `Draft Chapter 1: Introduction & Background.`,
+                    `Draft Chapter 2: Materials & Methods (Detailing exactly how you processed the ${s}).`,
+                    `Draft Chapter 3: Results (Insert graphs and electrophoresis gel images).`,
+                    `Draft Chapter 4: Discussion & Conclusion.`,
+                    `Run final document through plagiarism checker and format citations (APA/Vancouver).`,
+                    
+                    `<span class="highlight">Phase 6: Defense Preparation (Allocated: ${defenseWeeks} weeks)</span> <i class="fas fa-user-graduate fa-bounce" style="color: #e11d48; margin-left: 10px;"></i>`,
+                    `Create a concise PowerPoint presentation.`,
+                    `Draft a presentation script highlighting your key findings on <span class="highlight">${t}</span>.`,
+                    `Conduct mock defense sessions focusing on clinical relevance and technical limitations.`
+                ];
+            }
+        }
+    };
 
 
     /* ========================================================== */
