@@ -2,34 +2,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>VAREZON Student Services | Assignments, Projects & Academic Support</title>
 
-<meta name="description" content="VAREZON Student Services — assignments, academic projects, reports, presentations, research assistance and more.">
+<meta name="description"
+      content="VAREZON Student Services — academic assignments, projects, reports, presentations, research support and more.">
+
 <meta name="theme-color" content="#070914">
 
+<!-- =========================================================
+     EXTERNAL LIBRARIES
+     ========================================================= -->
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
 <style>
+
 /* =========================================================
    VAREZON STUDENT SERVICES
-   Single-file GitHub Pages Landing Page
+   PREMIUM STATIC LANDING PAGE
+   GITHUB PAGES READY
    ========================================================= */
 
 :root{
+
     --bg:#060712;
     --bg2:#0b0d1c;
+
     --card:rgba(255,255,255,.055);
     --card-border:rgba(255,255,255,.11);
+
     --text:#f7f8ff;
     --muted:#9da4bd;
+
     --primary:#7c5cff;
     --primary2:#00d9ff;
+
     --success:#25d366;
+
+    --danger:#ff5577;
+
     --max:1200px;
+
     --radius:24px;
+
     --shadow:0 25px 80px rgba(0,0,0,.35);
 }
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
 
 *{
     margin:0;
@@ -42,29 +73,76 @@ html{
 }
 
 body{
-    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
     background:
-        radial-gradient(circle at 10% 10%,rgba(124,92,255,.15),transparent 30%),
-        radial-gradient(circle at 90% 20%,rgba(0,217,255,.10),transparent 28%),
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(124,92,255,.15),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(0,217,255,.10),
+            transparent 28%
+        ),
+
         var(--bg);
+
     color:var(--text);
+
     overflow-x:hidden;
 }
 
+
 body::before{
+
     content:"";
+
     position:fixed;
+
     inset:0;
+
     pointer-events:none;
+
     background-image:
-        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+
+        linear-gradient(
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        );
+
     background-size:55px 55px;
-    mask-image:linear-gradient(to bottom,black,transparent 85%);
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 85%
+        );
+
     z-index:-2;
 }
 
-/* ---------- Scrollbar ---------- */
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
 
 ::-webkit-scrollbar{
     width:8px;
@@ -75,920 +153,2192 @@ body::before{
 }
 
 ::-webkit-scrollbar-thumb{
-    background:linear-gradient(var(--primary),var(--primary2));
+
+    background:
+        linear-gradient(
+            var(--primary),
+            var(--primary2)
+        );
+
     border-radius:20px;
 }
 
-/* ---------- Container ---------- */
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
 
 .container{
-    width:min(var(--max),calc(100% - 40px));
+
+    width:
+        min(
+            var(--max),
+            calc(100% - 40px)
+        );
+
     margin:auto;
 }
 
-/* ---------- Header ---------- */
+
+/* =========================================================
+   HEADER
+   ========================================================= */
 
 header{
+
     position:fixed;
+
     top:0;
     left:0;
     right:0;
+
     z-index:1000;
+
     padding:18px 0;
+
     transition:.35s ease;
 }
 
 header.scrolled{
-    background:rgba(5,6,15,.78);
+
+    background:
+        rgba(5,6,15,.78);
+
     backdrop-filter:blur(20px);
-    border-bottom:1px solid rgba(255,255,255,.08);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+
     padding:12px 0;
 }
 
+
 .nav{
+
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 }
 
+
 .logo{
+
     display:flex;
+
     align-items:center;
+
     gap:10px;
+
     text-decoration:none;
+
     color:white;
+
     font-size:22px;
+
     font-weight:900;
+
     letter-spacing:-1px;
 }
 
+
 .logo-mark{
+
     width:40px;
     height:40px;
+
     border-radius:13px;
+
     display:grid;
+
     place-items:center;
-    background:linear-gradient(135deg,var(--primary),var(--primary2));
-    box-shadow:0 0 30px rgba(124,92,255,.35);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary2)
+        );
+
+    box-shadow:
+        0 0 30px rgba(124,92,255,.35);
 }
+
 
 .logo-mark span{
     font-size:19px;
 }
 
+
 .nav-links{
+
     display:flex;
+
     gap:30px;
+
     align-items:center;
 }
 
+
 .nav-links a{
+
     color:#c6c9d8;
+
     text-decoration:none;
+
     font-size:14px;
+
     font-weight:600;
+
     transition:.25s;
 }
+
 
 .nav-links a:hover{
     color:white;
 }
 
+
 .nav-cta{
+
     padding:11px 18px;
+
     border-radius:999px;
+
     background:white;
+
     color:#080912!important;
 }
 
+
 .menu{
+
     display:none;
+
     border:0;
+
     background:none;
+
     color:white;
+
     font-size:27px;
+
     cursor:pointer;
 }
 
-/* ---------- Hero ---------- */
+
+/* =========================================================
+   HERO
+   ========================================================= */
 
 .hero{
+
     min-height:100vh;
+
     display:flex;
+
     align-items:center;
+
     position:relative;
+
     padding:140px 0 90px;
+
     overflow:hidden;
 }
 
+
 .hero-orb{
+
     position:absolute;
+
     border-radius:50%;
+
     filter:blur(2px);
+
     pointer-events:none;
 }
 
+
 .orb1{
+
     width:450px;
     height:450px;
-    background:rgba(124,92,255,.10);
+
+    background:
+        rgba(124,92,255,.10);
+
     top:8%;
     left:-180px;
-    animation:orbMove 9s ease-in-out infinite;
+
+    animation:
+        orbMove 9s ease-in-out infinite;
 }
+
 
 .orb2{
+
     width:380px;
     height:380px;
-    background:rgba(0,217,255,.08);
+
+    background:
+        rgba(0,217,255,.08);
+
     right:-130px;
     bottom:5%;
-    animation:orbMove 11s ease-in-out infinite reverse;
+
+    animation:
+        orbMove 11s ease-in-out infinite reverse;
 }
+
 
 @keyframes orbMove{
-    0%,100%{transform:translate(0,0) scale(1);}
-    50%{transform:translate(30px,-30px) scale(1.08);}
+
+    0%,100%{
+        transform:
+            translate(0,0)
+            scale(1);
+    }
+
+    50%{
+        transform:
+            translate(30px,-30px)
+            scale(1.08);
+    }
 }
 
+
 .hero-grid{
+
     display:grid;
-    grid-template-columns:1.15fr .85fr;
+
+    grid-template-columns:
+        1.15fr .85fr;
+
     align-items:center;
+
     gap:70px;
 }
 
+
 .badge{
+
     display:inline-flex;
+
     align-items:center;
+
     gap:9px;
+
     padding:8px 13px;
-    border:1px solid rgba(124,92,255,.35);
-    background:rgba(124,92,255,.09);
+
+    border:
+        1px solid
+        rgba(124,92,255,.35);
+
+    background:
+        rgba(124,92,255,.09);
+
     border-radius:999px;
+
     color:#cfc7ff;
+
     font-size:12px;
+
     font-weight:700;
+
     margin-bottom:25px;
 }
+
 
 .badge-dot{
+
     width:7px;
     height:7px;
+
     background:#7cffd1;
+
     border-radius:50%;
-    box-shadow:0 0 12px #7cffd1;
-    animation:pulse 1.7s infinite;
+
+    box-shadow:
+        0 0 12px #7cffd1;
+
+    animation:
+        pulse 1.7s infinite;
 }
+
 
 @keyframes pulse{
-    50%{transform:scale(1.5);opacity:.5;}
+
+    50%{
+        transform:scale(1.5);
+        opacity:.5;
+    }
 }
 
+
 .hero h1{
-    font-size:clamp(48px,7vw,82px);
+
+    font-size:
+        clamp(
+            48px,
+            7vw,
+            82px
+        );
+
     line-height:.98;
+
     letter-spacing:-5px;
+
     max-width:850px;
+
     margin-bottom:25px;
 }
 
+
 .gradient-text{
-    background:linear-gradient(100deg,#fff 15%,#a98cff 52%,#42e9ff);
+
+    background:
+        linear-gradient(
+            100deg,
+            #fff 15%,
+            #a98cff 52%,
+            #42e9ff
+        );
+
     -webkit-background-clip:text;
+
     background-clip:text;
+
     color:transparent;
 }
 
+
 .hero-description{
+
     color:var(--muted);
+
     max-width:650px;
+
     line-height:1.8;
+
     font-size:17px;
+
     margin-bottom:34px;
 }
 
+
 .hero-buttons{
+
     display:flex;
+
     gap:13px;
+
     flex-wrap:wrap;
 }
 
+
 .btn{
+
     border:0;
+
     text-decoration:none;
+
     display:inline-flex;
+
     justify-content:center;
+
     align-items:center;
+
     gap:9px;
+
     padding:15px 22px;
+
     border-radius:14px;
+
     font-weight:800;
+
     font-size:14px;
+
     cursor:pointer;
+
     transition:.3s;
 }
 
+
 .btn-primary{
+
     color:white;
-    background:linear-gradient(135deg,var(--primary),#5b40ff);
-    box-shadow:0 12px 35px rgba(124,92,255,.28);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #5b40ff
+        );
+
+    box-shadow:
+        0 12px 35px
+        rgba(124,92,255,.28);
 }
+
 
 .btn-primary:hover{
+
     transform:translateY(-4px);
-    box-shadow:0 18px 45px rgba(124,92,255,.42);
+
+    box-shadow:
+        0 18px 45px
+        rgba(124,92,255,.42);
 }
+
 
 .btn-secondary{
+
     color:white;
-    background:rgba(255,255,255,.055);
-    border:1px solid rgba(255,255,255,.12);
+
+    background:
+        rgba(255,255,255,.055);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
 }
+
 
 .btn-secondary:hover{
-    background:rgba(255,255,255,.1);
-    transform:translateY(-4px);
+
+    background:
+        rgba(255,255,255,.1);
+
+    transform:
+        translateY(-4px);
 }
 
-/* ---------- Hero visual ---------- */
+
+/* =========================================================
+   HERO VISUAL
+   ========================================================= */
 
 .hero-visual{
+
     position:relative;
+
     min-height:470px;
 }
 
+
 .dashboard{
+
     position:absolute;
+
     inset:30px 0 30px 30px;
-    border:1px solid rgba(255,255,255,.12);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
     border-radius:30px;
+
     background:
-        linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.09),
+            rgba(255,255,255,.025)
+        );
+
     backdrop-filter:blur(20px);
+
     box-shadow:var(--shadow);
+
     padding:22px;
+
     transform:rotate(3deg);
-    animation:floatCard 6s ease-in-out infinite;
+
+    animation:
+        floatCard 6s ease-in-out infinite;
 }
+
 
 @keyframes floatCard{
-    0%,100%{transform:rotate(3deg) translateY(0);}
-    50%{transform:rotate(1deg) translateY(-12px);}
+
+    0%,100%{
+        transform:
+            rotate(3deg)
+            translateY(0);
+    }
+
+    50%{
+        transform:
+            rotate(1deg)
+            translateY(-12px);
+    }
 }
+
 
 .window-top{
+
     display:flex;
+
     gap:7px;
+
     margin-bottom:25px;
 }
+
 
 .window-top i{
+
     width:9px;
     height:9px;
+
     border-radius:50%;
-    background:rgba(255,255,255,.25);
+
+    background:
+        rgba(255,255,255,.25);
 }
 
+
 .fake-title{
+
     width:55%;
     height:18px;
+
     border-radius:10px;
-    background:rgba(255,255,255,.10);
+
+    background:
+        rgba(255,255,255,.10);
+
     margin-bottom:25px;
 }
 
+
 .progress-box{
+
     padding:18px;
+
     border-radius:18px;
-    background:rgba(0,0,0,.16);
+
+    background:
+        rgba(0,0,0,.16);
+
     margin-bottom:15px;
 }
 
+
 .progress-line{
+
     height:9px;
-    background:rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.08);
+
     border-radius:10px;
+
     overflow:hidden;
+
     margin-top:13px;
 }
 
+
 .progress-line span{
+
     display:block;
+
     width:76%;
+
     height:100%;
+
     border-radius:10px;
-    background:linear-gradient(90deg,var(--primary),var(--primary2));
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--primary2)
+        );
 }
 
+
 .mini-cards{
+
     display:grid;
-    grid-template-columns:1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap:12px;
 }
 
+
 .mini-card{
+
     height:105px;
+
     border-radius:18px;
-    background:rgba(255,255,255,.055);
-    border:1px solid rgba(255,255,255,.06);
+
+    background:
+        rgba(255,255,255,.055);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
     padding:16px;
 }
 
+
 .mini-icon{
+
     width:35px;
     height:35px;
+
     display:grid;
+
     place-items:center;
+
     border-radius:10px;
-    background:rgba(124,92,255,.15);
+
+    background:
+        rgba(124,92,255,.15);
+
     margin-bottom:12px;
 }
 
-/* ---------- Floating cards ---------- */
 
 .float-card{
+
     position:absolute;
+
     padding:15px 18px;
+
     border-radius:17px;
-    background:rgba(12,14,28,.88);
-    border:1px solid rgba(255,255,255,.12);
+
+    background:
+        rgba(12,14,28,.88);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
     backdrop-filter:blur(15px);
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.35);
+
     z-index:3;
 }
 
+
 .float-card.one{
+
     left:-15px;
+
     top:65px;
-    animation:float1 5s infinite ease-in-out;
+
+    animation:
+        float1 5s infinite ease-in-out;
 }
+
 
 .float-card.two{
+
     right:-15px;
+
     bottom:60px;
-    animation:float2 5.5s infinite ease-in-out;
+
+    animation:
+        float2 5.5s infinite ease-in-out;
 }
+
 
 @keyframes float1{
-    50%{transform:translateY(-15px);}
+
+    50%{
+        transform:translateY(-15px);
+    }
 }
+
 
 @keyframes float2{
-    50%{transform:translateY(12px);}
+
+    50%{
+        transform:translateY(12px);
+    }
 }
 
+
 .float-card strong{
+
     display:block;
+
     font-size:13px;
+
     margin-bottom:4px;
 }
 
+
 .float-card small{
+
     color:#8f96ad;
 }
 
-/* ---------- Section ---------- */
+
+/* =========================================================
+   GENERAL SECTION
+   ========================================================= */
 
 section{
     padding:110px 0;
 }
 
+
 .section-heading{
+
     text-align:center;
+
     max-width:720px;
-    margin:0 auto 55px;
+
+    margin:
+        0 auto 55px;
 }
 
+
 .eyebrow{
+
     color:#a99aff;
+
     font-size:12px;
+
     text-transform:uppercase;
+
     letter-spacing:2px;
+
     font-weight:900;
+
     margin-bottom:14px;
 }
 
+
 .section-heading h2{
-    font-size:clamp(34px,5vw,55px);
+
+    font-size:
+        clamp(
+            34px,
+            5vw,
+            55px
+        );
+
     line-height:1;
+
     letter-spacing:-2.5px;
+
     margin-bottom:17px;
 }
 
+
 .section-heading p{
+
     color:var(--muted);
+
     line-height:1.7;
 }
 
-/* ---------- Services ---------- */
+
+/* =========================================================
+   SERVICES
+   ========================================================= */
 
 .services-grid{
+
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:17px;
 }
 
+
 .service-card{
+
     position:relative;
+
     padding:28px;
+
     min-height:245px;
-    border:1px solid var(--card-border);
+
+    border:
+        1px solid
+        var(--card-border);
+
     border-radius:var(--radius);
-    background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025));
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.025)
+        );
+
     overflow:hidden;
+
     transition:.4s;
 }
 
+
 .service-card::before{
+
     content:"";
+
     position:absolute;
+
     width:150px;
     height:150px;
+
     right:-70px;
     top:-70px;
+
     border-radius:50%;
-    background:rgba(124,92,255,.14);
+
+    background:
+        rgba(124,92,255,.14);
+
     filter:blur(25px);
 }
 
+
 .service-card:hover{
-    transform:translateY(-8px);
-    border-color:rgba(124,92,255,.45);
-    box-shadow:0 25px 60px rgba(0,0,0,.25);
+
+    transform:
+        translateY(-8px);
+
+    border-color:
+        rgba(124,92,255,.45);
+
+    box-shadow:
+        0 25px 60px
+        rgba(0,0,0,.25);
 }
 
+
 .service-icon{
+
     width:52px;
     height:52px;
+
     display:grid;
+
     place-items:center;
+
     border-radius:16px;
-    background:linear-gradient(135deg,rgba(124,92,255,.22),rgba(0,217,255,.10));
-    border:1px solid rgba(255,255,255,.09);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(124,92,255,.22),
+            rgba(0,217,255,.10)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
     font-size:22px;
+
     margin-bottom:24px;
 }
 
+
 .service-card h3{
+
     font-size:18px;
+
     margin-bottom:11px;
 }
 
+
 .service-card p{
+
     color:#9299b0;
+
     line-height:1.65;
+
     font-size:14px;
 }
 
-/* ---------- Process ---------- */
+
+/* =========================================================
+   PROCESS
+   ========================================================= */
 
 .process{
-    background:rgba(255,255,255,.018);
-    border-top:1px solid rgba(255,255,255,.05);
-    border-bottom:1px solid rgba(255,255,255,.05);
+
+    background:
+        rgba(255,255,255,.018);
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.05);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.05);
 }
 
+
 .process-grid{
+
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+
+    grid-template-columns:
+        repeat(4,1fr);
+
     gap:20px;
 }
 
+
 .process-card{
+
     text-align:center;
+
     padding:25px 15px;
 }
 
+
 .number{
+
     width:58px;
     height:58px;
-    margin:0 auto 20px;
+
+    margin:
+        0 auto 20px;
+
     display:grid;
+
     place-items:center;
+
     border-radius:50%;
-    background:linear-gradient(135deg,var(--primary),#4330be);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #4330be
+        );
+
     font-weight:900;
-    box-shadow:0 12px 35px rgba(124,92,255,.22);
+
+    box-shadow:
+        0 12px 35px
+        rgba(124,92,255,.22);
 }
 
+
 .process-card h3{
+
     font-size:16px;
+
     margin-bottom:9px;
 }
 
+
 .process-card p{
+
     color:#8e95aa;
+
     font-size:13px;
+
     line-height:1.6;
 }
 
-/* ---------- Why ---------- */
+
+/* =========================================================
+   WHY SECTION
+   ========================================================= */
 
 .why-grid{
+
     display:grid;
-    grid-template-columns:.9fr 1.1fr;
+
+    grid-template-columns:
+        .9fr 1.1fr;
+
     gap:70px;
+
     align-items:center;
 }
 
+
 .why-visual{
+
     min-height:450px;
+
     border-radius:30px;
-    border:1px solid rgba(255,255,255,.09);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
     background:
-        radial-gradient(circle at 50% 35%,rgba(124,92,255,.22),transparent 30%),
-        linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(124,92,255,.22),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.06),
+            rgba(255,255,255,.02)
+        );
+
     position:relative;
+
     overflow:hidden;
+
     display:grid;
+
     place-items:center;
 }
 
+
 .ring{
+
     width:250px;
     height:250px;
+
     border-radius:50%;
-    border:1px solid rgba(124,92,255,.35);
+
+    border:
+        1px solid
+        rgba(124,92,255,.35);
+
     position:relative;
+
     display:grid;
+
     place-items:center;
-    animation:spin 15s linear infinite;
+
+    animation:
+        spin 15s linear infinite;
 }
+
 
 .ring::before,
 .ring::after{
+
     content:"";
+
     position:absolute;
+
     border-radius:50%;
-    border:1px solid rgba(0,217,255,.25);
+
+    border:
+        1px solid
+        rgba(0,217,255,.25);
 }
+
 
 .ring::before{
     inset:25px;
 }
 
+
 .ring::after{
     inset:55px;
 }
 
+
 @keyframes spin{
-    to{transform:rotate(360deg);}
+
+    to{
+        transform:rotate(360deg);
+    }
 }
+
 
 .ring-center{
+
     width:90px;
     height:90px;
+
     border-radius:25px;
-    background:linear-gradient(135deg,var(--primary),var(--primary2));
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary2)
+        );
+
     display:grid;
+
     place-items:center;
+
     font-size:30px;
-    box-shadow:0 0 50px rgba(124,92,255,.45);
+
+    box-shadow:
+        0 0 50px
+        rgba(124,92,255,.45);
 }
 
+
 .check-list{
+
     display:grid;
+
     gap:18px;
+
     margin-top:30px;
 }
 
+
 .check{
+
     display:flex;
+
     gap:14px;
+
     align-items:flex-start;
 }
 
+
 .check-mark{
+
     flex:none;
+
     width:27px;
     height:27px;
+
     border-radius:50%;
+
     display:grid;
+
     place-items:center;
-    background:rgba(37,211,102,.13);
+
+    background:
+        rgba(37,211,102,.13);
+
     color:#4de987;
+
     font-size:13px;
 }
+
 
 .check h4{
     margin-bottom:5px;
 }
 
+
 .check p{
+
     color:#9299af;
+
     font-size:14px;
+
     line-height:1.55;
 }
 
-/* ---------- CTA ---------- */
 
-.cta{
-    padding:90px 0 120px;
-}
+/* =========================================================
+   INQUIRY SECTION
+   ========================================================= */
 
-.cta-box{
+.inquiry-section{
+
     position:relative;
-    overflow:hidden;
-    text-align:center;
-    padding:75px 30px;
-    border-radius:35px;
-    border:1px solid rgba(124,92,255,.25);
+
     background:
-        radial-gradient(circle at 20% 20%,rgba(124,92,255,.18),transparent 35%),
-        radial-gradient(circle at 80% 80%,rgba(0,217,255,.12),transparent 35%),
-        rgba(255,255,255,.035);
+        linear-gradient(
+            180deg,
+            rgba(124,92,255,.035),
+            rgba(0,0,0,0)
+        );
 }
 
-.cta-box h2{
-    font-size:clamp(35px,5vw,58px);
-    letter-spacing:-2px;
-    margin-bottom:15px;
-}
 
-.cta-box p{
-    color:#9ba2b8;
-    max-width:600px;
-    margin:0 auto 30px;
-    line-height:1.7;
-}
+.inquiry-wrapper{
 
-/* ---------- FAQ ---------- */
-
-.faq{
-    max-width:850px;
-    margin:auto;
-}
-
-.faq-item{
-    border:1px solid rgba(255,255,255,.09);
-    border-radius:18px;
-    margin-bottom:12px;
-    overflow:hidden;
-    background:rgba(255,255,255,.03);
-}
-
-.faq-question{
-    width:100%;
-    padding:21px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:none;
-    color:white;
-    border:0;
-    cursor:pointer;
-    font-size:15px;
-    font-weight:750;
-    text-align:left;
-}
-
-.faq-question span{
-    font-size:23px;
-    transition:.3s;
-}
-
-.faq-answer{
-    max-height:0;
-    overflow:hidden;
-    transition:max-height .4s ease;
-}
-
-.faq-answer p{
-    padding:0 21px 21px;
-    color:#9299ae;
-    font-size:14px;
-    line-height:1.7;
-}
-
-.faq-item.active .faq-question span{
-    transform:rotate(45deg);
-}
-
-.faq-item.active .faq-answer{
-    max-height:200px;
-}
-
-/* ---------- Footer ---------- */
-
-footer{
-    padding:35px 0;
-    border-top:1px solid rgba(255,255,255,.07);
-}
-
-.footer{
-    display:flex;
-    justify-content:space-between;
-    gap:20px;
-    align-items:center;
-}
-
-.footer p{
-    color:#777e95;
-    font-size:13px;
-}
-
-.footer-links{
-    display:flex;
-    gap:20px;
-}
-
-.footer-links a{
-    color:#858ca2;
-    text-decoration:none;
-    font-size:13px;
-}
-
-/* ---------- WhatsApp ---------- */
-
-.whatsapp{
-    position:fixed;
-    right:24px;
-    bottom:24px;
-    width:62px;
-    height:62px;
-    border-radius:50%;
-    background:#25d366;
     display:grid;
+
+    grid-template-columns:
+        .72fr 1.28fr;
+
+    gap:45px;
+
+    align-items:start;
+}
+
+
+/* LEFT SIDE */
+
+.inquiry-intro{
+
+    position:sticky;
+
+    top:110px;
+}
+
+
+.inquiry-intro h2{
+
+    font-size:
+        clamp(
+            38px,
+            5vw,
+            58px
+        );
+
+    line-height:1;
+
+    letter-spacing:-3px;
+
+    margin-bottom:20px;
+}
+
+
+.inquiry-intro > p{
+
+    color:#969db4;
+
+    line-height:1.75;
+
+    margin-bottom:30px;
+}
+
+
+.form-benefits{
+
+    display:grid;
+
+    gap:15px;
+}
+
+
+.form-benefit{
+
+    display:flex;
+
+    gap:13px;
+
+    align-items:center;
+
+    color:#c5c9d7;
+
+    font-size:13px;
+}
+
+
+.form-benefit-icon{
+
+    width:36px;
+    height:36px;
+
+    flex:none;
+
+    display:grid;
+
     place-items:center;
+
+    border-radius:11px;
+
+    background:
+        rgba(124,92,255,.12);
+
+    border:
+        1px solid
+        rgba(124,92,255,.18);
+}
+
+
+/* FORM CARD */
+
+.form-card{
+
+    padding:34px;
+
+    border-radius:30px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.11);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.025)
+        );
+
+    box-shadow:
+        0 30px 90px
+        rgba(0,0,0,.28);
+
+    backdrop-filter:blur(20px);
+}
+
+
+.form-header{
+
+    margin-bottom:28px;
+}
+
+
+.form-header h3{
+
+    font-size:25px;
+
+    margin-bottom:7px;
+}
+
+
+.form-header p{
+
+    color:#858ca2;
+
+    font-size:13px;
+
+    line-height:1.6;
+}
+
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:18px;
+}
+
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+}
+
+
+.form-group.full{
+    grid-column:1 / -1;
+}
+
+
+.form-group label{
+
+    color:#d4d7e3;
+
+    font-size:12px;
+
+    font-weight:750;
+}
+
+
+.form-group label span{
+
+    color:#777f97;
+
+    font-weight:500;
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+    width:100%;
+
     color:white;
-    text-decoration:none;
-    font-size:28px;
-    box-shadow:0 10px 35px rgba(37,211,102,.35);
-    z-index:999;
+
+    background:
+        rgba(0,0,0,.18);
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    border-radius:13px;
+
+    outline:none;
+
+    padding:13px 14px;
+
+    font-family:inherit;
+
+    font-size:13px;
+
+    transition:.25s;
+}
+
+
+.form-group input,
+.form-group select{
+    height:48px;
+}
+
+
+.form-group textarea{
+
+    min-height:125px;
+
+    resize:vertical;
+
+    line-height:1.6;
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder{
+    color:#626a80;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+
+    border-color:
+        rgba(124,92,255,.65);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(124,92,255,.09);
+}
+
+
+.form-group select option{
+    background:#101222;
+    color:white;
+}
+
+
+.form-note{
+
+    margin-top:18px;
+
+    padding:13px 15px;
+
+    border-radius:13px;
+
+    background:
+        rgba(0,217,255,.045);
+
+    border:
+        1px solid
+        rgba(0,217,255,.10);
+
+    color:#7f879d;
+
+    font-size:11px;
+
+    line-height:1.6;
+}
+
+
+.form-submit{
+
+    margin-top:22px;
+
+    width:100%;
+
+    height:54px;
+
+    border:0;
+
+    border-radius:14px;
+
+    color:white;
+
+    font-weight:850;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #5b40ff,
+            #406fff
+        );
+
+    box-shadow:
+        0 15px 40px
+        rgba(124,92,255,.25);
+
     transition:.3s;
+
+    position:relative;
+
+    overflow:hidden;
 }
 
-.whatsapp:hover{
-    transform:scale(1.1) translateY(-3px);
+
+.form-submit:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 20px 50px
+        rgba(124,92,255,.38);
 }
 
-.whatsapp::before{
-    content:"";
-    position:absolute;
-    inset:-7px;
-    border:1px solid rgba(37,211,102,.35);
-    border-radius:50%;
-    animation:whatsappPulse 2s infinite;
-}
 
-@keyframes whatsappPulse{
-    0%{transform:scale(.9);opacity:1;}
-    100%{transform:scale(1.4);opacity:0;}
-}
+.form-submit:disabled{
 
-/* ---------- Reveal ---------- */
+    cursor:not-allowed;
 
-.reveal{
-    opacity:0;
-    transform:translateY(35px);
-    transition:opacity .8s ease,transform .8s ease;
-}
+    opacity:.65;
 
-.reveal.visible{
-    opacity:1;
     transform:none;
 }
 
-/* ---------- Particles ---------- */
+
+.submit-loading{
+    display:none;
+}
+
+
+.form-status{
+
+    display:none;
+
+    margin-top:15px;
+
+    padding:14px;
+
+    border-radius:13px;
+
+    font-size:13px;
+
+    line-height:1.6;
+}
+
+
+.form-status.success{
+
+    display:block;
+
+    color:#78f0a2;
+
+    background:
+        rgba(37,211,102,.08);
+
+    border:
+        1px solid
+        rgba(37,211,102,.20);
+}
+
+
+.form-status.error{
+
+    display:block;
+
+    color:#ff8aa1;
+
+    background:
+        rgba(255,85,119,.08);
+
+    border:
+        1px solid
+        rgba(255,85,119,.20);
+}
+
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.cta{
+
+    padding:
+        90px 0 120px;
+}
+
+
+.cta-box{
+
+    position:relative;
+
+    overflow:hidden;
+
+    text-align:center;
+
+    padding:75px 30px;
+
+    border-radius:35px;
+
+    border:
+        1px solid
+        rgba(124,92,255,.25);
+
+    background:
+
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(124,92,255,.18),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(0,217,255,.12),
+            transparent 35%
+        ),
+
+        rgba(255,255,255,.035);
+}
+
+
+.cta-box h2{
+
+    font-size:
+        clamp(
+            35px,
+            5vw,
+            58px
+        );
+
+    letter-spacing:-2px;
+
+    margin-bottom:15px;
+}
+
+
+.cta-box p{
+
+    color:#9ba2b8;
+
+    max-width:600px;
+
+    margin:
+        0 auto 30px;
+
+    line-height:1.7;
+}
+
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+
+.faq{
+
+    max-width:850px;
+
+    margin:auto;
+}
+
+
+.faq-item{
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:18px;
+
+    margin-bottom:12px;
+
+    overflow:hidden;
+
+    background:
+        rgba(255,255,255,.03);
+}
+
+
+.faq-question{
+
+    width:100%;
+
+    padding:21px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:none;
+
+    color:white;
+
+    border:0;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:750;
+
+    text-align:left;
+}
+
+
+.faq-question span{
+
+    font-size:23px;
+
+    transition:.3s;
+}
+
+
+.faq-answer{
+
+    max-height:0;
+
+    overflow:hidden;
+
+    transition:
+        max-height .4s ease;
+}
+
+
+.faq-answer p{
+
+    padding:
+        0 21px 21px;
+
+    color:#9299ae;
+
+    font-size:14px;
+
+    line-height:1.7;
+}
+
+
+.faq-item.active
+.faq-question span{
+
+    transform:rotate(45deg);
+}
+
+
+.faq-item.active
+.faq-answer{
+
+    max-height:200px;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer{
+
+    padding:35px 0;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+
+.footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    align-items:center;
+}
+
+
+.footer p{
+
+    color:#777e95;
+
+    font-size:13px;
+}
+
+
+.footer-links{
+
+    display:flex;
+
+    gap:20px;
+}
+
+
+.footer-links a{
+
+    color:#858ca2;
+
+    text-decoration:none;
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   WHATSAPP
+   ========================================================= */
+
+.whatsapp{
+
+    position:fixed;
+
+    right:24px;
+
+    bottom:24px;
+
+    width:62px;
+    height:62px;
+
+    border-radius:50%;
+
+    background:#25d366;
+
+    display:grid;
+
+    place-items:center;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:28px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(37,211,102,.35);
+
+    z-index:999;
+
+    transition:.3s;
+}
+
+
+.whatsapp:hover{
+
+    transform:
+        scale(1.1)
+        translateY(-3px);
+}
+
+
+.whatsapp::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-7px;
+
+    border:
+        1px solid
+        rgba(37,211,102,.35);
+
+    border-radius:50%;
+
+    animation:
+        whatsappPulse 2s infinite;
+}
+
+
+@keyframes whatsappPulse{
+
+    0%{
+        transform:scale(.9);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(1.4);
+        opacity:0;
+    }
+}
+
+
+/* =========================================================
+   REVEAL
+   ========================================================= */
+
+.reveal{
+
+    opacity:0;
+
+    transform:
+        translateY(35px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+
+.reveal.visible{
+
+    opacity:1;
+
+    transform:none;
+}
+
+
+/* =========================================================
+   PARTICLES
+   ========================================================= */
 
 .particle{
+
     position:fixed;
+
     width:3px;
     height:3px;
-    background:rgba(255,255,255,.35);
+
+    background:
+        rgba(255,255,255,.35);
+
     border-radius:50%;
+
     pointer-events:none;
+
     z-index:-1;
 }
 
-/* ---------- Responsive ---------- */
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media(max-width:950px){
 
     .hero-grid,
-    .why-grid{
+    .why-grid,
+    .inquiry-wrapper{
+
         grid-template-columns:1fr;
     }
 
+
     .hero{
+
         padding-top:120px;
     }
 
+
     .hero h1{
+
         letter-spacing:-3px;
     }
 
+
     .hero-visual{
+
         max-width:650px;
+
         width:100%;
+
         margin:auto;
     }
 
+
     .services-grid{
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:
+            repeat(2,1fr);
     }
+
 
     .process-grid{
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:
+            repeat(2,1fr);
     }
 
+
     .why-visual{
+
         min-height:350px;
     }
+
+
+    .inquiry-intro{
+
+        position:relative;
+
+        top:auto;
+
+        max-width:700px;
+    }
+
 }
+
 
 @media(max-width:700px){
 
     .container{
-        width:min(var(--max),calc(100% - 28px));
+
+        width:
+            min(
+                var(--max),
+                calc(100% - 28px)
+            );
     }
 
+
     .nav-links{
+
         display:none;
+
         position:absolute;
+
         top:70px;
+
         left:14px;
         right:14px;
+
         flex-direction:column;
+
         align-items:stretch;
+
         padding:18px;
-        border:1px solid rgba(255,255,255,.1);
+
+        border:
+            1px solid
+            rgba(255,255,255,.1);
+
         border-radius:20px;
-        background:rgba(8,9,18,.96);
+
+        background:
+            rgba(8,9,18,.96);
+
         backdrop-filter:blur(20px);
     }
+
 
     .nav-links.active{
         display:flex;
     }
 
+
     .nav-links a{
         padding:10px;
     }
+
 
     .nav-cta{
         text-align:center;
     }
 
+
     .menu{
         display:block;
     }
 
+
     .hero{
+
         padding-top:120px;
     }
 
+
     .hero h1{
+
         font-size:48px;
     }
 
+
     .hero-description{
+
         font-size:15px;
     }
 
+
     .hero-visual{
+
         min-height:360px;
     }
 
+
     .dashboard{
-        inset:15px 0 15px 10px;
+
+        inset:
+            15px 0 15px 10px;
     }
 
+
     .float-card.one{
+
         left:-5px;
+
         top:30px;
     }
 
+
     .float-card.two{
+
         right:-5px;
+
         bottom:30px;
     }
 
+
     .services-grid{
+
         grid-template-columns:1fr;
     }
 
+
     .process-grid{
-        grid-template-columns:1fr 1fr;
+
+        grid-template-columns:
+            1fr 1fr;
     }
 
+
+    .form-card{
+
+        padding:22px;
+    }
+
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+    }
+
+
+    .form-group.full{
+
+        grid-column:auto;
+    }
+
+
     section{
+
         padding:80px 0;
     }
 
+
     .footer{
+
         flex-direction:column;
+
         text-align:center;
     }
 
+
     .whatsapp{
+
         width:57px;
         height:57px;
+
         right:17px;
         bottom:17px;
     }
+
 }
+
 
 @media(max-width:430px){
 
@@ -996,169 +2346,368 @@ footer{
         font-size:42px;
     }
 
+
     .hero-buttons{
+
         flex-direction:column;
     }
+
 
     .btn{
         width:100%;
     }
 
+
     .process-grid{
+
         grid-template-columns:1fr;
     }
 
+
     .hero-visual{
+
         min-height:320px;
     }
 
+
     .mini-cards{
+
         grid-template-columns:1fr;
     }
+
 
     .mini-card{
         height:75px;
     }
+
+
+    .form-card{
+        padding:18px;
+    }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
-<!-- ================= HEADER ================= -->
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
 
 <header id="header">
+
     <div class="container nav">
 
         <a href="#" class="logo">
-            <div class="logo-mark">V</div>
+
+            <div class="logo-mark">
+                V
+            </div>
+
             VAREZON
+
         </a>
 
+
         <nav class="nav-links" id="navLinks">
-            <a href="#services">Services</a>
-            <a href="#process">How It Works</a>
-            <a href="#why">Why Us</a>
-            <a href="#faq">FAQ</a>
-            <a class="nav-cta" href="#contact">Get Started</a>
+
+            <a href="#services">
+                Services
+            </a>
+
+            <a href="#process">
+                How It Works
+            </a>
+
+            <a href="#inquiry">
+                Request Work
+            </a>
+
+            <a href="#faq">
+                FAQ
+            </a>
+
+            <a class="nav-cta" href="#inquiry">
+                Get Started
+            </a>
+
         </nav>
 
-        <button class="menu" id="menuBtn" aria-label="Open menu">☰</button>
+
+        <button
+            class="menu"
+            id="menuBtn"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
 
     </div>
+
 </header>
 
 
-<!-- ================= HERO ================= -->
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
 
 <main>
+
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
 
 <section class="hero">
 
     <div class="hero-orb orb1"></div>
+
     <div class="hero-orb orb2"></div>
+
 
     <div class="container hero-grid">
 
+
         <div class="reveal">
 
+
             <div class="badge">
+
                 <span class="badge-dot"></span>
+
                 Student Academic Support
+
             </div>
 
+
             <h1>
+
                 Turn Your
-                <span class="gradient-text">Academic Ideas</span>
+
+                <span class="gradient-text">
+                    Academic Ideas
+                </span>
+
                 Into Reality.
+
             </h1>
 
+
             <p class="hero-description">
-                Need an assignment, project, presentation, report or research
-                work? Tell us what you need and we'll help transform your idea
-                into a properly structured academic deliverable.
+
+                Need an assignment, project, presentation,
+                report or research work? Tell us what you need
+                and we'll help transform your idea into a
+                properly structured academic deliverable.
+
             </p>
+
 
             <div class="hero-buttons">
 
-                <a class="btn btn-primary"
-                   href="https://wa.me/923421402024?text=Hello%20VAREZON%2C%20I%20need%20academic%20support."
-                   target="_blank">
+
+                <a
+                    class="btn btn-primary"
+                    href="https://wa.me/923421402024?text=Hello%20VAREZON%2C%20I%20need%20academic%20support."
+                    target="_blank"
+                >
+
                     💬 Talk on WhatsApp
+
                 </a>
 
-                <a class="btn btn-secondary" href="#services">
-                    Explore Services ↓
+
+                <a
+                    class="btn btn-secondary"
+                    href="#inquiry"
+                >
+
+                    📋 Submit Requirements
+
                 </a>
+
 
             </div>
+
 
         </div>
 
 
+        <!-- HERO VISUAL -->
+
         <div class="hero-visual reveal">
 
+
             <div class="float-card one">
-                <strong>✓ Project Support</strong>
-                <small>Structured & organized</small>
+
+                <strong>
+                    ✓ Project Support
+                </strong>
+
+                <small>
+                    Structured & organized
+                </small>
+
             </div>
+
 
             <div class="dashboard">
 
+
                 <div class="window-top">
+
                     <i></i>
                     <i></i>
                     <i></i>
+
                 </div>
+
 
                 <div class="fake-title"></div>
 
+
                 <div class="progress-box">
-                    <strong>Academic Project</strong>
+
+                    <strong>
+                        Academic Project
+                    </strong>
+
 
                     <div class="progress-line">
+
                         <span></span>
+
                     </div>
 
-                    <small style="color:#858ca2;display:block;margin-top:9px;">
+
+                    <small
+                        style="
+                            color:#858ca2;
+                            display:block;
+                            margin-top:9px;
+                        "
+                    >
+
                         Progress · 76%
+
                     </small>
+
                 </div>
+
 
                 <div class="mini-cards">
 
-                    <div class="mini-card">
-                        <div class="mini-icon">📚</div>
-                        <small style="color:#9299af;">Research</small>
-                        <strong style="display:block;margin-top:5px;">Organized</strong>
-                    </div>
 
                     <div class="mini-card">
-                        <div class="mini-icon">📊</div>
-                        <small style="color:#9299af;">Presentation</small>
-                        <strong style="display:block;margin-top:5px;">Ready</strong>
+
+                        <div class="mini-icon">
+                            📚
+                        </div>
+
+                        <small style="color:#9299af;">
+                            Research
+                        </small>
+
+                        <strong
+                            style="
+                                display:block;
+                                margin-top:5px;
+                            "
+                        >
+                            Organized
+                        </strong>
+
                     </div>
 
-                    <div class="mini-card">
-                        <div class="mini-icon">📝</div>
-                        <small style="color:#9299af;">Assignment</small>
-                        <strong style="display:block;margin-top:5px;">Structured</strong>
-                    </div>
 
                     <div class="mini-card">
-                        <div class="mini-icon">🎓</div>
-                        <small style="color:#9299af;">Student</small>
-                        <strong style="display:block;margin-top:5px;">Supported</strong>
+
+                        <div class="mini-icon">
+                            📊
+                        </div>
+
+                        <small style="color:#9299af;">
+                            Presentation
+                        </small>
+
+                        <strong
+                            style="
+                                display:block;
+                                margin-top:5px;
+                            "
+                        >
+                            Ready
+                        </strong>
+
                     </div>
+
+
+                    <div class="mini-card">
+
+                        <div class="mini-icon">
+                            📝
+                        </div>
+
+                        <small style="color:#9299af;">
+                            Assignment
+                        </small>
+
+                        <strong
+                            style="
+                                display:block;
+                                margin-top:5px;
+                            "
+                        >
+                            Structured
+                        </strong>
+
+                    </div>
+
+
+                    <div class="mini-card">
+
+                        <div class="mini-icon">
+                            🎓
+                        </div>
+
+                        <small style="color:#9299af;">
+                            Student
+                        </small>
+
+                        <strong
+                            style="
+                                display:block;
+                                margin-top:5px;
+                            "
+                        >
+                            Supported
+                        </strong>
+
+                    </div>
+
 
                 </div>
 
             </div>
 
+
             <div class="float-card two">
-                <strong>⚡ Fast Communication</strong>
-                <small>WhatsApp support</small>
+
+                <strong>
+                    ⚡ Fast Communication
+                </strong>
+
+                <small>
+                    WhatsApp support
+                </small>
+
             </div>
+
 
         </div>
 
@@ -1167,82 +2716,173 @@ footer{
 </section>
 
 
-<!-- ================= SERVICES ================= -->
+
+<!-- =========================================================
+     SERVICES
+     ========================================================= -->
 
 <section id="services">
 
     <div class="container">
 
+
         <div class="section-heading reveal">
-            <div class="eyebrow">What We Can Help With</div>
+
+            <div class="eyebrow">
+                What We Can Help With
+            </div>
+
 
             <h2>
+
                 One Place For Your
-                <span class="gradient-text">Academic Work.</span>
+
+                <span class="gradient-text">
+                    Academic Work.
+                </span>
+
             </h2>
 
+
             <p>
-                From a small assignment to a complete academic project,
-                explain what you need and we'll discuss the best way forward.
+
+                From a small assignment to a complete
+                academic project, explain what you need
+                and we'll discuss the best way forward.
+
             </p>
+
         </div>
 
 
         <div class="services-grid">
 
-            <div class="service-card reveal">
-                <div class="service-icon">📝</div>
-                <h3>Assignments</h3>
-                <p>
-                    Structured academic assignments with research,
-                    formatting, references and clear presentation.
-                </p>
-            </div>
 
             <div class="service-card reveal">
-                <div class="service-icon">💻</div>
-                <h3>Academic Projects</h3>
+
+                <div class="service-icon">
+                    📝
+                </div>
+
+                <h3>
+                    Assignments
+                </h3>
+
                 <p>
-                    Support for software, IT, engineering, science,
-                    business and university project work.
+
+                    Structured academic assignments with
+                    research, formatting, references and
+                    clear presentation.
+
                 </p>
+
             </div>
 
-            <div class="service-card reveal">
-                <div class="service-icon">📊</div>
-                <h3>Presentations</h3>
-                <p>
-                    Professional PowerPoint presentations designed to
-                    communicate your topic clearly and effectively.
-                </p>
-            </div>
 
             <div class="service-card reveal">
-                <div class="service-icon">🔬</div>
-                <h3>Research Support</h3>
+
+                <div class="service-icon">
+                    💻
+                </div>
+
+                <h3>
+                    Academic Projects
+                </h3>
+
                 <p>
-                    Help with research structure, literature organization,
-                    methodology and academic documentation.
+
+                    Support for software, IT, engineering,
+                    science, business and university
+                    project work.
+
                 </p>
+
             </div>
 
-            <div class="service-card reveal">
-                <div class="service-icon">📄</div>
-                <h3>Reports</h3>
-                <p>
-                    Academic and project reports organized into logical,
-                    readable and professional sections.
-                </p>
-            </div>
 
             <div class="service-card reveal">
-                <div class="service-icon">🎓</div>
-                <h3>Other Academic Work</h3>
+
+                <div class="service-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Presentations
+                </h3>
+
                 <p>
-                    Have something different? Send the requirements.
-                    We'll discuss whether we can help.
+
+                    Professional PowerPoint presentations
+                    designed to communicate your topic
+                    clearly and effectively.
+
                 </p>
+
             </div>
+
+
+            <div class="service-card reveal">
+
+                <div class="service-icon">
+                    🔬
+                </div>
+
+                <h3>
+                    Research Support
+                </h3>
+
+                <p>
+
+                    Help with research structure,
+                    literature organization, methodology
+                    and academic documentation.
+
+                </p>
+
+            </div>
+
+
+            <div class="service-card reveal">
+
+                <div class="service-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Reports
+                </h3>
+
+                <p>
+
+                    Academic and project reports organized
+                    into logical, readable and professional
+                    sections.
+
+                </p>
+
+            </div>
+
+
+            <div class="service-card reveal">
+
+                <div class="service-icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Other Academic Work
+                </h3>
+
+                <p>
+
+                    Have something different? Send the
+                    requirements. We'll discuss whether
+                    we can help.
+
+                </p>
+
+            </div>
+
 
         </div>
 
@@ -1251,23 +2891,40 @@ footer{
 </section>
 
 
-<!-- ================= PROCESS ================= -->
+
+<!-- =========================================================
+     PROCESS
+     ========================================================= -->
 
 <section class="process" id="process">
 
     <div class="container">
 
+
         <div class="section-heading reveal">
 
-            <div class="eyebrow">Simple Process</div>
+            <div class="eyebrow">
+                Simple Process
+            </div>
+
 
             <h2>
+
                 From Requirement
-                <span class="gradient-text">To Delivery.</span>
+
+                <span class="gradient-text">
+                    To Delivery.
+                </span>
+
             </h2>
 
+
             <p>
-                No complicated forms. Start with a simple WhatsApp conversation.
+
+                No complicated order system.
+                Start with a simple requirement form
+                or WhatsApp conversation.
+
             </p>
 
         </div>
@@ -1275,38 +2932,78 @@ footer{
 
         <div class="process-grid">
 
-            <div class="process-card reveal">
-                <div class="number">01</div>
-                <h3>Send Requirements</h3>
-                <p>
-                    Tell us your subject, deadline and what you need.
-                </p>
-            </div>
 
             <div class="process-card reveal">
-                <div class="number">02</div>
-                <h3>Discuss</h3>
+
+                <div class="number">
+                    01
+                </div>
+
+                <h3>
+                    Tell Us
+                </h3>
+
                 <p>
-                    We clarify the requirements, scope and expected output.
+                    Explain your academic task,
+                    project or assignment.
                 </p>
+
             </div>
 
-            <div class="process-card reveal">
-                <div class="number">03</div>
-                <h3>Work Begins</h3>
-                <p>
-                    Your agreed academic task is prepared according to
-                    the discussed requirements.
-                </p>
-            </div>
 
             <div class="process-card reveal">
-                <div class="number">04</div>
-                <h3>Receive</h3>
+
+                <div class="number">
+                    02
+                </div>
+
+                <h3>
+                    Requirements
+                </h3>
+
                 <p>
-                    The completed work is delivered in the agreed format.
+                    Give us your subject, deadline,
+                    instructions and expected output.
                 </p>
+
             </div>
+
+
+            <div class="process-card reveal">
+
+                <div class="number">
+                    03
+                </div>
+
+                <h3>
+                    Discuss
+                </h3>
+
+                <p>
+                    We clarify the scope and
+                    discuss the appropriate approach.
+                </p>
+
+            </div>
+
+
+            <div class="process-card reveal">
+
+                <div class="number">
+                    04
+                </div>
+
+                <h3>
+                    Move Forward
+                </h3>
+
+                <p>
+                    Once everything is clear,
+                    the work can proceed.
+                </p>
+
+            </div>
+
 
         </div>
 
@@ -1315,16 +3012,24 @@ footer{
 </section>
 
 
-<!-- ================= WHY ================= -->
+
+<!-- =========================================================
+     WHY VAREZON
+     ========================================================= -->
 
 <section id="why">
 
     <div class="container why-grid">
 
+
         <div class="why-visual reveal">
 
             <div class="ring">
-                <div class="ring-center">V</div>
+
+                <div class="ring-center">
+                    V
+                </div>
+
             </div>
 
         </div>
@@ -1332,68 +3037,134 @@ footer{
 
         <div class="reveal">
 
-            <div class="eyebrow">Why VAREZON</div>
 
-            <h2 style="font-size:clamp(36px,5vw,56px);line-height:1;letter-spacing:-2px;">
+            <div class="eyebrow">
+                Why VAREZON
+            </div>
+
+
+            <h2
+                style="
+                    font-size:clamp(36px,5vw,56px);
+                    line-height:1;
+                    letter-spacing:-2px;
+                "
+            >
+
                 Academic work should feel
-                <span class="gradient-text">organized.</span>
+
+                <span class="gradient-text">
+                    organized.
+                </span>
+
             </h2>
 
-            <p style="color:#9299af;line-height:1.8;margin-top:20px;">
-                We focus on understanding your actual requirement instead
-                of forcing every student into the same template.
+
+            <p
+                style="
+                    color:#9299af;
+                    line-height:1.8;
+                    margin-top:20px;
+                "
+            >
+
+                We focus on understanding your actual
+                requirement instead of forcing every
+                student into the same template.
+
             </p>
 
 
             <div class="check-list">
 
-                <div class="check">
-                    <div class="check-mark">✓</div>
-
-                    <div>
-                        <h4>Requirement-focused</h4>
-                        <p>
-                            Your instructions and academic requirements
-                            remain the starting point.
-                        </p>
-                    </div>
-                </div>
 
                 <div class="check">
-                    <div class="check-mark">✓</div>
+
+                    <div class="check-mark">
+                        ✓
+                    </div>
 
                     <div>
-                        <h4>Clear communication</h4>
+
+                        <h4>
+                            Requirement-focused
+                        </h4>
+
                         <p>
-                            Discuss your task directly instead of navigating
-                            complicated order systems.
+                            Your instructions and academic
+                            requirements remain the starting point.
                         </p>
+
                     </div>
+
                 </div>
+
 
                 <div class="check">
-                    <div class="check-mark">✓</div>
+
+                    <div class="check-mark">
+                        ✓
+                    </div>
 
                     <div>
-                        <h4>Multiple academic formats</h4>
+
+                        <h4>
+                            Clear communication
+                        </h4>
+
                         <p>
-                            Assignments, projects, reports, presentations
-                            and other academic requirements.
+                            Discuss your task directly instead
+                            of navigating complicated systems.
                         </p>
+
                     </div>
+
                 </div>
+
 
                 <div class="check">
-                    <div class="check-mark">✓</div>
+
+                    <div class="check-mark">
+                        ✓
+                    </div>
 
                     <div>
-                        <h4>Student-friendly support</h4>
+
+                        <h4>
+                            Multiple academic formats
+                        </h4>
+
                         <p>
-                            Start with a simple conversation and explain
-                            exactly what you're trying to accomplish.
+                            Assignments, projects, reports,
+                            presentations and other academic work.
                         </p>
+
                     </div>
+
                 </div>
+
+
+                <div class="check">
+
+                    <div class="check-mark">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Student-friendly support
+                        </h4>
+
+                        <p>
+                            Start with a simple conversation and
+                            explain exactly what you're trying to accomplish.
+                        </p>
+
+                    </div>
+
+                </div>
+
 
             </div>
 
@@ -1404,19 +3175,542 @@ footer{
 </section>
 
 
-<!-- ================= FAQ ================= -->
+
+<!-- =========================================================
+     INQUIRY / CLIENT SURVEY
+     ========================================================= -->
+
+<section
+    id="inquiry"
+    class="inquiry-section"
+>
+
+
+    <div class="container inquiry-wrapper">
+
+
+        <!-- LEFT -->
+
+        <div class="inquiry-intro reveal">
+
+
+            <div class="eyebrow">
+                Start Your Request
+            </div>
+
+
+            <h2>
+
+                Tell Us
+
+                <span class="gradient-text">
+                    What You Need.
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                Give us a few details about your academic
+                work. This information helps us understand
+                exactly what you need before contacting you.
+
+            </p>
+
+
+            <div class="form-benefits">
+
+
+                <div class="form-benefit">
+
+                    <div class="form-benefit-icon">
+                        ✓
+                    </div>
+
+                    No complicated account required
+
+                </div>
+
+
+                <div class="form-benefit">
+
+                    <div class="form-benefit-icon">
+                        📄
+                    </div>
+
+                    Your requirements are packaged into a PDF
+
+                </div>
+
+
+                <div class="form-benefit">
+
+                    <div class="form-benefit-icon">
+                        ✉
+                    </div>
+
+                    Request is sent directly to our email
+
+                </div>
+
+
+                <div class="form-benefit">
+
+                    <div class="form-benefit-icon">
+                        🔒
+                    </div>
+
+                    Information is used to respond to your request
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FORM -->
+
+        <div class="form-card reveal">
+
+
+            <div class="form-header">
+
+                <h3>
+                    Academic Work Request
+                </h3>
+
+                <p>
+                    Complete the important details below.
+                    Fields marked with * are required.
+                </p>
+
+            </div>
+
+
+            <form id="inquiryForm">
+
+
+                <div class="form-grid">
+
+
+                    <!-- NAME -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="full_name"
+                            id="full_name"
+                            placeholder="Your full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Email Address *
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- WHATSAPP -->
+
+                    <div class="form-group">
+
+                        <label>
+                            WhatsApp / Phone *
+                        </label>
+
+                        <input
+                            type="tel"
+                            name="phone"
+                            id="phone"
+                            placeholder="+92 300 1234567"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EDUCATION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Education Level
+                        </label>
+
+                        <select
+                            name="education_level"
+                            id="education_level"
+                        >
+
+                            <option value="">
+                                Select level
+                            </option>
+
+                            <option>
+                                School
+                            </option>
+
+                            <option>
+                                College / FSc / A-Level
+                            </option>
+
+                            <option>
+                                Bachelor's
+                            </option>
+
+                            <option>
+                                Master's
+                            </option>
+
+                            <option>
+                                MPhil / MS
+                            </option>
+
+                            <option>
+                                PhD
+                            </option>
+
+                            <option>
+                                Professional / Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- INSTITUTION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Institution / University
+                        </label>
+
+                        <input
+                            type="text"
+                            name="institution"
+                            id="institution"
+                            placeholder="University / College"
+                        >
+
+                    </div>
+
+
+                    <!-- SUBJECT -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Subject / Course
+                        </label>
+
+                        <input
+                            type="text"
+                            name="subject"
+                            id="subject"
+                            placeholder="e.g. Computer Science"
+                        >
+
+                    </div>
+
+
+                    <!-- WORK TYPE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Type of Work *
+                        </label>
+
+                        <select
+                            name="work_type"
+                            id="work_type"
+                            required
+                        >
+
+                            <option value="">
+                                Select work type
+                            </option>
+
+                            <option>
+                                Assignment
+                            </option>
+
+                            <option>
+                                Academic Project
+                            </option>
+
+                            <option>
+                                Final Year Project
+                            </option>
+
+                            <option>
+                                Research Work
+                            </option>
+
+                            <option>
+                                Report
+                            </option>
+
+                            <option>
+                                Presentation / PowerPoint
+                            </option>
+
+                            <option>
+                                Thesis Support
+                            </option>
+
+                            <option>
+                                Data / Analysis
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DEADLINE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Deadline
+                        </label>
+
+                        <input
+                            type="date"
+                            name="deadline"
+                            id="deadline"
+                        >
+
+                    </div>
+
+
+                    <!-- EXPECTED FORMAT -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Preferred Output Format
+                        </label>
+
+                        <select
+                            name="output_format"
+                            id="output_format"
+                        >
+
+                            <option value="">
+                                Select format
+                            </option>
+
+                            <option>
+                                Word / DOCX
+                            </option>
+
+                            <option>
+                                PDF
+                            </option>
+
+                            <option>
+                                PowerPoint / PPTX
+                            </option>
+
+                            <option>
+                                Excel / XLSX
+                            </option>
+
+                            <option>
+                                Source Code
+                            </option>
+
+                            <option>
+                                Multiple Formats
+                            </option>
+
+                            <option>
+                                Not Sure
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- WHAT THEY WANT -->
+
+                    <div class="form-group full">
+
+                        <label>
+                            What exactly do you want? *
+                        </label>
+
+                        <textarea
+                            name="what_you_want"
+                            id="what_you_want"
+                            placeholder="Tell us what you want us to help you with..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- PROJECT DESCRIPTION -->
+
+                    <div class="form-group full">
+
+                        <label>
+                            About Your Project / Work *
+                        </label>
+
+                        <textarea
+                            name="project_description"
+                            id="project_description"
+                            placeholder="Explain your project, topic, current progress, instructions, required sections, etc."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- SPECIAL REQUIREMENTS -->
+
+                    <div class="form-group full">
+
+                        <label>
+                            Special Requirements
+                            <span>(optional)</span>
+                        </label>
+
+                        <textarea
+                            name="special_requirements"
+                            id="special_requirements"
+                            placeholder="Formatting rules, university instructions, references, software requirements, teacher instructions, etc."
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- EXTRA NOTES -->
+
+                    <div class="form-group full">
+
+                        <label>
+                            Additional Notes
+                            <span>(optional)</span>
+                        </label>
+
+                        <textarea
+                            name="additional_notes"
+                            id="additional_notes"
+                            placeholder="Anything else we should know?"
+                        ></textarea>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-note">
+
+                    🔒 Your submitted information is used to
+                    understand and respond to your request.
+                    Please do not submit passwords, payment-card
+                    information or other sensitive credentials.
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="form-submit"
+                    id="submitBtn"
+                >
+
+                    <span id="submitText">
+                        📄 Submit Request & Send PDF
+                    </span>
+
+                    <span
+                        class="submit-loading"
+                        id="submitLoading"
+                    >
+                        ⏳ Preparing Your Request...
+                    </span>
+
+                </button>
+
+
+                <div
+                    id="formStatus"
+                    class="form-status"
+                ></div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FAQ
+     ========================================================= -->
 
 <section id="faq">
 
     <div class="container">
 
+
         <div class="section-heading reveal">
 
-            <div class="eyebrow">FAQ</div>
+            <div class="eyebrow">
+                FAQ
+            </div>
+
 
             <h2>
+
                 Questions?
-                <span class="gradient-text">Start Here.</span>
+
+                <span class="gradient-text">
+                    Start Here.
+                </span>
+
             </h2>
 
         </div>
@@ -1424,75 +3718,142 @@ footer{
 
         <div class="faq reveal">
 
+
             <div class="faq-item">
 
                 <button class="faq-question">
+
                     Can I request something not listed?
+
                     <span>+</span>
+
                 </button>
 
+
                 <div class="faq-answer">
+
                     <p>
-                        Yes. Send the complete requirement through WhatsApp.
-                        We can discuss the task and determine whether it is
-                        something we can support.
+
+                        Yes. Use the request form and explain
+                        your requirement. You can also contact
+                        us directly through WhatsApp.
+
                     </p>
+
                 </div>
 
             </div>
+
 
 
             <div class="faq-item">
 
                 <button class="faq-question">
-                    How do I start an order?
+
+                    What happens after I submit the form?
+
                     <span>+</span>
+
                 </button>
 
+
                 <div class="faq-answer">
+
                     <p>
-                        Click any WhatsApp button and send your subject,
-                        requirements, deadline and any instructions provided
-                        by your institution.
+
+                        Your submitted information is converted
+                        into a PDF request and emailed to the
+                        VAREZON team. We can then review the
+                        requirement and contact you.
+
                     </p>
+
                 </div>
 
             </div>
+
 
 
             <div class="faq-item">
 
                 <button class="faq-question">
-                    Do I need to explain everything immediately?
+
+                    Can I send my requirements through WhatsApp?
+
                     <span>+</span>
+
                 </button>
 
+
                 <div class="faq-answer">
+
                     <p>
-                        No. Start with whatever information you have.
-                        We can clarify the remaining requirements during
-                        the conversation.
+
+                        Yes. If you prefer direct communication,
+                        use the WhatsApp button and explain your
+                        academic task there.
+
                     </p>
+
                 </div>
 
             </div>
+
 
 
             <div class="faq-item">
 
                 <button class="faq-question">
-                    Can students request urgent work?
+
+                    Can I request urgent work?
+
                     <span>+</span>
+
                 </button>
 
+
                 <div class="faq-answer">
+
                     <p>
-                        Send the deadline and requirements first. Availability
-                        depends on the complexity and current workload.
+
+                        Send your deadline and requirements first.
+                        Availability depends on the complexity
+                        of the work and current workload.
+
                     </p>
+
                 </div>
 
             </div>
+
+
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    What information should I provide?
+
+                    <span>+</span>
+
+                </button>
+
+
+                <div class="faq-answer">
+
+                    <p>
+
+                        The more useful information you provide
+                        about the subject, project, instructions,
+                        deadline and expected output, the easier
+                        it is to understand your request.
+
+                    </p>
+
+                </div>
+
+            </div>
+
 
         </div>
 
@@ -1501,30 +3862,47 @@ footer{
 </section>
 
 
-<!-- ================= CTA ================= -->
 
-<section class="cta" id="contact">
+<!-- =========================================================
+     CTA
+     ========================================================= -->
+
+<section class="cta">
 
     <div class="container">
 
+
         <div class="cta-box reveal">
 
-            <div class="eyebrow">Ready?</div>
+
+            <div class="eyebrow">
+                Ready?
+            </div>
+
 
             <h2>
                 Have an Academic Task?
             </h2>
 
+
             <p>
-                Don't know where to start? Send your requirements and
-                let's discuss your project.
+
+                Tell us what you're working on.
+                Start with the request form or talk
+                directly through WhatsApp.
+
             </p>
 
-            <a class="btn btn-primary"
-               href="https://wa.me/923421402024?text=Hello%20VAREZON%2C%20I%20want%20to%20discuss%20an%20academic%20task."
-               target="_blank">
-                💬 Start on WhatsApp
+
+            <a
+                class="btn btn-primary"
+                href="#inquiry"
+            >
+
+                📋 Submit Your Requirements
+
             </a>
+
 
         </div>
 
@@ -1532,265 +3910,1334 @@ footer{
 
 </section>
 
+
 </main>
 
 
-<!-- ================= FOOTER ================= -->
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
 
 <footer>
 
     <div class="container footer">
 
+
         <p>
-            © <span id="year"></span> VAREZON. All rights reserved.
+
+            ©
+            <span id="year"></span>
+            VAREZON.
+            All rights reserved.
+
         </p>
 
+
         <div class="footer-links">
-            <a href="#services">Services</a>
-            <a href="#faq">FAQ</a>
-            <a href="#contact">Contact</a>
+
+            <a href="#services">
+                Services
+            </a>
+
+            <a href="#inquiry">
+                Request
+            </a>
+
+            <a href="#faq">
+                FAQ
+            </a>
+
         </div>
+
 
     </div>
 
 </footer>
 
 
-<!-- ================= FLOATING WHATSAPP ================= -->
+
+<!-- =========================================================
+     FLOATING WHATSAPP
+     ========================================================= -->
 
 <a
+
     class="whatsapp"
+
     href="https://wa.me/923421402024?text=Hello%20VAREZON%2C%20I%20need%20help%20with%20my%20academic%20work."
+
     target="_blank"
+
     aria-label="Chat with VAREZON on WhatsApp"
+
     title="Chat on WhatsApp"
+
 >
+
     ☎
+
 </a>
 
 
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
 <script>
 
+
 /* =========================================================
-   VAREZON INTERACTIONS
+   EMAILJS CONFIGURATION
+   =========================================================
+
+   IMPORTANT:
+
+   Replace these 3 values after creating your EmailJS setup.
+
+   1. YOUR_PUBLIC_KEY
+   2. YOUR_SERVICE_ID
+   3. YOUR_TEMPLATE_ID
+
    ========================================================= */
 
 
-/* ---------- Header ---------- */
+/* ---------- EMAILJS PUBLIC KEY ---------- */
 
-const header = document.getElementById("header");
+const EMAILJS_PUBLIC_KEY =
+    "YOUR_PUBLIC_KEY";
 
-window.addEventListener("scroll", () => {
 
-    if(window.scrollY > 30){
-        header.classList.add("scrolled");
-    }else{
-        header.classList.remove("scrolled");
+/* ---------- EMAILJS SERVICE ID ---------- */
+
+const EMAILJS_SERVICE_ID =
+    "YOUR_SERVICE_ID";
+
+
+/* ---------- EMAILJS TEMPLATE ID ---------- */
+
+const EMAILJS_TEMPLATE_ID =
+    "YOUR_TEMPLATE_ID";
+
+
+/* ---------- INITIALIZE EMAILJS ---------- */
+
+emailjs.init({
+
+    publicKey:
+        EMAILJS_PUBLIC_KEY
+
+});
+
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+const header =
+    document.getElementById("header");
+
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        if(window.scrollY > 30){
+
+            header.classList.add("scrolled");
+
+        }else{
+
+            header.classList.remove("scrolled");
+
+        }
+
     }
-
-});
-
-
-/* ---------- Mobile Menu ---------- */
-
-const menuBtn = document.getElementById("menuBtn");
-const navLinks = document.getElementById("navLinks");
-
-menuBtn.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-});
-
-document.querySelectorAll(".nav-links a").forEach(link => {
-
-    link.addEventListener("click", () => {
-        navLinks.classList.remove("active");
-    });
-
-});
-
-
-/* ---------- Scroll Reveal ---------- */
-
-const revealObserver = new IntersectionObserver(
-
-    entries => {
-
-        entries.forEach(entry => {
-
-            if(entry.isIntersecting){
-
-                entry.target.classList.add("visible");
-
-                revealObserver.unobserve(entry.target);
-
-            }
-
-        });
-
-    },
-
-    {
-        threshold:.12
-    }
-
 );
 
-document.querySelectorAll(".reveal").forEach(el => {
-
-    revealObserver.observe(el);
-
-});
 
 
-/* ---------- FAQ ---------- */
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
 
-document.querySelectorAll(".faq-question").forEach(button => {
+const menuBtn =
+    document.getElementById("menuBtn");
 
-    button.addEventListener("click", () => {
+const navLinks =
+    document.getElementById("navLinks");
 
-        const item = button.parentElement;
 
-        document.querySelectorAll(".faq-item").forEach(other => {
+menuBtn.addEventListener(
+    "click",
+    () => {
 
-            if(other !== item){
-                other.classList.remove("active");
+        navLinks.classList.toggle("active");
+
+    }
+);
+
+
+document
+    .querySelectorAll(".nav-links a")
+    .forEach(link => {
+
+        link.addEventListener(
+            "click",
+            () => {
+
+                navLinks.classList.remove("active");
+
             }
-
-        });
-
-        item.classList.toggle("active");
+        );
 
     });
 
-});
 
 
-/* ---------- Current Year ---------- */
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
 
-document.getElementById("year").textContent = new Date().getFullYear();
+const revealObserver =
+    new IntersectionObserver(
 
+        entries => {
 
-/* ---------- Background Particles ---------- */
+            entries.forEach(entry => {
 
-const particleCount = window.innerWidth < 700 ? 22 : 45;
+                if(entry.isIntersecting){
 
-for(let i = 0; i < particleCount; i++){
+                    entry.target
+                        .classList
+                        .add("visible");
 
-    const particle = document.createElement("div");
+                    revealObserver
+                        .unobserve(entry.target);
 
-    particle.className = "particle";
+                }
 
-    particle.style.left = Math.random() * 100 + "%";
-    particle.style.top = Math.random() * 100 + "%";
-    particle.style.opacity = Math.random() * .5 + .1;
+            });
 
-    const duration = 5 + Math.random() * 9;
-    const distance = 20 + Math.random() * 80;
-
-    particle.animate(
-
-        [
-            {
-                transform:"translateY(0px)",
-                opacity:particle.style.opacity
-            },
-            {
-                transform:`translateY(-${distance}px)`,
-                opacity:0
-            },
-            {
-                transform:"translateY(0px)",
-                opacity:particle.style.opacity
-            }
-        ],
+        },
 
         {
-            duration:duration * 1000,
-            iterations:Infinity,
-            delay:-Math.random() * duration * 1000,
-            easing:"ease-in-out"
+            threshold:.12
         }
 
     );
 
-    document.body.appendChild(particle);
+
+document
+    .querySelectorAll(".reveal")
+    .forEach(el => {
+
+        revealObserver.observe(el);
+
+    });
+
+
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+
+document
+    .querySelectorAll(".faq-question")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const item =
+                    button.parentElement;
+
+
+                document
+                    .querySelectorAll(".faq-item")
+                    .forEach(other => {
+
+                        if(other !== item){
+
+                            other
+                                .classList
+                                .remove("active");
+
+                        }
+
+                    });
+
+
+                item
+                    .classList
+                    .toggle("active");
+
+            }
+        );
+
+    });
+
+
+
+/* =========================================================
+   YEAR
+   ========================================================= */
+
+document.getElementById("year")
+    .textContent =
+        new Date().getFullYear();
+
+
+
+/* =========================================================
+   BACKGROUND PARTICLES
+   ========================================================= */
+
+const particleCount =
+    window.innerWidth < 700
+        ? 22
+        : 45;
+
+
+for(let i = 0; i < particleCount; i++){
+
+    const particle =
+        document.createElement("div");
+
+
+    particle.className =
+        "particle";
+
+
+    particle.style.left =
+        Math.random() * 100 + "%";
+
+
+    particle.style.top =
+        Math.random() * 100 + "%";
+
+
+    particle.style.opacity =
+        Math.random() * .5 + .1;
+
+
+    const duration =
+        5 + Math.random() * 9;
+
+
+    const distance =
+        20 + Math.random() * 80;
+
+
+    particle.animate(
+
+        [
+
+            {
+                transform:"translateY(0px)",
+                opacity:particle.style.opacity
+            },
+
+            {
+                transform:
+                    `translateY(-${distance}px)`,
+                opacity:0
+            },
+
+            {
+                transform:"translateY(0px)",
+                opacity:particle.style.opacity
+            }
+
+        ],
+
+        {
+
+            duration:
+                duration * 1000,
+
+            iterations:
+                Infinity,
+
+            delay:
+                -Math.random()
+                * duration
+                * 1000,
+
+            easing:
+                "ease-in-out"
+
+        }
+
+    );
+
+
+    document.body
+        .appendChild(particle);
 
 }
 
 
-/* ---------- Mouse Glow ---------- */
+
+/* =========================================================
+   MOUSE GLOW
+   ========================================================= */
 
 let mouseX = 0;
 let mouseY = 0;
 
-document.addEventListener("mousemove", e => {
 
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+document.addEventListener(
+    "mousemove",
+    e => {
 
-});
+        mouseX =
+            e.clientX;
 
-const glow = document.createElement("div");
+        mouseY =
+            e.clientY;
 
-glow.style.position = "fixed";
-glow.style.width = "250px";
-glow.style.height = "250px";
-glow.style.borderRadius = "50%";
-glow.style.pointerEvents = "none";
-glow.style.zIndex = "-1";
+    }
+);
+
+
+const glow =
+    document.createElement("div");
+
+
+glow.style.position =
+    "fixed";
+
+
+glow.style.width =
+    "250px";
+
+
+glow.style.height =
+    "250px";
+
+
+glow.style.borderRadius =
+    "50%";
+
+
+glow.style.pointerEvents =
+    "none";
+
+
+glow.style.zIndex =
+    "-1";
+
+
 glow.style.background =
     "radial-gradient(circle,rgba(124,92,255,.08),transparent 65%)";
-glow.style.transform = "translate(-50%,-50%)";
 
-document.body.appendChild(glow);
+
+glow.style.transform =
+    "translate(-50%,-50%)";
+
+
+document.body
+    .appendChild(glow);
+
 
 function moveGlow(){
 
-    glow.style.left = mouseX + "px";
-    glow.style.top = mouseY + "px";
+    glow.style.left =
+        mouseX + "px";
 
-    requestAnimationFrame(moveGlow);
+
+    glow.style.top =
+        mouseY + "px";
+
+
+    requestAnimationFrame(
+        moveGlow
+    );
 
 }
+
 
 moveGlow();
 
 
-/* ---------- Subtle Card Tilt ---------- */
+
+/* =========================================================
+   SERVICE CARD TILT
+   ========================================================= */
 
 if(window.innerWidth > 900){
 
-    document.querySelectorAll(".service-card").forEach(card => {
+    document
+        .querySelectorAll(".service-card")
+        .forEach(card => {
 
-        card.addEventListener("mousemove", e => {
 
-            const rect = card.getBoundingClientRect();
+            card.addEventListener(
+                "mousemove",
+                e => {
 
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+                    const rect =
+                        card.getBoundingClientRect();
 
-            const rotateX =
-                ((y / rect.height) - .5) * -5;
 
-            const rotateY =
-                ((x / rect.width) - .5) * 5;
+                    const x =
+                        e.clientX -
+                        rect.left;
 
-            card.style.transform =
-                `translateY(-8px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+                    const y =
+                        e.clientY -
+                        rect.top;
+
+
+                    const rotateX =
+                        ((y / rect.height) - .5)
+                        * -5;
+
+
+                    const rotateY =
+                        ((x / rect.width) - .5)
+                        * 5;
+
+
+                    card.style.transform =
+                        `translateY(-8px)
+                         rotateX(${rotateX}deg)
+                         rotateY(${rotateY}deg)`;
+
+                }
+            );
+
+
+            card.addEventListener(
+                "mouseleave",
+                () => {
+
+                    card.style.transform =
+                        "";
+
+                }
+            );
 
         });
-
-        card.addEventListener("mouseleave", () => {
-
-            card.style.transform = "";
-
-        });
-
-    });
 
 }
 
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+const inquiryForm =
+    document.getElementById(
+        "inquiryForm"
+    );
+
+
+const submitBtn =
+    document.getElementById(
+        "submitBtn"
+    );
+
+
+const submitText =
+    document.getElementById(
+        "submitText"
+    );
+
+
+const submitLoading =
+    document.getElementById(
+        "submitLoading"
+    );
+
+
+const formStatus =
+    document.getElementById(
+        "formStatus"
+    );
+
+
+
+/* =========================================================
+   FORM STATUS
+   ========================================================= */
+
+function showStatus(
+    message,
+    type
+){
+
+    formStatus
+        .className =
+        "form-status " + type;
+
+
+    formStatus
+        .textContent =
+        message;
+
+
+    formStatus
+        .scrollIntoView({
+            behavior:"smooth",
+            block:"nearest"
+        });
+
+}
+
+
+
+/* =========================================================
+   CREATE PROFESSIONAL PDF
+   ========================================================= */
+
+function createPDF(){
+
+    const {
+        jsPDF
+    } =
+        window.jspdf;
+
+
+    const doc =
+        new jsPDF({
+            unit:"mm",
+            format:"a4"
+        });
+
+
+    const pageWidth =
+        doc.internal.pageSize.getWidth();
+
+
+    const pageHeight =
+        doc.internal.pageSize.getHeight();
+
+
+    const margin = 18;
+
+    let y = 20;
+
+
+
+    /* ---------- HEADER ---------- */
+
+    doc.setFillColor(
+        15,
+        12,
+        35
+    );
+
+
+    doc.rect(
+        0,
+        0,
+        pageWidth,
+        42,
+        "F"
+    );
+
+
+    doc.setTextColor(
+        255,
+        255,
+        255
+    );
+
+
+    doc.setFont(
+        "helvetica",
+        "bold"
+    );
+
+
+    doc.setFontSize(22);
+
+
+    doc.text(
+        "VAREZON",
+        margin,
+        19
+    );
+
+
+    doc.setFontSize(10);
+
+    doc.setFont(
+        "helvetica",
+        "normal"
+    );
+
+
+    doc.text(
+        "STUDENT SERVICES",
+        margin,
+        27
+    );
+
+
+    doc.setTextColor(
+        180,
+        180,
+        200
+    );
+
+
+    doc.text(
+        "Academic Work Request",
+        margin,
+        34
+    );
+
+
+    y = 55;
+
+
+
+    /* ---------- HELPERS ---------- */
+
+    function field(
+        label,
+        value
+    ){
+
+        if(!value)
+            value = "Not provided";
+
+
+        doc.setTextColor(
+            95,
+            95,
+            115
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+
+        doc.setFontSize(9);
+
+
+        doc.text(
+            label.toUpperCase(),
+            margin,
+            y
+        );
+
+
+        y += 5;
+
+
+        doc.setTextColor(
+            35,
+            35,
+            48
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+
+        doc.setFontSize(10);
+
+
+        const lines =
+            doc.splitTextToSize(
+                String(value),
+                pageWidth -
+                margin * 2
+            );
+
+
+        doc.text(
+            lines,
+            margin,
+            y
+        );
+
+
+        y +=
+            lines.length * 5
+            + 7;
+
+
+        if(y > pageHeight - 25){
+
+            doc.addPage();
+
+            y = 20;
+
+        }
+
+    }
+
+
+
+    function sectionTitle(
+        title
+    ){
+
+        if(y > pageHeight - 30){
+
+            doc.addPage();
+
+            y = 20;
+
+        }
+
+
+        doc.setFillColor(
+            238,
+            235,
+            255
+        );
+
+
+        doc.roundedRect(
+            margin,
+            y - 5,
+            pageWidth - margin * 2,
+            9,
+            2,
+            2,
+            "F"
+        );
+
+
+        doc.setTextColor(
+            75,
+            55,
+            160
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+
+        doc.setFontSize(11);
+
+
+        doc.text(
+            title,
+            margin + 4,
+            y + 1
+        );
+
+
+        y += 14;
+
+    }
+
+
+
+    /* ---------- REQUEST ID ---------- */
+
+    const requestId =
+        "VZ-" +
+        Date.now()
+            .toString()
+            .slice(-8);
+
+
+    field(
+        "Request ID",
+        requestId
+    );
+
+
+    field(
+        "Submitted",
+        new Date().toLocaleString()
+    );
+
+
+
+    /* ---------- CLIENT ---------- */
+
+    sectionTitle(
+        "CLIENT INFORMATION"
+    );
+
+
+    field(
+        "Full Name",
+        document.getElementById(
+            "full_name"
+        ).value
+    );
+
+
+    field(
+        "Email",
+        document.getElementById(
+            "email"
+        ).value
+    );
+
+
+    field(
+        "WhatsApp / Phone",
+        document.getElementById(
+            "phone"
+        ).value
+    );
+
+
+    field(
+        "Education Level",
+        document.getElementById(
+            "education_level"
+        ).value
+    );
+
+
+    field(
+        "Institution / University",
+        document.getElementById(
+            "institution"
+        ).value
+    );
+
+
+
+    /* ---------- WORK ---------- */
+
+    sectionTitle(
+        "ACADEMIC WORK"
+    );
+
+
+    field(
+        "Subject / Course",
+        document.getElementById(
+            "subject"
+        ).value
+    );
+
+
+    field(
+        "Type of Work",
+        document.getElementById(
+            "work_type"
+        ).value
+    );
+
+
+    field(
+        "Deadline",
+        document.getElementById(
+            "deadline"
+        ).value
+    );
+
+
+    field(
+        "Preferred Output",
+        document.getElementById(
+            "output_format"
+        ).value
+    );
+
+
+
+    /* ---------- REQUIREMENTS ---------- */
+
+    sectionTitle(
+        "PROJECT REQUIREMENTS"
+    );
+
+
+    field(
+        "What The Client Wants",
+        document.getElementById(
+            "what_you_want"
+        ).value
+    );
+
+
+    field(
+        "Project / Work Description",
+        document.getElementById(
+            "project_description"
+        ).value
+    );
+
+
+    field(
+        "Special Requirements",
+        document.getElementById(
+            "special_requirements"
+        ).value
+    );
+
+
+    field(
+        "Additional Notes",
+        document.getElementById(
+            "additional_notes"
+        ).value
+    );
+
+
+
+    /* ---------- FOOTER ---------- */
+
+    const pages =
+        doc.internal.getNumberOfPages();
+
+
+    for(
+        let i = 1;
+        i <= pages;
+        i++
+    ){
+
+        doc.setPage(i);
+
+
+        doc.setDrawColor(
+            225,
+            225,
+            235
+        );
+
+
+        doc.line(
+            margin,
+            pageHeight - 14,
+            pageWidth - margin,
+            pageHeight - 14
+        );
+
+
+        doc.setFontSize(8);
+
+
+        doc.setTextColor(
+            130,
+            130,
+            145
+        );
+
+
+        doc.text(
+            "VAREZON Student Services",
+            margin,
+            pageHeight - 8
+        );
+
+
+        doc.text(
+            `Page ${i} of ${pages}`,
+            pageWidth - margin,
+            pageHeight - 8,
+            {
+                align:"right"
+            }
+        );
+
+    }
+
+
+    return {
+        doc,
+        requestId
+    };
+
+}
+
+
+
+/* =========================================================
+   FORM SUBMISSION
+   ========================================================= */
+
+inquiryForm.addEventListener(
+    "submit",
+    async event => {
+
+        event.preventDefault();
+
+
+        /* ---------- CHECK CONFIG ---------- */
+
+        if(
+            EMAILJS_PUBLIC_KEY ===
+                "YOUR_PUBLIC_KEY" ||
+
+            EMAILJS_SERVICE_ID ===
+                "YOUR_SERVICE_ID" ||
+
+            EMAILJS_TEMPLATE_ID ===
+                "YOUR_TEMPLATE_ID"
+        ){
+
+            showStatus(
+
+                "The request form is not configured yet. Please contact us through WhatsApp while the email system is being connected.",
+
+                "error"
+
+            );
+
+            return;
+
+        }
+
+
+        /* ---------- LOADING ---------- */
+
+        submitBtn.disabled =
+            true;
+
+
+        submitText.style.display =
+            "none";
+
+
+        submitLoading.style.display =
+            "inline";
+
+
+        formStatus.className =
+            "form-status";
+
+
+        formStatus.textContent =
+            "";
+
+
+
+        try{
+
+
+            /* ---------- CREATE PDF ---------- */
+
+            const pdfResult =
+                createPDF();
+
+
+            const doc =
+                pdfResult.doc;
+
+
+            const requestId =
+                pdfResult.requestId;
+
+
+            /*
+             * Convert PDF to Base64 Data URI.
+             *
+             * EmailJS supports dynamic variable
+             * attachments using Base64/URL data.
+             */
+
+            const pdfDataUri =
+                doc.output(
+                    "datauristring"
+                );
+
+
+
+            /* ---------- TEMPLATE DATA ---------- */
+
+            const templateParams = {
+
+
+                request_id:
+                    requestId,
+
+
+                full_name:
+                    document.getElementById(
+                        "full_name"
+                    ).value,
+
+
+                email:
+                    document.getElementById(
+                        "email"
+                    ).value,
+
+
+                phone:
+                    document.getElementById(
+                        "phone"
+                    ).value,
+
+
+                education_level:
+                    document.getElementById(
+                        "education_level"
+                    ).value,
+
+
+                institution:
+                    document.getElementById(
+                        "institution"
+                    ).value,
+
+
+                subject:
+                    document.getElementById(
+                        "subject"
+                    ).value,
+
+
+                work_type:
+                    document.getElementById(
+                        "work_type"
+                    ).value,
+
+
+                deadline:
+                    document.getElementById(
+                        "deadline"
+                    ).value,
+
+
+                output_format:
+                    document.getElementById(
+                        "output_format"
+                    ).value,
+
+
+                what_you_want:
+                    document.getElementById(
+                        "what_you_want"
+                    ).value,
+
+
+                project_description:
+                    document.getElementById(
+                        "project_description"
+                    ).value,
+
+
+                special_requirements:
+                    document.getElementById(
+                        "special_requirements"
+                    ).value,
+
+
+                additional_notes:
+                    document.getElementById(
+                        "additional_notes"
+                    ).value,
+
+
+                submitted_at:
+                    new Date().toLocaleString(),
+
+
+                /*
+
+                   IMPORTANT:
+
+                   In your EmailJS template,
+                   create a Variable Attachment
+                   with parameter name:
+
+                   pdf_attachment
+
+                */
+
+                pdf_attachment:
+                    pdfDataUri
+
+            };
+
+
+
+            /* ---------- SEND EMAIL ---------- */
+
+            await emailjs.send(
+
+                EMAILJS_SERVICE_ID,
+
+                EMAILJS_TEMPLATE_ID,
+
+                templateParams
+
+            );
+
+
+
+            /* ---------- DOWNLOAD LOCAL COPY ---------- */
+
+            doc.save(
+                `VAREZON-${requestId}.pdf`
+            );
+
+
+
+            /* ---------- SUCCESS ---------- */
+
+            showStatus(
+
+                `Request ${requestId} submitted successfully. Your requirements have been sent to VAREZON. A PDF copy has also been downloaded for your records.`,
+
+                "success"
+
+            );
+
+
+            /* ---------- RESET ---------- */
+
+            inquiryForm.reset();
+
+
+        }catch(error){
+
+            console.error(
+                "VAREZON submission error:",
+                error
+            );
+
+
+            showStatus(
+
+                "We could not send the request right now. Please try again or contact us directly on WhatsApp.",
+
+                "error"
+
+            );
+
+        }finally{
+
+            submitBtn.disabled =
+                false;
+
+
+            submitText.style.display =
+                "inline";
+
+
+            submitLoading.style.display =
+                "none";
+
+        }
+
+    }
+);
+
 </script>
+
 
 </body>
 </html>
