@@ -1,1197 +1,1797 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProLab Assistant - Complete System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #0ea5e9;
-            --primary-dark: #0284c7;
-            --secondary: #38bdf8;
-            --accent: #f59e0b;
-            --bg-color: #f0fdf4;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --success: #10b981;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #e0f2fe 0%, #dcfce7 100%);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
+<title>VAREZON Student Services | Assignments, Projects & Academic Support</title>
 
-        .container { max-width: 800px; margin: 0 auto; animation: fadeIn 0.8s ease-out; }
+<meta name="description" content="VAREZON Student Services — assignments, academic projects, reports, presentations, research assistance and more.">
+<meta name="theme-color" content="#070914">
 
-        .header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            color: white;
-            padding: 30px 20px;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-        }
+<style>
+/* =========================================================
+   VAREZON STUDENT SERVICES
+   Single-file GitHub Pages Landing Page
+   ========================================================= */
 
-        .header::after {
-            content: "\f0c3";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            font-size: 150px;
-            opacity: 0.1;
-            right: -20px;
-            bottom: -40px;
-            transform: rotate(-15deg);
-        }
+:root{
+    --bg:#060712;
+    --bg2:#0b0d1c;
+    --card:rgba(255,255,255,.055);
+    --card-border:rgba(255,255,255,.11);
+    --text:#f7f8ff;
+    --muted:#9da4bd;
+    --primary:#7c5cff;
+    --primary2:#00d9ff;
+    --success:#25d366;
+    --max:1200px;
+    --radius:24px;
+    --shadow:0 25px 80px rgba(0,0,0,.35);
+}
 
-        .header h1 { margin: 0; font-size: 2.2rem; letter-spacing: 1px; }
-        .header p { margin: 10px 0 0; font-weight: 300; opacity: 0.9; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-            margin-bottom: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
+html{
+    scroll-behavior:smooth;
+}
 
-        .card h2 {
-            color: var(--primary-dark);
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
-        }
+body{
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(124,92,255,.15),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(0,217,255,.10),transparent 28%),
+        var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+}
 
-        .input-group { margin-bottom: 20px; }
-        label { font-weight: 600; display: block; margin-bottom: 8px; color: var(--text-main); }
-        
-        select, input {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            background-color: #f8fafc;
-            box-sizing: border-box;
-        }
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:55px 55px;
+    mask-image:linear-gradient(to bottom,black,transparent 85%);
+    z-index:-2;
+}
 
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
-            background-color: #fff;
-        }
+/* ---------- Scrollbar ---------- */
 
-        .step-list { list-style: none; padding: 0; margin: 0; }
-        .step-item {
-            background: #ffffff;
-            border-left: 4px solid var(--primary);
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            border-radius: 0 10px 10px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            animation: fadeInRight 0.5s ease-out forwards;
-        }
+::-webkit-scrollbar{
+    width:8px;
+}
 
-        .step-checkbox {
-            margin-top: 4px;
-            appearance: none;
-            width: 22px;
-            height: 22px;
-            border: 2px solid var(--primary);
-            border-radius: 6px;
-            cursor: pointer;
-            position: relative;
-            flex-shrink: 0;
-        }
+::-webkit-scrollbar-track{
+    background:#05060d;
+}
 
-        .step-checkbox:checked { background-color: var(--success); border-color: var(--success); }
-        .step-checkbox:checked::after {
-            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px;
-        }
+::-webkit-scrollbar-thumb{
+    background:linear-gradient(var(--primary),var(--primary2));
+    border-radius:20px;
+}
 
-        .step-content { flex-grow: 1; }
-        .step-content.completed { text-decoration: line-through; color: var(--text-muted); opacity: 0.7; }
-        .highlight { font-weight: 700; color: var(--accent); background: rgba(245, 158, 11, 0.1); padding: 2px 6px; border-radius: 4px; }
+/* ---------- Container ---------- */
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeInRight { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    </style>
+.container{
+    width:min(var(--max),calc(100% - 40px));
+    margin:auto;
+}
+
+/* ---------- Header ---------- */
+
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+    padding:18px 0;
+    transition:.35s ease;
+}
+
+header.scrolled{
+    background:rgba(5,6,15,.78);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    padding:12px 0;
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:white;
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.logo-mark{
+    width:40px;
+    height:40px;
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    box-shadow:0 0 30px rgba(124,92,255,.35);
+}
+
+.logo-mark span{
+    font-size:19px;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+    align-items:center;
+}
+
+.nav-links a{
+    color:#c6c9d8;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    transition:.25s;
+}
+
+.nav-links a:hover{
+    color:white;
+}
+
+.nav-cta{
+    padding:11px 18px;
+    border-radius:999px;
+    background:white;
+    color:#080912!important;
+}
+
+.menu{
+    display:none;
+    border:0;
+    background:none;
+    color:white;
+    font-size:27px;
+    cursor:pointer;
+}
+
+/* ---------- Hero ---------- */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    position:relative;
+    padding:140px 0 90px;
+    overflow:hidden;
+}
+
+.hero-orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(2px);
+    pointer-events:none;
+}
+
+.orb1{
+    width:450px;
+    height:450px;
+    background:rgba(124,92,255,.10);
+    top:8%;
+    left:-180px;
+    animation:orbMove 9s ease-in-out infinite;
+}
+
+.orb2{
+    width:380px;
+    height:380px;
+    background:rgba(0,217,255,.08);
+    right:-130px;
+    bottom:5%;
+    animation:orbMove 11s ease-in-out infinite reverse;
+}
+
+@keyframes orbMove{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(30px,-30px) scale(1.08);}
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    align-items:center;
+    gap:70px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding:8px 13px;
+    border:1px solid rgba(124,92,255,.35);
+    background:rgba(124,92,255,.09);
+    border-radius:999px;
+    color:#cfc7ff;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+.badge-dot{
+    width:7px;
+    height:7px;
+    background:#7cffd1;
+    border-radius:50%;
+    box-shadow:0 0 12px #7cffd1;
+    animation:pulse 1.7s infinite;
+}
+
+@keyframes pulse{
+    50%{transform:scale(1.5);opacity:.5;}
+}
+
+.hero h1{
+    font-size:clamp(48px,7vw,82px);
+    line-height:.98;
+    letter-spacing:-5px;
+    max-width:850px;
+    margin-bottom:25px;
+}
+
+.gradient-text{
+    background:linear-gradient(100deg,#fff 15%,#a98cff 52%,#42e9ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.hero-description{
+    color:var(--muted);
+    max-width:650px;
+    line-height:1.8;
+    font-size:17px;
+    margin-bottom:34px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:13px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:0;
+    text-decoration:none;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    gap:9px;
+    padding:15px 22px;
+    border-radius:14px;
+    font-weight:800;
+    font-size:14px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-primary{
+    color:white;
+    background:linear-gradient(135deg,var(--primary),#5b40ff);
+    box-shadow:0 12px 35px rgba(124,92,255,.28);
+}
+
+.btn-primary:hover{
+    transform:translateY(-4px);
+    box-shadow:0 18px 45px rgba(124,92,255,.42);
+}
+
+.btn-secondary{
+    color:white;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.12);
+}
+
+.btn-secondary:hover{
+    background:rgba(255,255,255,.1);
+    transform:translateY(-4px);
+}
+
+/* ---------- Hero visual ---------- */
+
+.hero-visual{
+    position:relative;
+    min-height:470px;
+}
+
+.dashboard{
+    position:absolute;
+    inset:30px 0 30px 30px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:30px;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));
+    backdrop-filter:blur(20px);
+    box-shadow:var(--shadow);
+    padding:22px;
+    transform:rotate(3deg);
+    animation:floatCard 6s ease-in-out infinite;
+}
+
+@keyframes floatCard{
+    0%,100%{transform:rotate(3deg) translateY(0);}
+    50%{transform:rotate(1deg) translateY(-12px);}
+}
+
+.window-top{
+    display:flex;
+    gap:7px;
+    margin-bottom:25px;
+}
+
+.window-top i{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:rgba(255,255,255,.25);
+}
+
+.fake-title{
+    width:55%;
+    height:18px;
+    border-radius:10px;
+    background:rgba(255,255,255,.10);
+    margin-bottom:25px;
+}
+
+.progress-box{
+    padding:18px;
+    border-radius:18px;
+    background:rgba(0,0,0,.16);
+    margin-bottom:15px;
+}
+
+.progress-line{
+    height:9px;
+    background:rgba(255,255,255,.08);
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:13px;
+}
+
+.progress-line span{
+    display:block;
+    width:76%;
+    height:100%;
+    border-radius:10px;
+    background:linear-gradient(90deg,var(--primary),var(--primary2));
+}
+
+.mini-cards{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.mini-card{
+    height:105px;
+    border-radius:18px;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.06);
+    padding:16px;
+}
+
+.mini-icon{
+    width:35px;
+    height:35px;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+    background:rgba(124,92,255,.15);
+    margin-bottom:12px;
+}
+
+/* ---------- Floating cards ---------- */
+
+.float-card{
+    position:absolute;
+    padding:15px 18px;
+    border-radius:17px;
+    background:rgba(12,14,28,.88);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(15px);
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+    z-index:3;
+}
+
+.float-card.one{
+    left:-15px;
+    top:65px;
+    animation:float1 5s infinite ease-in-out;
+}
+
+.float-card.two{
+    right:-15px;
+    bottom:60px;
+    animation:float2 5.5s infinite ease-in-out;
+}
+
+@keyframes float1{
+    50%{transform:translateY(-15px);}
+}
+
+@keyframes float2{
+    50%{transform:translateY(12px);}
+}
+
+.float-card strong{
+    display:block;
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.float-card small{
+    color:#8f96ad;
+}
+
+/* ---------- Section ---------- */
+
+section{
+    padding:110px 0;
+}
+
+.section-heading{
+    text-align:center;
+    max-width:720px;
+    margin:0 auto 55px;
+}
+
+.eyebrow{
+    color:#a99aff;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-weight:900;
+    margin-bottom:14px;
+}
+
+.section-heading h2{
+    font-size:clamp(34px,5vw,55px);
+    line-height:1;
+    letter-spacing:-2.5px;
+    margin-bottom:17px;
+}
+
+.section-heading p{
+    color:var(--muted);
+    line-height:1.7;
+}
+
+/* ---------- Services ---------- */
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:17px;
+}
+
+.service-card{
+    position:relative;
+    padding:28px;
+    min-height:245px;
+    border:1px solid var(--card-border);
+    border-radius:var(--radius);
+    background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025));
+    overflow:hidden;
+    transition:.4s;
+}
+
+.service-card::before{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    right:-70px;
+    top:-70px;
+    border-radius:50%;
+    background:rgba(124,92,255,.14);
+    filter:blur(25px);
+}
+
+.service-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(124,92,255,.45);
+    box-shadow:0 25px 60px rgba(0,0,0,.25);
+}
+
+.service-icon{
+    width:52px;
+    height:52px;
+    display:grid;
+    place-items:center;
+    border-radius:16px;
+    background:linear-gradient(135deg,rgba(124,92,255,.22),rgba(0,217,255,.10));
+    border:1px solid rgba(255,255,255,.09);
+    font-size:22px;
+    margin-bottom:24px;
+}
+
+.service-card h3{
+    font-size:18px;
+    margin-bottom:11px;
+}
+
+.service-card p{
+    color:#9299b0;
+    line-height:1.65;
+    font-size:14px;
+}
+
+/* ---------- Process ---------- */
+
+.process{
+    background:rgba(255,255,255,.018);
+    border-top:1px solid rgba(255,255,255,.05);
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.process-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.process-card{
+    text-align:center;
+    padding:25px 15px;
+}
+
+.number{
+    width:58px;
+    height:58px;
+    margin:0 auto 20px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--primary),#4330be);
+    font-weight:900;
+    box-shadow:0 12px 35px rgba(124,92,255,.22);
+}
+
+.process-card h3{
+    font-size:16px;
+    margin-bottom:9px;
+}
+
+.process-card p{
+    color:#8e95aa;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* ---------- Why ---------- */
+
+.why-grid{
+    display:grid;
+    grid-template-columns:.9fr 1.1fr;
+    gap:70px;
+    align-items:center;
+}
+
+.why-visual{
+    min-height:450px;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,.09);
+    background:
+        radial-gradient(circle at 50% 35%,rgba(124,92,255,.22),transparent 30%),
+        linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+    position:relative;
+    overflow:hidden;
+    display:grid;
+    place-items:center;
+}
+
+.ring{
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    border:1px solid rgba(124,92,255,.35);
+    position:relative;
+    display:grid;
+    place-items:center;
+    animation:spin 15s linear infinite;
+}
+
+.ring::before,
+.ring::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(0,217,255,.25);
+}
+
+.ring::before{
+    inset:25px;
+}
+
+.ring::after{
+    inset:55px;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+.ring-center{
+    width:90px;
+    height:90px;
+    border-radius:25px;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    display:grid;
+    place-items:center;
+    font-size:30px;
+    box-shadow:0 0 50px rgba(124,92,255,.45);
+}
+
+.check-list{
+    display:grid;
+    gap:18px;
+    margin-top:30px;
+}
+
+.check{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+}
+
+.check-mark{
+    flex:none;
+    width:27px;
+    height:27px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:rgba(37,211,102,.13);
+    color:#4de987;
+    font-size:13px;
+}
+
+.check h4{
+    margin-bottom:5px;
+}
+
+.check p{
+    color:#9299af;
+    font-size:14px;
+    line-height:1.55;
+}
+
+/* ---------- CTA ---------- */
+
+.cta{
+    padding:90px 0 120px;
+}
+
+.cta-box{
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+    padding:75px 30px;
+    border-radius:35px;
+    border:1px solid rgba(124,92,255,.25);
+    background:
+        radial-gradient(circle at 20% 20%,rgba(124,92,255,.18),transparent 35%),
+        radial-gradient(circle at 80% 80%,rgba(0,217,255,.12),transparent 35%),
+        rgba(255,255,255,.035);
+}
+
+.cta-box h2{
+    font-size:clamp(35px,5vw,58px);
+    letter-spacing:-2px;
+    margin-bottom:15px;
+}
+
+.cta-box p{
+    color:#9ba2b8;
+    max-width:600px;
+    margin:0 auto 30px;
+    line-height:1.7;
+}
+
+/* ---------- FAQ ---------- */
+
+.faq{
+    max-width:850px;
+    margin:auto;
+}
+
+.faq-item{
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:18px;
+    margin-bottom:12px;
+    overflow:hidden;
+    background:rgba(255,255,255,.03);
+}
+
+.faq-question{
+    width:100%;
+    padding:21px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:none;
+    color:white;
+    border:0;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:750;
+    text-align:left;
+}
+
+.faq-question span{
+    font-size:23px;
+    transition:.3s;
+}
+
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .4s ease;
+}
+
+.faq-answer p{
+    padding:0 21px 21px;
+    color:#9299ae;
+    font-size:14px;
+    line-height:1.7;
+}
+
+.faq-item.active .faq-question span{
+    transform:rotate(45deg);
+}
+
+.faq-item.active .faq-answer{
+    max-height:200px;
+}
+
+/* ---------- Footer ---------- */
+
+footer{
+    padding:35px 0;
+    border-top:1px solid rgba(255,255,255,.07);
+}
+
+.footer{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    align-items:center;
+}
+
+.footer p{
+    color:#777e95;
+    font-size:13px;
+}
+
+.footer-links{
+    display:flex;
+    gap:20px;
+}
+
+.footer-links a{
+    color:#858ca2;
+    text-decoration:none;
+    font-size:13px;
+}
+
+/* ---------- WhatsApp ---------- */
+
+.whatsapp{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    width:62px;
+    height:62px;
+    border-radius:50%;
+    background:#25d366;
+    display:grid;
+    place-items:center;
+    color:white;
+    text-decoration:none;
+    font-size:28px;
+    box-shadow:0 10px 35px rgba(37,211,102,.35);
+    z-index:999;
+    transition:.3s;
+}
+
+.whatsapp:hover{
+    transform:scale(1.1) translateY(-3px);
+}
+
+.whatsapp::before{
+    content:"";
+    position:absolute;
+    inset:-7px;
+    border:1px solid rgba(37,211,102,.35);
+    border-radius:50%;
+    animation:whatsappPulse 2s infinite;
+}
+
+@keyframes whatsappPulse{
+    0%{transform:scale(.9);opacity:1;}
+    100%{transform:scale(1.4);opacity:0;}
+}
+
+/* ---------- Reveal ---------- */
+
+.reveal{
+    opacity:0;
+    transform:translateY(35px);
+    transition:opacity .8s ease,transform .8s ease;
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+/* ---------- Particles ---------- */
+
+.particle{
+    position:fixed;
+    width:3px;
+    height:3px;
+    background:rgba(255,255,255,.35);
+    border-radius:50%;
+    pointer-events:none;
+    z-index:-1;
+}
+
+/* ---------- Responsive ---------- */
+
+@media(max-width:950px){
+
+    .hero-grid,
+    .why-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        padding-top:120px;
+    }
+
+    .hero h1{
+        letter-spacing:-3px;
+    }
+
+    .hero-visual{
+        max-width:650px;
+        width:100%;
+        margin:auto;
+    }
+
+    .services-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .process-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .why-visual{
+        min-height:350px;
+    }
+}
+
+@media(max-width:700px){
+
+    .container{
+        width:min(var(--max),calc(100% - 28px));
+    }
+
+    .nav-links{
+        display:none;
+        position:absolute;
+        top:70px;
+        left:14px;
+        right:14px;
+        flex-direction:column;
+        align-items:stretch;
+        padding:18px;
+        border:1px solid rgba(255,255,255,.1);
+        border-radius:20px;
+        background:rgba(8,9,18,.96);
+        backdrop-filter:blur(20px);
+    }
+
+    .nav-links.active{
+        display:flex;
+    }
+
+    .nav-links a{
+        padding:10px;
+    }
+
+    .nav-cta{
+        text-align:center;
+    }
+
+    .menu{
+        display:block;
+    }
+
+    .hero{
+        padding-top:120px;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+
+    .hero-description{
+        font-size:15px;
+    }
+
+    .hero-visual{
+        min-height:360px;
+    }
+
+    .dashboard{
+        inset:15px 0 15px 10px;
+    }
+
+    .float-card.one{
+        left:-5px;
+        top:30px;
+    }
+
+    .float-card.two{
+        right:-5px;
+        bottom:30px;
+    }
+
+    .services-grid{
+        grid-template-columns:1fr;
+    }
+
+    .process-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    section{
+        padding:80px 0;
+    }
+
+    .footer{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .whatsapp{
+        width:57px;
+        height:57px;
+        right:17px;
+        bottom:17px;
+    }
+}
+
+@media(max-width:430px){
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+    .process-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero-visual{
+        min-height:320px;
+    }
+
+    .mini-cards{
+        grid-template-columns:1fr;
+    }
+
+    .mini-card{
+        height:75px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="header">
-        <h1>ProLab Assistant</h1>
-        <p><i class="fas fa-microscope"></i> Your Complete Digital Pocket Brain</p>
-    </div>
+<!-- ================= HEADER ================= -->
 
-    <div class="card">
-        <h2><i class="fas fa-layer-group"></i> Protocol Selection</h2>
-        <div class="input-group">
-            <label for="categorySelect">1. Select Laboratory Section:</label>
-            <select id="categorySelect" onchange="loadProtocols()">
-                <option value="">-- Choose Section --</option>
-                <option value="phase1_staining">Phase 1: Essential Staining</option>
-                <option value="phase2_media">Phase 2: Culture Media Prep</option>
-                <option value="phase3_processing">Phase 3: Sample Processing</option>
-                <option value="phase4_biochemical">Phase 4: Biochemical Tests</option>
-                <option value="phase5_ast">Phase 5: Susceptibility (AST)</option>
-                <option value="phase6_molecular">Phase 6: Molecular & Hematology</option>
-            </select>
+<header id="header">
+    <div class="container nav">
+
+        <a href="#" class="logo">
+            <div class="logo-mark">V</div>
+            VAREZON
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="#services">Services</a>
+            <a href="#process">How It Works</a>
+            <a href="#why">Why Us</a>
+            <a href="#faq">FAQ</a>
+            <a class="nav-cta" href="#contact">Get Started</a>
+        </nav>
+
+        <button class="menu" id="menuBtn" aria-label="Open menu">☰</button>
+
+    </div>
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<main>
+
+<section class="hero">
+
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+
+    <div class="container hero-grid">
+
+        <div class="reveal">
+
+            <div class="badge">
+                <span class="badge-dot"></span>
+                Student Academic Support
+            </div>
+
+            <h1>
+                Turn Your
+                <span class="gradient-text">Academic Ideas</span>
+                Into Reality.
+            </h1>
+
+            <p class="hero-description">
+                Need an assignment, project, presentation, report or research
+                work? Tell us what you need and we'll help transform your idea
+                into a properly structured academic deliverable.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a class="btn btn-primary"
+                   href="https://wa.me/923421402024?text=Hello%20VAREZON%2C%20I%20need%20academic%20support."
+                   target="_blank">
+                    💬 Talk on WhatsApp
+                </a>
+
+                <a class="btn btn-secondary" href="#services">
+                    Explore Services ↓
+                </a>
+
+            </div>
+
         </div>
 
-        <div class="input-group" id="protocolSelectorDiv" style="display:none;">
-            <label for="protocolSelect">2. Select Specific Procedure:</label>
-            <select id="protocolSelect" onchange="renderCalculator()"></select>
+
+        <div class="hero-visual reveal">
+
+            <div class="float-card one">
+                <strong>✓ Project Support</strong>
+                <small>Structured & organized</small>
+            </div>
+
+            <div class="dashboard">
+
+                <div class="window-top">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </div>
+
+                <div class="fake-title"></div>
+
+                <div class="progress-box">
+                    <strong>Academic Project</strong>
+
+                    <div class="progress-line">
+                        <span></span>
+                    </div>
+
+                    <small style="color:#858ca2;display:block;margin-top:9px;">
+                        Progress · 76%
+                    </small>
+                </div>
+
+                <div class="mini-cards">
+
+                    <div class="mini-card">
+                        <div class="mini-icon">📚</div>
+                        <small style="color:#9299af;">Research</small>
+                        <strong style="display:block;margin-top:5px;">Organized</strong>
+                    </div>
+
+                    <div class="mini-card">
+                        <div class="mini-icon">📊</div>
+                        <small style="color:#9299af;">Presentation</small>
+                        <strong style="display:block;margin-top:5px;">Ready</strong>
+                    </div>
+
+                    <div class="mini-card">
+                        <div class="mini-icon">📝</div>
+                        <small style="color:#9299af;">Assignment</small>
+                        <strong style="display:block;margin-top:5px;">Structured</strong>
+                    </div>
+
+                    <div class="mini-card">
+                        <div class="mini-icon">🎓</div>
+                        <small style="color:#9299af;">Student</small>
+                        <strong style="display:block;margin-top:5px;">Supported</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="float-card two">
+                <strong>⚡ Fast Communication</strong>
+                <small>WhatsApp support</small>
+            </div>
+
         </div>
+
     </div>
 
-    <div class="card" id="calculatorCard" style="display:none;">
-        <h2 id="calcTitle"><i class="fas fa-calculator"></i> Parameters</h2>
-        <div id="inputArea"></div>
+</section>
+
+
+<!-- ================= SERVICES ================= -->
+
+<section id="services">
+
+    <div class="container">
+
+        <div class="section-heading reveal">
+            <div class="eyebrow">What We Can Help With</div>
+
+            <h2>
+                One Place For Your
+                <span class="gradient-text">Academic Work.</span>
+            </h2>
+
+            <p>
+                From a small assignment to a complete academic project,
+                explain what you need and we'll discuss the best way forward.
+            </p>
+        </div>
+
+
+        <div class="services-grid">
+
+            <div class="service-card reveal">
+                <div class="service-icon">📝</div>
+                <h3>Assignments</h3>
+                <p>
+                    Structured academic assignments with research,
+                    formatting, references and clear presentation.
+                </p>
+            </div>
+
+            <div class="service-card reveal">
+                <div class="service-icon">💻</div>
+                <h3>Academic Projects</h3>
+                <p>
+                    Support for software, IT, engineering, science,
+                    business and university project work.
+                </p>
+            </div>
+
+            <div class="service-card reveal">
+                <div class="service-icon">📊</div>
+                <h3>Presentations</h3>
+                <p>
+                    Professional PowerPoint presentations designed to
+                    communicate your topic clearly and effectively.
+                </p>
+            </div>
+
+            <div class="service-card reveal">
+                <div class="service-icon">🔬</div>
+                <h3>Research Support</h3>
+                <p>
+                    Help with research structure, literature organization,
+                    methodology and academic documentation.
+                </p>
+            </div>
+
+            <div class="service-card reveal">
+                <div class="service-icon">📄</div>
+                <h3>Reports</h3>
+                <p>
+                    Academic and project reports organized into logical,
+                    readable and professional sections.
+                </p>
+            </div>
+
+            <div class="service-card reveal">
+                <div class="service-icon">🎓</div>
+                <h3>Other Academic Work</h3>
+                <p>
+                    Have something different? Send the requirements.
+                    We'll discuss whether we can help.
+                </p>
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="card" id="stepsCard" style="display:none;">
-        <h2><i class="fas fa-clipboard-check"></i> Standard Operating Procedure</h2>
-        <ul id="stepList" class="step-list"></ul>
+</section>
+
+
+<!-- ================= PROCESS ================= -->
+
+<section class="process" id="process">
+
+    <div class="container">
+
+        <div class="section-heading reveal">
+
+            <div class="eyebrow">Simple Process</div>
+
+            <h2>
+                From Requirement
+                <span class="gradient-text">To Delivery.</span>
+            </h2>
+
+            <p>
+                No complicated forms. Start with a simple WhatsApp conversation.
+            </p>
+
+        </div>
+
+
+        <div class="process-grid">
+
+            <div class="process-card reveal">
+                <div class="number">01</div>
+                <h3>Send Requirements</h3>
+                <p>
+                    Tell us your subject, deadline and what you need.
+                </p>
+            </div>
+
+            <div class="process-card reveal">
+                <div class="number">02</div>
+                <h3>Discuss</h3>
+                <p>
+                    We clarify the requirements, scope and expected output.
+                </p>
+            </div>
+
+            <div class="process-card reveal">
+                <div class="number">03</div>
+                <h3>Work Begins</h3>
+                <p>
+                    Your agreed academic task is prepared according to
+                    the discussed requirements.
+                </p>
+            </div>
+
+            <div class="process-card reveal">
+                <div class="number">04</div>
+                <h3>Receive</h3>
+                <p>
+                    The completed work is delivered in the agreed format.
+                </p>
+            </div>
+
+        </div>
+
     </div>
-</div>
+
+</section>
+
+
+<!-- ================= WHY ================= -->
+
+<section id="why">
+
+    <div class="container why-grid">
+
+        <div class="why-visual reveal">
+
+            <div class="ring">
+                <div class="ring-center">V</div>
+            </div>
+
+        </div>
+
+
+        <div class="reveal">
+
+            <div class="eyebrow">Why VAREZON</div>
+
+            <h2 style="font-size:clamp(36px,5vw,56px);line-height:1;letter-spacing:-2px;">
+                Academic work should feel
+                <span class="gradient-text">organized.</span>
+            </h2>
+
+            <p style="color:#9299af;line-height:1.8;margin-top:20px;">
+                We focus on understanding your actual requirement instead
+                of forcing every student into the same template.
+            </p>
+
+
+            <div class="check-list">
+
+                <div class="check">
+                    <div class="check-mark">✓</div>
+
+                    <div>
+                        <h4>Requirement-focused</h4>
+                        <p>
+                            Your instructions and academic requirements
+                            remain the starting point.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="check">
+                    <div class="check-mark">✓</div>
+
+                    <div>
+                        <h4>Clear communication</h4>
+                        <p>
+                            Discuss your task directly instead of navigating
+                            complicated order systems.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="check">
+                    <div class="check-mark">✓</div>
+
+                    <div>
+                        <h4>Multiple academic formats</h4>
+                        <p>
+                            Assignments, projects, reports, presentations
+                            and other academic requirements.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="check">
+                    <div class="check-mark">✓</div>
+
+                    <div>
+                        <h4>Student-friendly support</h4>
+                        <p>
+                            Start with a simple conversation and explain
+                            exactly what you're trying to accomplish.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FAQ ================= -->
+
+<section id="faq">
+
+    <div class="container">
+
+        <div class="section-heading reveal">
+
+            <div class="eyebrow">FAQ</div>
+
+            <h2>
+                Questions?
+                <span class="gradient-text">Start Here.</span>
+            </h2>
+
+        </div>
+
+
+        <div class="faq reveal">
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+                    Can I request something not listed?
+                    <span>+</span>
+                </button>
+
+                <div class="faq-answer">
+                    <p>
+                        Yes. Send the complete requirement through WhatsApp.
+                        We can discuss the task and determine whether it is
+                        something we can support.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+                    How do I start an order?
+                    <span>+</span>
+                </button>
+
+                <div class="faq-answer">
+                    <p>
+                        Click any WhatsApp button and send your subject,
+                        requirements, deadline and any instructions provided
+                        by your institution.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+                    Do I need to explain everything immediately?
+                    <span>+</span>
+                </button>
+
+                <div class="faq-answer">
+                    <p>
+                        No. Start with whatever information you have.
+                        We can clarify the remaining requirements during
+                        the conversation.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+                    Can students request urgent work?
+                    <span>+</span>
+                </button>
+
+                <div class="faq-answer">
+                    <p>
+                        Send the deadline and requirements first. Availability
+                        depends on the complexity and current workload.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta" id="contact">
+
+    <div class="container">
+
+        <div class="cta-box reveal">
+
+            <div class="eyebrow">Ready?</div>
+
+            <h2>
+                Have an Academic Task?
+            </h2>
+
+            <p>
+                Don't know where to start? Send your requirements and
+                let's discuss your project.
+            </p>
+
+            <a class="btn btn-primary"
+               href="https://wa.me/923421402024?text=Hello%20VAREZON%2C%20I%20want%20to%20discuss%20an%20academic%20task."
+               target="_blank">
+                💬 Start on WhatsApp
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="container footer">
+
+        <p>
+            © <span id="year"></span> VAREZON. All rights reserved.
+        </p>
+
+        <div class="footer-links">
+            <a href="#services">Services</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- ================= FLOATING WHATSAPP ================= -->
+
+<a
+    class="whatsapp"
+    href="https://wa.me/923421402024?text=Hello%20VAREZON%2C%20I%20need%20help%20with%20my%20academic%20work."
+    target="_blank"
+    aria-label="Chat with VAREZON on WhatsApp"
+    title="Chat on WhatsApp"
+>
+    ☎
+</a>
+
 
 <script>
-    // Initialize the main database object
-    const database = {};
 
-    /* ========================================================== */
-    /*                 PHASE 1 CODE STARTS HERE                   */
-    /* ========================================================== */
-    database.phase1_staining = {
-        gramStain: {
-            name: "Gram Staining Protocol",
-            inputs: [{ id: "slides", label: "Number of Slides to Stain", default: 1 }],
-            calculate: (inputs) => {
-                return [
-                    `Prepare ${inputs.slides} heat-fixed smear(s) on clean glass slide(s). Allow to air dry completely before heat fixing.`,
-                    `Flood the smear(s) with <span class="highlight">Crystal Violet</span> (Primary Stain).`,
-                    `Wait for exactly <span class="highlight">1 minute</span>.`,
-                    `Gently rinse the slide(s) with tap water or distilled water.`,
-                    `Flood the smear(s) with <span class="highlight">Gram's Iodine</span> (Mordant).`,
-                    `Wait for exactly <span class="highlight">1 minute</span>.`,
-                    `Gently rinse with water.`,
-                    `Decolorize by adding <span class="highlight">95% Ethanol or Acetone-Alcohol</span> drop by drop for <span class="highlight">10 to 15 seconds</span>, until runoff fluid runs clear.`,
-                    `Immediately rinse with water to stop decolorization.`,
-                    `Counterstain by flooding the smear(s) with <span class="highlight">Safranin</span>.`,
-                    `Wait for exactly <span class="highlight">1 minute</span>.`,
-                    `Rinse with water, blot gently, and examine under <span class="highlight">100x Oil Immersion</span>.`
-                ];
-            }
-        },
-        znStain: {
-            name: "Ziehl-Neelsen (AFB) Staining",
-            inputs: [{ id: "slides", label: "Number of Sputum Slides", default: 1 }],
-            calculate: (inputs) => {
-                return [
-                    `Prepare a thick smear. Air dry and heat fix.`,
-                    `Flood the slide with <span class="highlight">Carbol Fuchsin</span>.`,
-                    `Gently heat the slide from underneath until vapors rise. <span class="highlight">Do not boil!</span>`,
-                    `Allow the heated stain to remain for <span class="highlight">5 minutes</span>. Reheat gently if it cools.`,
-                    `Wash the slide gently with tap water.`,
-                    `Decolorize using <span class="highlight">20% Sulphuric Acid</span> for <span class="highlight">1 to 2 minutes</span> until slide appears pale pink. Rinse with water.`,
-                    `Counterstain with <span class="highlight">Methylene Blue</span> for <span class="highlight">1 to 2 minutes</span>.`,
-                    `Rinse, air dry, and examine under <span class="highlight">100x Oil Immersion</span> for red acid-fast bacilli.`
-                ];
-            }
-        },
-        albertStain: {
-            name: "Albert's Staining (C. diphtheriae)",
-            inputs: [{ id: "slides", label: "Number of Slides", default: 1 }],
-            calculate: (inputs) => {
-                return [
-                    `Prepare a smear, air dry, and heat fix gently.`,
-                    `Flood the smear with <span class="highlight">Albert's Stain 1</span>.`,
-                    `Leave the stain on the slide for <span class="highlight">3 to 5 minutes</span>.`,
-                    `Rinse the slide thoroughly with tap water.`,
-                    `Flood the smear with <span class="highlight">Albert's Stain 2</span>.`,
-                    `Leave for <span class="highlight">1 minute</span>.`,
-                    `Rinse with tap water, blot dry gently.`,
-                    `Examine under <span class="highlight">100x Oil Immersion</span> for green bacilli with bluish-black granules.`
-                ];
-            }
-        }
-    };
-    /* ========================================================== */
-    /*                  PHASE 1 CODE ENDS HERE                    */
-    /* ========================================================== */
+/* =========================================================
+   VAREZON INTERACTIONS
+   ========================================================= */
 
 
+/* ---------- Header ---------- */
 
-    /* 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 */
-    /* ⚠️⚠️⚠️ PASTE PHASE 2 CODE EXACTLY BELOW THIS LINE ⚠️⚠️⚠️ */
-    /* 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼 */
-    
-    
-    
-        database.phase2_media = {
-        bloodAgar: {
-            name: "Blood Agar (5%) Preparation",
-            inputs: [{ id: "volume", label: "Desired Total Volume (mL)", default: 500 }],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                let bloodVol = v * 0.05;
-                let baseVol = v - bloodVol;
-                let powder = (40 * baseVol) / 1000; // Standard 40g/L
-                let plates = Math.floor(v / 20);
-                return [
-                    `Weigh out <span class="highlight">${powder.toFixed(2)} grams</span> of Blood Agar Base powder.`,
-                    `Suspend the powder in <span class="highlight">${baseVol.toFixed(1)} mL</span> of distilled water.`,
-                    `Autoclave the base medium at <span class="highlight">121°C</span> for <span class="highlight">15 minutes</span>.`,
-                    `Cool the flask in a water bath to exactly <span class="highlight">45°C - 50°C</span>. <br><em>Crucial: Too hot will lyse the red blood cells (turning it brown), too cold will cause the agar to lump.</em>`,
-                    `Aseptically add <span class="highlight">${bloodVol.toFixed(1)} mL</span> of sterile, defibrinated sheep blood.`,
-                    `Swirl gently to mix well without creating air bubbles.`,
-                    `Pour immediately into sterile Petri dishes (approx 20mL per plate). Yields approx <span class="highlight">${plates} plates</span>.`,
-                    `Allow to solidify, then store inverted at 2-8°C.`
-                ];
-            }
-        },
-        chocolateAgar: {
-            name: "Chocolate Agar Preparation",
-            inputs: [{ id: "volume", label: "Desired Total Volume (mL)", default: 500 }],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                let bloodVol = v * 0.05;
-                let baseVol = v - bloodVol;
-                let powder = (40 * baseVol) / 1000;
-                let plates = Math.floor(v / 20);
-                return [
-                    `Weigh out <span class="highlight">${powder.toFixed(2)} grams</span> of Agar Base powder and suspend in <span class="highlight">${baseVol.toFixed(1)} mL</span> of distilled water.`,
-                    `Autoclave at <span class="highlight">121°C</span> for <span class="highlight">15 minutes</span>.`,
-                    `Cool the base to about <span class="highlight">75°C - 80°C</span> (Hotter than for blood agar).`,
-                    `Aseptically add <span class="highlight">${bloodVol.toFixed(1)} mL</span> of sterile defibrinated blood.`,
-                    `Maintain the temperature at 75°C - 80°C and swirl gently for <span class="highlight">10 to 15 minutes</span> until the medium turns a rich chocolate brown color. <br><em>This lyses the RBCs, releasing Hemin (Factor X) and NAD (Factor V) needed for fastidious organisms like Haemophilus.</em>`,
-                    `Cool to 45°C - 50°C. Optionally, add IsoVitaleX or similar growth supplement at this stage if required.`,
-                    `Pour into sterile Petri dishes. Yields approx <span class="highlight">${plates} plates</span>.`
-                ];
-            }
-        },
-        macconkeyAgar: {
-            name: "MacConkey Agar Preparation",
-            inputs: [{ id: "volume", label: "Desired Volume (mL)", default: 500 }],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                let powder = (50 * v) / 1000; // typically 50g/L
-                let plates = Math.floor(v / 20);
-                return [
-                    `Weigh out <span class="highlight">${powder.toFixed(2)} grams</span> of MacConkey Agar powder.`,
-                    `Suspend the powder in <span class="highlight">${v} mL</span> of distilled water.`,
-                    `Bring to a boil while stirring continuously to dissolve completely.`,
-                    `Autoclave at <span class="highlight">121°C</span> for <span class="highlight">15 minutes</span>.`,
-                    `Cool to 45°C - 50°C in a water bath.`,
-                    `Pour into sterile Petri dishes. Yields approx <span class="highlight">${plates} plates</span>.`,
-                    `Allow to solidify on a level surface. Store inverted at 2-8°C.`
-                ];
-            }
-        },
-        cledAgar: {
-            name: "CLED Agar (Urine Culture)",
-            inputs: [{ id: "volume", label: "Desired Volume (mL)", default: 500 }],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                let powder = (36.2 * v) / 1000; // typically 36.2g/L
-                let plates = Math.floor(v / 20);
-                return [
-                    `Weigh out <span class="highlight">${powder.toFixed(2)} grams</span> of CLED (Cystine Lactose Electrolyte Deficient) Agar powder.`,
-                    `Suspend in <span class="highlight">${v} mL</span> of distilled water.`,
-                    `Bring to a boil to dissolve the medium completely.`,
-                    `Autoclave at <span class="highlight">121°C</span> for <span class="highlight">15 minutes</span>.`,
-                    `Cool to 45°C - 50°C. <br><span class="highlight">Warning:</span> Do not over-heat or hold at 50°C for excessive periods, as this will adversely affect the Bromothymol blue indicator.`,
-                    `Mix well and pour into Petri dishes. Yields approx <span class="highlight">${plates} plates</span>.`
-                ];
-            }
-        },
-        muellerHinton: {
-            name: "Mueller-Hinton Agar (AST/Sensitivity)",
-            inputs: [
-                { id: "volume", label: "Desired Volume (mL)", default: 500 },
-                { id: "plateSize", label: "Plate Size (1 for 90mm, 2 for 150mm)", default: 1 }
-            ],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                let pSize = parseInt(inputs.plateSize);
-                let powder = (38 * v) / 1000; // typically 38g/L
-                let volPerPlate = pSize === 1 ? 25 : 60;
-                let plates = Math.floor(v / volPerPlate);
-                return [
-                    `Weigh out <span class="highlight">${powder.toFixed(2)} grams</span> of Mueller-Hinton Agar powder.`,
-                    `Suspend in <span class="highlight">${v} mL</span> of distilled water and boil to dissolve completely.`,
-                    `Autoclave at <span class="highlight">121°C</span> for <span class="highlight">15 minutes</span>.`,
-                    `Cool in a water bath to exactly <span class="highlight">45°C - 50°C</span>.`,
-                    `Pour into Petri dishes on a perfectly level surface. <br><span class="highlight">CRITICAL FOR AST:</span> The gel depth must be exactly <span class="highlight">4 mm</span> (approx ${volPerPlate} mL for your selected plate size). If the depth is wrong, antibiotic diffusion zones will be inaccurate.`,
-                    `Leave plates slightly ajar in a safety cabinet to dry the surface moisture before using for disk diffusion. Yields approx <span class="highlight">${plates} plates</span>.`
-                ];
-            }
-        },
-        sdaAgar: {
-            name: "Sabouraud Dextrose Agar (Fungi/Yeast)",
-            inputs: [{ id: "volume", label: "Desired Volume (mL)", default: 500 }],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                let powder = (65 * v) / 1000; // typically 65g/L
-                let plates = Math.floor(v / 20);
-                return [
-                    `Weigh out <span class="highlight">${powder.toFixed(2)} grams</span> of Sabouraud Dextrose Agar powder.`,
-                    `Suspend in <span class="highlight">${v} mL</span> of distilled water.`,
-                    `Bring to a boil to dissolve completely. <br><em>Note: High sugar content means it can scorch easily at the bottom of the flask if not stirred continuously.</em>`,
-                    `Autoclave at <span class="highlight">121°C</span> for <span class="highlight">15 minutes</span>. <br><span class="highlight">Warning:</span> Do not exceed the specified time or temperature to prevent caramelization of the dextrose.`,
-                    `Cool to 45°C - 50°C. (If required, add antibiotics like Chloramphenicol at this stage to inhibit bacteria).`,
-                    `Pour into Petri dishes or sterile test tubes (for slants). Yields approx <span class="highlight">${plates} plates</span>.`
-                ];
-            }
-        },
-        tcbsAgar: {
-            name: "TCBS Agar (Vibrio cholerae)",
-            inputs: [{ id: "volume", label: "Desired Volume (mL)", default: 500 }],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                let powder = (89 * v) / 1000; // typically 89g/L
-                let plates = Math.floor(v / 20);
-                return [
-                    `Weigh out <span class="highlight">${powder.toFixed(2)} grams</span> of TCBS (Thiosulfate-Citrate-Bile Salts-Sucrose) Agar powder.`,
-                    `Suspend in <span class="highlight">${v} mL</span> of distilled water.`,
-                    `Heat to boiling with gentle swirling to dissolve the medium completely.`,
-                    `<span class="highlight">CRITICAL WARNING: DO NOT AUTOCLAVE.</span> Autoclaving will destroy the delicate components and bile salts.`,
-                    `Cool to 45°C - 50°C in a water bath immediately after boiling.`,
-                    `Pour into sterile Petri dishes. Yields approx <span class="highlight">${plates} plates</span>.`,
-                    `Surface must be dry before inoculation. Store at 2-8°C.`
-                ];
-            }
-        },
-        xldAgar: {
-            name: "XLD Agar (Salmonella/Shigella)",
-            inputs: [{ id: "volume", label: "Desired Volume (mL)", default: 500 }],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                let powder = (71.5 * v) / 1000; // typically 71.5g/L
-                let plates = Math.floor(v / 20);
-                return [
-                    `Weigh out <span class="highlight">${powder.toFixed(2)} grams</span> of XLD (Xylose Lysine Deoxycholate) Agar powder.`,
-                    `Suspend in <span class="highlight">${v} mL</span> of distilled water.`,
-                    `Heat with frequent agitation and boil for <span class="highlight">just exactly 1 minute</span> to dissolve completely.`,
-                    `<span class="highlight">CRITICAL WARNING: DO NOT AUTOCLAVE.</span> Overheating will cause precipitation and ruin the medium. Do not hold at boiling temperatures.`,
-                    `Immediately transfer to a 50°C water bath to cool.`,
-                    `Pour into sterile Petri dishes as soon as it reaches 50°C. Yields approx <span class="highlight">${plates} plates</span>.`
-                ];
-            }
-        },
-        thioglycollateBroth: {
-            name: "Thioglycollate Broth (Anaerobes)",
-            inputs: [
-                { id: "volume", label: "Desired Total Volume (mL)", default: 100 },
-                { id: "tubeVol", label: "Volume per Tube (mL)", default: 10 }
-            ],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                let tVol = parseFloat(inputs.tubeVol);
-                let powder = (29 * v) / 1000; // typically 29g/L
-                let tubes = Math.floor(v / tVol);
-                return [
-                    `Weigh out <span class="highlight">${powder.toFixed(2)} grams</span> of Fluid Thioglycollate Medium powder.`,
-                    `Suspend in <span class="highlight">${v} mL</span> of distilled water.`,
-                    `Bring to a boil to dissolve completely.`,
-                    `Dispense <span class="highlight">${tVol} mL</span> of the broth into individual screw-cap tubes. (Yields approx <span class="highlight">${tubes} tubes</span>).`,
-                    `Autoclave the tubes at <span class="highlight">121°C</span> for <span class="highlight">15 minutes</span> with caps slightly loosened.`,
-                    `Tighten caps immediately after autoclaving to maintain anaerobic conditions at the bottom of the tube.`,
-                    `Store at room temperature in the dark. <br><em>Note: If more than the upper 30% of the medium becomes pink (oxidized resazurin indicator), reheat the tubes once in a boiling water bath for 5 mins to drive off oxygen before use.</em>`
-                ];
-            }
-        }
-    };
+const header = document.getElementById("header");
 
-    
-    
-    
-    
-    /* 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 */
-    /* ⚠️⚠️⚠️ PASTE PHASE 3 CODE EXACTLY BELOW THIS LINE ⚠️⚠️⚠️ */
-    /* 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼 */
+window.addEventListener("scroll", () => {
 
-
-
-    database.phase3_processing = {
-        urineCulture: {
-            name: "Urine Routine & Culture Processing",
-            inputs: [
-                { id: "loopSize", label: "Calibrated Loop Size (1 for 1µL, 10 for 10µL)", default: 1 },
-                { id: "centrifugeVol", label: "Volume for Microscopy (mL)", default: 10 }
-            ],
-            calculate: (inputs) => {
-                let loop = parseInt(inputs.loopSize);
-                let vol = parseFloat(inputs.centrifugeVol);
-                let multiplier = loop === 1 ? 1000 : 100; // Colony Forming Units (CFU) multiplier
-                
-                return [
-                    `<span class="highlight">Culture Setup (Do this FIRST):</span> Gently invert the uncentrifuged urine sample container to mix well.`,
-                    `Dip a sterile <span class="highlight">${loop} µL</span> calibrated loop vertically into the urine just below the surface.`,
-                    `Inoculate down the center of a CLED or MacConkey agar plate, then streak back and forth across the plate to isolate colonies. Repeat for a Blood Agar plate.`,
-                    `Incubate plates aerobically at <span class="highlight">37°C for 18-24 hours</span>. <br><em>Interpretation rule: If 1 colony grows, multiply by ${multiplier} to get CFU/mL. >10^5 CFU/mL indicates significant bacteriuria.</em>`,
-                    `<span class="highlight">Microscopy Setup:</span> Transfer <span class="highlight">${vol} mL</span> of the remaining urine into a conical centrifuge tube.`,
-                    `Centrifuge at <span class="highlight">1500 - 2000 RPM for 5 minutes</span>.`,
-                    `Decant the supernatant completely, leaving about 0.5 mL of fluid at the bottom. Tap the tube gently to resuspend the pellet.`,
-                    `Place one drop of the well-mixed sediment on a clean glass slide, cover with a coverslip.`,
-                    `Examine under the microscope: Use 10x objective to scan for casts, then move to 40x objective to count RBCs, WBCs/Pus cells, epithelial cells, crystals, and bacteria.`
-                ];
-            }
-        },
-        bloodCulture: {
-            name: "Blood Culture (Positive Bottle Processing)",
-            inputs: [
-                { id: "bottles", label: "Number of Positive Bottles Flagged", default: 1 }
-            ],
-            calculate: (inputs) => {
-                let b = parseInt(inputs.bottles);
-                return [
-                    `Acknowledge the positive alarm on the automated system (e.g., BACTEC/BacT/ALERT) and remove the <span class="highlight">${b} positive bottle(s)</span>.`,
-                    `Gently invert the bottle to mix. Wipe the rubber septum of the bottle with 70% isopropyl alcohol and let it dry completely.`,
-                    `Using a sterile syringe and needle (or subculture unit), carefully aspirate a few drops of the broth.`,
-                    `<span class="highlight">STAT Gram Stain:</span> Place 1 drop on a clean glass slide, spread gently, air dry, heat fix, and perform a rapid Gram stain.`,
-                    `<span class="highlight">CRITICAL STEP:</span> Examine the stain immediately. Call the physician or ward immediately with the preliminary Gram stain result (e.g., "Gram-positive cocci in clusters").`,
-                    `<span class="highlight">Subculture:</span> Place 1 drop of broth onto each of the following plates: Blood Agar, MacConkey Agar, and Chocolate Agar.`,
-                    `Streak out the drops for isolation using a sterile loop.`,
-                    `Incubate Blood and MacConkey plates aerobically at 37°C.`,
-                    `Incubate the Chocolate agar plate in a <span class="highlight">5-10% CO2 environment</span> (candle jar or CO2 incubator) at 37°C.`
-                ];
-            }
-        },
-        csfProcessing: {
-            name: "Cerebrospinal Fluid (CSF) Processing - STAT",
-            inputs: [
-                { id: "csfVolume", label: "Available CSF Volume (mL)", default: 2 }
-            ],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.csfVolume);
-                let centrifugeStep = v > 1.0 
-                    ? `Since volume is > 1.0 mL, centrifuge the CSF at <span class="highlight">3000 RPM for 10-15 minutes</span>. Carefully remove the supernatant into a sterile tube (save for chemistry/antigen testing) and keep the pellet for microbiology.` 
-                    : `Since volume is ≤ 1.0 mL, <span class="highlight">DO NOT centrifuge</span>. Use the uncentrifuged fluid directly to maximize recovery of fastidious organisms.`;
-
-                return [
-                    `<span class="highlight">CRITICAL: CSF is an emergency STAT specimen.</span> Process immediately upon receipt. Never refrigerate CSF for bacterial culture!`,
-                    `Macroscopic Exam: Note the physical appearance of the fluid (clear, turbid, bloody, xanthochromic, or purulent).`,
-                    centrifugeStep,
-                    `<span class="highlight">Culture Inoculation:</span> Using a sterile pipette, place 1-2 drops of the sediment (or uncentrifuged fluid) onto a Chocolate Agar plate and a Blood Agar plate. Optional: Inoculate a tube of Thioglycollate broth.`,
-                    `Streak plates for isolation. Incubate BOTH plates in a <span class="highlight">5-10% CO2 environment</span> at 37°C for up to 72 hours.`,
-                    `<span class="highlight">STAT Gram Stain:</span> Place 1 drop of the sediment on a clean slide. Do not spread it too thin (organisms may be sparse). Allow to air dry completely.`,
-                    `Heat fix gently (or fix with methanol) and perform a Gram stain.`,
-                    `Examine thoroughly under 100x Oil Immersion for at least 15 minutes. Look for intracellular and extracellular organisms (e.g., Gram-negative diplococci for Neisseria, Gram-positive diplococci for Strep pneumoniae). Report findings immediately.`
-                ];
-            }
-        },
-        sputumProcessing: {
-            name: "Respiratory / Sputum Processing",
-            inputs: [
-                { id: "samples", label: "Number of Sputum Samples", default: 1 }
-            ],
-            calculate: (inputs) => {
-                return [
-                    `Examine the specimen macroscopically. Select the most purulent (pus-like), blood-tinged, or opaque portion for processing.`,
-                    `<span class="highlight">Quality Assessment (Bartlett's Grading):</span> Prepare a smear using the purulent portion. Gram stain and examine under 10x objective (Low Power Field - LPF).`,
-                    `Count Squamous Epithelial Cells (SECs) and Polymorphonuclear Leukocytes (PMNs/Pus cells).`,
-                    `<em>Rejection Criteria:</em> If there are <span class="highlight">> 25 SECs and < 10 PMNs per LPF</span>, the sample is likely superficial saliva. Reject the sample and request a new, deep-coughed specimen.`,
-                    `<em>Acceptance Criteria:</em> If < 10 SECs and > 25 PMNs per LPF, proceed with culture.`,
-                    `<span class="highlight">Inoculation:</span> Using a sterile loop or swab, pick up a purulent portion.`,
-                    `Inoculate onto Blood Agar, MacConkey Agar, and Chocolate Agar.`,
-                    `Streak for isolation.`,
-                    `Incubate Blood and Chocolate agar in a <span class="highlight">CO2 environment</span> at 37°C. Incubate MacConkey aerobically at 37°C.`
-                ];
-            }
-        },
-        stoolProcessing: {
-            name: "Stool Culture & Microscopy",
-            inputs: [
-                { id: "wetMount", label: "Prepare Wet Mount? (1 for Yes, 0 for No)", default: 1 }
-            ],
-            calculate: (inputs) => {
-                let wet = parseInt(inputs.wetMount);
-                let microscopySteps = wet === 1 
-                    ? [
-                        `<span class="highlight">Wet Mount Setup:</span> Place one drop of normal saline on the left side of a slide, and one drop of Lugol's Iodine on the right side.`,
-                        `Take a small portion of feces (especially mucus or bloody parts) using an applicator stick.`,
-                        `Emulsify thoroughly in the saline drop, then emulsify another portion in the iodine drop. Place coverslips over both.`,
-                        `Examine saline prep for motility (trophozoites) and RBCs/WBCs. Examine iodine prep for structural details of cysts and ova.`
-                      ]
-                    : [`Wet mount microscopy bypassed as per selection.`];
-
-                return [
-                    `Macroscopic Exam: Note consistency (formed, semi-formed, liquid), color, and presence of gross blood, mucus, or adult worms (e.g., Ascaris).`,
-                    ...microscopySteps,
-                    `<span class="highlight">Culture Setup:</span> Select a portion of the stool containing mucus or blood if present.`,
-                    `Heavily inoculate one quarter of a <span class="highlight">MacConkey Agar</span> plate and an <span class="highlight">XLD or DCA Agar</span> plate. Streak for isolation.`,
-                    `If Vibrio cholerae is suspected (watery stool), inoculate a <span class="highlight">TCBS Agar</span> plate and Alkaline Peptone Water (APW) for enrichment.`,
-                    `If Campylobacter is suspected, inoculate a Campylobacter selective agar (e.g., Skirrow's) and incubate microaerophilically at 42°C.`,
-                    `Inoculate a pea-sized amount of stool into <span class="highlight">Selenite F Broth</span> (for Salmonella enrichment).`,
-                    `Incubate primary plates and broths aerobically at 37°C for 18-24 hours. (Subculture Selenite broth to XLD after 18 hours).`
-                ];
-            }
-        },
-        pusSwab: {
-            name: "Wound / Pus Swab Processing",
-            inputs: [
-                { id: "swabsCount", label: "Number of Swabs Received", default: 2 }
-            ],
-            calculate: (inputs) => {
-                let count = parseInt(inputs.swabsCount);
-                let smearStep = count >= 2 
-                    ? `Use one swab exclusively to prepare a smear on a clean glass slide for Gram staining. Roll the swab gently across the slide to preserve cellular morphology.`
-                    : `Since only 1 swab was received, inoculate the culture media FIRST, then use the same swab to roll a smear onto a glass slide for Gram staining.`;
-
-                return [
-                    `Verify specimen labeling and source (e.g., deep wound vs. superficial skin).`,
-                    smearStep,
-                    `<span class="highlight">Culture Inoculation:</span> Using the culture swab, inoculate a Blood Agar and MacConkey Agar plate.`,
-                    `For deep wounds, aspirates, or closed abscesses, also inoculate a Blood Agar plate for <span class="highlight">Anaerobic incubation</span> (place in an anaerobic jar with a gas generator pack) and a tube of Thioglycollate broth.`,
-                    `Streak all plates for isolation using a sterile loop.`,
-                    `Incubate aerobic plates at 37°C in CO2 (for BA) and ambient air (for MacConkey).`,
-                    `<span class="highlight">Gram Stain:</span> Heat fix the prepared smear, Gram stain, and report the presence/absence of WBCs (Pus cells) and the morphology of organisms (e.g., Gram-positive cocci in chains vs. clusters).`
-                ];
-            }
-        },
-        genitalSwab: {
-            name: "HVS / Genital Swab Processing",
-            inputs: [
-                { id: "swabsCount", label: "Number of Swabs Received", default: 2 }
-            ],
-            calculate: (inputs) => {
-                let count = parseInt(inputs.swabsCount);
-                let smearStep = count >= 2 
-                    ? `Use the first swab for direct microscopy. Use the second swab for culture.`
-                    : `Use the single swab to inoculate culture plates FIRST, then use it for microscopy smears.`;
-
-                return [
-                    smearStep,
-                    `<span class="highlight">Wet Mount (Crucial for Trichomonas):</span> Place a drop of warm sterile saline on a slide. Agitate the swab in the saline, cover with a coverslip.`,
-                    `Examine immediately under 40x for motile <em>Trichomonas vaginalis</em> and "Clue cells" (epithelial cells covered in bacteria, indicating Bacterial Vaginosis).`,
-                    `<span class="highlight">Gram Stain:</span> Roll the swab onto a slide, air dry, fix, and Gram stain.`,
-                    `Look for yeast cells, pseudohyphae (Candida), Gram-negative intracellular diplococci (Neisseria gonorrhoeae), and evaluate flora for BV (Nugent scoring: shift from Lactobacillus to Gardnerella/Mobiluncus).`,
-                    `<span class="highlight">Culture:</span> Inoculate a Blood Agar plate, a Chocolate Agar plate, and a selective Gonococcal agar (e.g., Thayer-Martin or GC base).`,
-                    `Incubate Blood Agar aerobically. Incubate Chocolate and Thayer-Martin plates in a <span class="highlight">CO2 environment</span> with high humidity at 37°C.`
-                ];
-            }
-        },
-        sterileFluids: {
-            name: "Sterile Body Fluids (Pleural, Synovial, Peritoneal)",
-            inputs: [
-                { id: "fluidVol", label: "Fluid Volume Received (mL)", default: 5 }
-            ],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.fluidVol);
-                let processing = v >= 2 
-                    ? `Transfer the fluid to a sterile conical tube and <span class="highlight">centrifuge at 2500 RPM for 15 minutes</span>. Decant supernatant and use the concentrated sediment.`
-                    : `Volume is small (< 2mL). <span class="highlight">Do not centrifuge.</span> Use the well-mixed raw fluid directly for staining and culture.`;
-
-                return [
-                    `Note the gross appearance (clear, cloudy, purulent, bloody, clot presence). Synovial fluid should be checked for viscosity.`,
-                    processing,
-                    `<span class="highlight">Culture:</span> Inoculate 1-2 drops of sediment/fluid onto Blood Agar, Chocolate Agar, and MacConkey Agar.`,
-                    `Inoculate 1-2 drops into a tube of Thioglycollate Broth or a cooked meat medium for anaerobic backup.`,
-                    `If available and approved by protocol, inoculate remaining fluid directly into a BacT/ALERT or BACTEC blood culture bottle to maximize recovery.`,
-                    `Incubate BA and Chocolate plates in 5-10% CO2 at 37°C. Incubate MacConkey aerobically.`,
-                    `<span class="highlight">Gram Stain:</span> Prepare a smear from the sediment, air dry, methanol fix (preferred over heat to preserve WBC morphology), Gram stain, and read under 100x Oil Immersion.`
-                ];
-            }
-        }
-    };
-
-
-
-
-
-    /* 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 */
-    /* ⚠️⚠️⚠️ PASTE PHASE 4 CODE EXACTLY BELOW THIS LINE ⚠️⚠️⚠️ */
-    /* 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼 */
-
-
-
-    database.phase4_biochemical = {
-        catalaseTest: {
-            name: "Catalase Test (Staph vs Strep)",
-            inputs: [
-                { id: "h2o2Con", label: "H2O2 Concentration (%)", default: 3 }
-            ],
-            calculate: (inputs) => {
-                let c = parseInt(inputs.h2o2Con);
-                return [
-                    `Place a drop of <span class="highlight">${c}% Hydrogen Peroxide (H2O2)</span> on a clean glass slide.`,
-                    `<span class="highlight">CRITICAL:</span> Do not use an iron/nichrome loop, as it can cause a false positive. Use a wooden applicator stick or a plastic loop.`,
-                    `Pick up a well-isolated colony from an 18-24 hour culture. (Avoid picking up Blood Agar from the plate, as RBCs contain catalase and will give a false positive).`,
-                    `Rub the colony directly into the drop of H2O2 on the slide.`,
-                    `<span class="highlight">Interpretation:</span> Watch for immediate, vigorous bubbling (effervescence).`,
-                    `<em>Positive:</em> Rapid bubble formation (e.g., Staphylococcus).`,
-                    `<em>Negative:</em> No bubbles or a few delayed tiny bubbles (e.g., Streptococcus).`
-                ];
-            }
-        },
-        coagulaseTest: {
-            name: "Coagulase Test (Staph aureus ID)",
-            inputs: [
-                { id: "method", label: "Method (1 for Slide/Bound, 2 for Tube/Free)", default: 1 }
-            ],
-            calculate: (inputs) => {
-                let m = parseInt(inputs.method);
-                if (m === 1) {
-                    return [
-                        `<span class="highlight">Slide Coagulase Test (Detects Bound Coagulase / Clumping Factor):</span>`,
-                        `Place a drop of physiological saline on a clean glass slide.`,
-                        `Emulsify a colony of the test Staphylococcus to form a smooth, milky suspension.`,
-                        `Add one drop of <span class="highlight">rabbit plasma</span> to the suspension and mix gently with a wooden stick.`,
-                        `Rock the slide gently for <span class="highlight">10 to 15 seconds</span>.`,
-                        `<span class="highlight">Interpretation:</span> Look for macroscopic clumping.`,
-                        `<em>Positive:</em> Distinct clumping within 10-15 seconds (Presumptive Staph aureus).`,
-                        `<em>Negative:</em> Smooth milky suspension remains. (Must be confirmed with Tube Test).`
-                    ];
-                } else {
-                    return [
-                        `<span class="highlight">Tube Coagulase Test (Detects Free Coagulase):</span>`,
-                        `Dispense <span class="highlight">0.5 mL</span> of diluted rabbit plasma (usually 1:5 dilution) into a small glass tube.`,
-                        `Emulsify several colonies of the test Staphylococcus directly into the plasma, or add 0.1 mL of a broth culture.`,
-                        `Incubate the tube in a water bath or incubator at <span class="highlight">37°C</span>.`,
-                        `Examine the tube for clot formation by gently tilting it <span class="highlight">every hour for the first 4 hours</span>.`,
-                        `<span class="highlight">CRITICAL:</span> If negative after 4 hours, leave at room temperature overnight and read again at 24 hours (some strains produce fibrinolysin that dissolves the clot at 37°C).`,
-                        `<span class="highlight">Interpretation:</span>`,
-                        `<em>Positive:</em> Any degree of clotting/jelly-like mass (Staph aureus).`,
-                        `<em>Negative:</em> Plasma remains completely liquid (Coagulase Negative Staph - CONS).`
-                    ];
-                }
-            }
-        },
-        oxidaseTest: {
-            name: "Oxidase Test (Pseudomonas/Neisseria ID)",
-            inputs: [
-                { id: "method", label: "Method (1 for Filter Paper, 2 for Direct Swab)", default: 1 }
-            ],
-            calculate: (inputs) => {
-                let m = parseInt(inputs.method);
-                let step = m === 1 
-                    ? `Place a piece of filter paper in a petri dish and soak it with 2-3 drops of <span class="highlight">freshly prepared Oxidase reagent</span> (Tetramethyl-p-phenylenediamine dihydrochloride). Smear a colony onto the damp paper using a plastic/wooden stick.`
-                    : `Use a sterile swab to pick up a colony from the plate. Place 1-2 drops of <span class="highlight">freshly prepared Oxidase reagent</span> directly onto the swab.`;
-
-                return [
-                    step,
-                    `<span class="highlight">CRITICAL:</span> Use a wooden stick, plastic loop, or swab. Nichrome wire loops contain iron and will give a false positive.`,
-                    `Do not use colonies grown on media containing dyes (like MacConkey) as it makes color interpretation difficult.`,
-                    `Observe for a color change within exactly <span class="highlight">10 to 30 seconds</span>.`,
-                    `<span class="highlight">Interpretation:</span>`,
-                    `<em>Positive:</em> Development of a deep purple/dark blue color within 10-30 seconds (e.g., Pseudomonas, Neisseria, Vibrio).`,
-                    `<em>Negative:</em> No color change, or delayed color change after 30 seconds (e.g., Enterobacteriaceae like E. coli or Klebsiella).`
-                ];
-            }
-        },
-        indoleTest: {
-            name: "Indole Test (Kovac's Method)",
-            inputs: [
-                { id: "reagentDrops", label: "Drops of Kovac's Reagent", default: 5 }
-            ],
-            calculate: (inputs) => {
-                let drops = parseInt(inputs.reagentDrops);
-                return [
-                    `Inoculate the test organism into a tube of <span class="highlight">Peptone Water</span> or Tryptone Broth (must contain tryptophan).`,
-                    `Incubate aerobically at <span class="highlight">37°C for 24 to 48 hours</span>.`,
-                    `After incubation, carefully add <span class="highlight">${drops} drops</span> (approx 0.5 mL) of <span class="highlight">Kovac's Reagent</span> down the side of the tube.`,
-                    `Do not shake the tube vigorously; allow the reagent to float on the surface.`,
-                    `<span class="highlight">Interpretation:</span>`,
-                    `<em>Positive:</em> A bright pink/cherry-red ring forms at the surface layer within seconds (e.g., E. coli).`,
-                    `<em>Negative:</em> The surface layer remains yellow/reagent color (e.g., Klebsiella pneumoniae).`
-                ];
-            }
-        },
-        tsiAgar: {
-            name: "TSI Agar (Triple Sugar Iron)",
-            inputs: [
-                { id: "incubationHours", label: "Incubation Time (Hours)", default: 24 }
-            ],
-            calculate: (inputs) => {
-                let h = parseInt(inputs.incubationHours);
-                return [
-                    `Use a straight inoculating wire (needle). Pick up a well-isolated colony from an 18-24 hour pure culture.`,
-                    `<span class="highlight">Inoculation:</span> First, stab the needle straight down into the center of the TSI butt (almost to the bottom).`,
-                    `As you withdraw the needle, streak back and forth in a zig-zag motion across the surface of the slant.`,
-                    `Leave the cap slightly loose to allow air exchange.`,
-                    `Incubate aerobically at <span class="highlight">37°C for exactly 18 to ${h} hours</span>. (Do not read before 18 hrs or after 24 hrs, as acid end-products may revert to alkaline, giving false readings).`,
-                    `<span class="highlight">Interpretation Guide:</span>`,
-                    `<em>Slant/Butt Color:</em> Red = Alkaline (K), Yellow = Acid (A).`,
-                    `<em>K/A (Red/Yellow):</em> Glucose fermented only (e.g., Shigella).`,
-                    `<em>A/A (Yellow/Yellow):</em> Glucose, Lactose, and/or Sucrose fermented (e.g., E. coli, Klebsiella).`,
-                    `<em>K/K (Red/Red):</em> No sugars fermented (e.g., Pseudomonas).`,
-                    `<em>Gas:</em> Look for bubbles or splitting/pushing up of the agar.`,
-                    `<em>H2S Production:</em> Look for blackening of the agar (e.g., Salmonella, Proteus).`
-                ];
-            }
-        },
-        ureaseTest: {
-            name: "Urease Test (Christensen's Agar)",
-            inputs: [
-                { id: "incubationHours", label: "Initial Incubation (Hours)", default: 24 }
-            ],
-            calculate: (inputs) => {
-                let h = parseInt(inputs.incubationHours);
-                return [
-                    `Using a sterile loop, pick up a heavy inoculum of the test organism.`,
-                    `Streak the surface of the <span class="highlight">Christensen's Urea Agar slant</span> heavily. (Do not stab the butt).`,
-                    `Incubate aerobically at <span class="highlight">37°C</span>.`,
-                    `Examine the slant after 4 hours (for rapid urease producers like Proteus), and then after <span class="highlight">${h} hours</span>. If negative, hold for up to 7 days.`,
-                    `<span class="highlight">Interpretation:</span>`,
-                    `<em>Positive:</em> The entire medium turns a deep bright pink/magenta color due to alkaline ammonia production (e.g., Proteus, Helicobacter, Klebsiella).`,
-                    `<em>Negative:</em> The medium remains pale yellow/peach (original color).`
-                ];
-            }
-        },
-        citrateTest: {
-            name: "Citrate Utilization (Simmons Citrate)",
-            inputs: [
-                { id: "incubationHours", label: "Initial Incubation (Hours)", default: 24 }
-            ],
-            calculate: (inputs) => {
-                let h = parseInt(inputs.incubationHours);
-                return [
-                    `Using a straight needle or loop, touch the top of a single, well-isolated colony. <br><span class="highlight">CRITICAL:</span> Do not pick up agar with the colony, and use a light inoculum to avoid carrying over nutrients.`,
-                    `Streak the surface of the <span class="highlight">Simmons Citrate Agar slant</span> in a zig-zag motion.`,
-                    `Leave the cap loose to allow for oxygen exchange.`,
-                    `Incubate aerobically at <span class="highlight">37°C for ${h} to 48 hours</span> (some organisms may take up to 7 days).`,
-                    `<span class="highlight">Interpretation:</span>`,
-                    `<em>Positive:</em> Growth on the slant WITH a color change of the medium from green to an intense Prussian Blue (e.g., Klebsiella, Citrobacter).`,
-                    `<em>Negative:</em> No visible growth, and the medium remains original green (e.g., E. coli).`
-                ];
-            }
-        }
-    };
-
-
-
-
-
-    /* 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 */
-    /* ⚠️⚠️⚠️ PASTE PHASE 5 CODE EXACTLY BELOW THIS LINE ⚠️⚠️⚠️ */
-    /* 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼 */
-
-
-
-    database.phase5_ast = {
-        mcfarlandStandard: {
-            name: "0.5 McFarland Standard Prep & Use",
-            inputs: [
-                { id: "volume", label: "Volume of Standard to Prepare (mL)", default: 10 }
-            ],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.volume);
-                // 0.5 McFarland is 0.05 mL of 1.175% BaCl2 + 9.95 mL of 1% H2SO4 (for 10mL)
-                let bacl2 = (0.05 * v) / 10;
-                let h2so4 = (9.95 * v) / 10;
-                return [
-                    `<span class="highlight">To prepare the standard chemically:</span>`,
-                    `Add <span class="highlight">${bacl2.toFixed(2)} mL</span> of 1.175% w/v Barium chloride (BaCl2·2H2O) solution to a tube.`,
-                    `Add <span class="highlight">${h2so4.toFixed(2)} mL</span> of 1% v/v Sulfuric acid (H2SO4) solution.`,
-                    `Mix well to suspend the barium sulfate precipitate. Store in the dark at room temperature, tightly sealed.`,
-                    `<span class="highlight">To prepare a patient inoculum (Direct Colony Method):</span>`,
-                    `Touch 3-5 morphologically identical colonies from an 18-24 hour non-selective agar plate (e.g., Blood Agar).`,
-                    `Emulsify the colonies in 4-5 mL of sterile physiological saline or Mueller-Hinton broth.`,
-                    `Compare the turbidity of the suspension to your 0.5 McFarland standard against a card with black and white lines (Wickerham card).`,
-                    `If too heavy, add more sterile saline. If too light, add more colonies. <br><em>Note: A 0.5 McFarland equals approximately 1.5 x 10^8 CFU/mL.</em>`
-                ];
-            }
-        },
-        kirbyBauer: {
-            name: "Kirby-Bauer Disk Diffusion (Routine AST)",
-            inputs: [
-                { id: "disks", label: "Number of Antibiotic Disks to Apply", default: 6 }
-            ],
-            calculate: (inputs) => {
-                let d = parseInt(inputs.disks);
-                return [
-                    `Prepare a bacterial suspension matched to a <span class="highlight">0.5 McFarland standard</span> (must be used within 15 minutes of preparation).`,
-                    `Dip a sterile cotton swab into the suspension. Press the swab against the inside wall of the tube to squeeze out excess fluid.`,
-                    `Streak the swab evenly over the entire surface of a <span class="highlight">Mueller-Hinton Agar (MHA)</span> plate.`,
-                    `Rotate the plate 60 degrees and streak again. Rotate another 60 degrees and streak a third time to ensure a confluent "lawn" of growth. Finally, run the swab around the rim of the agar.`,
-                    `Allow the plate surface to dry for <span class="highlight">3 to 5 minutes</span> (no more than 15 minutes).`,
-                    `Using sterile forceps or a mechanical dispenser, apply <span class="highlight">${d} antibiotic disks</span> onto the agar surface. Tap each disk gently so it makes firm contact with the agar.`,
-                    `Do not place disks too close to the edge (leave at least 15mm) or too close to each other (leave at least 24mm center-to-center).`,
-                    `Invert the plate and incubate aerobically at <span class="highlight">35°C (NOT 37°C)</span> for exactly <span class="highlight">16 to 18 hours</span>.`,
-                    `<span class="highlight">Reading:</span> Measure the diameter of the zones of complete inhibition using a ruler or caliper. Compare measurements to the current CLSI/EUCAST guidelines to report Sensitive (S), Intermediate (I), or Resistant (R).`
-                ];
-            }
-        },
-        mrsaScreen: {
-            name: "MRSA Screening (Cefoxitin Disk)",
-            inputs: [
-                { id: "incubationHours", label: "Incubation Time (Hours)", default: 18 }
-            ],
-            calculate: (inputs) => {
-                let h = parseInt(inputs.incubationHours);
-                return [
-                    `<span class="highlight">Principle:</span> Cefoxitin is used as a surrogate marker to detect mecA-mediated oxacillin resistance in Staphylococcus aureus.`,
-                    `Prepare a <span class="highlight">0.5 McFarland</span> suspension from an overnight culture of the suspected S. aureus.`,
-                    `Inoculate a <span class="highlight">Mueller-Hinton Agar</span> plate to form a confluent lawn.`,
-                    `Place a <span class="highlight">30 µg Cefoxitin disk</span> on the agar surface.`,
-                    `Incubate aerobically at <span class="highlight">33-35°C (Strict temperature control is critical)</span> for exactly <span class="highlight">${h} hours</span> (full 24 hours required for Coagulase-Negative Staph).`,
-                    `<span class="highlight">Interpretation (per standard guidelines):</span>`,
-                    `<em>Sensitive (MSSA):</em> Zone diameter ≥ 22 mm.`,
-                    `<em>Resistant (MRSA):</em> Zone diameter ≤ 21 mm.`,
-                    `Examine the zone carefully using transmitted light for any trailing growth or hazy edges inside the zone, which indicates resistance.`
-                ];
-            }
-        },
-        esblTest: {
-            name: "ESBL Double Disk Synergy Test",
-            inputs: [
-                { id: "distance", label: "Disk Distance (Center to Center in mm)", default: 20 }
-            ],
-            calculate: (inputs) => {
-                let dist = parseInt(inputs.distance);
-                return [
-                    `<span class="highlight">Principle:</span> Detects Extended-Spectrum Beta-Lactamases (ESBL) in Enterobacteriaceae (E. coli, Klebsiella, etc.) by showing synergy between clavulanic acid and a 3rd-generation cephalosporin.`,
-                    `Prepare a <span class="highlight">0.5 McFarland</span> suspension of the test isolate and swab a <span class="highlight">Mueller-Hinton Agar</span> plate for confluent growth.`,
-                    `Place an <span class="highlight">Amoxicillin-Clavulanate (AMC 20/10 µg)</span> disk in the center of the plate.`,
-                    `Place a <span class="highlight">Cefotaxime (CTX 30 µg)</span> disk and a <span class="highlight">Ceftazidime (CAZ 30 µg)</span> disk at a distance of exactly <span class="highlight">${dist} mm</span> (center-to-center) from the central AMC disk.`,
-                    `Incubate aerobically at <span class="highlight">35°C for 16-18 hours</span>.`,
-                    `<span class="highlight">Interpretation:</span> Look at the zone of inhibition between the cephalosporin disks and the central AMC disk.`,
-                    `<em>Positive for ESBL:</em> The zone of inhibition around CTX or CAZ is enhanced (looks like a keyhole or ghost zone) on the side facing the AMC disk, because the clavulanic acid diffused out and inhibited the ESBL enzyme.`,
-                    `<em>Negative:</em> Zones remain perfectly round with no enhancement toward the center disk.`
-                ];
-            }
-        },
-        etestMic: {
-            name: "MIC Determination (E-test Method)",
-            inputs: [
-                { id: "strips", label: "Number of E-test Strips", default: 1 }
-            ],
-            calculate: (inputs) => {
-                let s = parseInt(inputs.strips);
-                return [
-                    `Prepare a <span class="highlight">0.5 McFarland</span> bacterial suspension (use 1.0 McFarland for mucoid pneumococcus or 2.0 for slow-growing anaerobes).`,
-                    `Swab a <span class="highlight">Mueller-Hinton Agar</span> plate in three directions to ensure a uniform lawn. (Use MHA with 5% sheep blood for fastidious organisms).`,
-                    `Allow the plate surface to dry completely (about 10-15 minutes).`,
-                    `Using sterile forceps, apply <span class="highlight">${s} E-test strip(s)</span> to the agar surface with the MIC scale facing upward.`,
-                    `<span class="highlight">CRITICAL:</span> Once the strip touches the agar, DO NOT move it, as the antibiotic gradient transfers instantaneously. Ensure the entire length of the strip is in contact with the agar (press gently with forceps if needed).`,
-                    `Incubate inverted at <span class="highlight">35°C for 16-20 hours</span> (longer for fastidious organisms).`,
-                    `<span class="highlight">Reading:</span> Read the MIC value directly from the scale where the pointed end of the teardrop-shaped inhibition ellipse intersects the strip.`,
-                    `If the intersection falls between two markings, always read the higher value.`
-                ];
-            }
-        }
-    };
-
-
-
-
-
-    /* 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 */
-    /* ⚠️⚠️⚠️ PASTE PHASE 6 CODE EXACTLY BELOW THIS LINE ⚠️⚠️⚠️ */
-    /* 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼 */
-
-
-
-    database.phase6_molecular = {
-        dnaExtraction: {
-            name: "DNA Extraction (Spin Column Method)",
-            inputs: [
-                { id: "samples", label: "Number of Samples", default: 12 }
-            ],
-            calculate: (inputs) => {
-                let s = parseInt(inputs.samples);
-                return [
-                    `Prepare <span class="highlight">${s} sterile 1.5 mL microcentrifuge tubes</span>. Label them clearly.`,
-                    `Transfer 1-2 mL of the overnight broth culture (or a heavy suspension of colonies in saline) into each tube.`,
-                    `Centrifuge at <span class="highlight">10,000 RPM for 2 minutes</span> to pellet the bacteria. Discard the supernatant completely.`,
-                    `Add <span class="highlight">200 µL of Lysis Buffer</span> (containing Proteinase K) to the pellet. Vortex vigorously to resuspend.`,
-                    `Incubate at <span class="highlight">56°C for 30-60 minutes</span> in a heating block until the suspension is clear (cell lysis).`,
-                    `Add <span class="highlight">200 µL of Binding Buffer</span> and <span class="highlight">200 µL of absolute ethanol (96-100%)</span>. Vortex immediately to mix.`,
-                    `Transfer the entire mixture to a <span class="highlight">spin column</span> placed in a collection tube. Centrifuge at <span class="highlight">10,000 RPM for 1 minute</span>. Discard flow-through.`,
-                    `Add <span class="highlight">500 µL of Wash Buffer 1</span>. Centrifuge for 1 minute. Discard flow-through.`,
-                    `Add <span class="highlight">500 µL of Wash Buffer 2</span> (ensure ethanol was added to the bottle before first use). Centrifuge at <span class="highlight">14,000 RPM (maximum speed) for 3 minutes</span> to completely dry the membrane.`,
-                    `Transfer the spin column to a clean, labeled 1.5 mL elution tube.`,
-                    `Add <span class="highlight">50-100 µL of Elution Buffer</span> directly to the center of the membrane. Let sit for 1 minute at room temp.`,
-                    `Centrifuge at <span class="highlight">10,000 RPM for 1 minute</span> to elute the purified DNA. Store at -20°C.`
-                ];
-            }
-        },
-        multiplexPcr: {
-            name: "Multiplex PCR Setup (NDM, VIM, IMP)",
-            inputs: [
-                { id: "samples", label: "Number of DNA Samples", default: 10 }
-            ],
-            calculate: (inputs) => {
-                let s = parseFloat(inputs.samples);
-                // N+1 for pipetting error, plus Positive and Negative Controls
-                let n = s + 1 + 2; 
-                let mm = 12.5 * n;
-                let primerF = 1.0 * n;
-                let primerR = 1.0 * n;
-                let water = 8.5 * n;
-                
-                return [
-                    `Prepare Master Mix for ${s} samples + 2 controls + 1 extra for pipetting error (<span class="highlight">Total reactions: ${n}</span>).`,
-                    `In a sterile 1.5mL microcentrifuge tube (working on ice), add the following to create the bulk Master Mix:`,
-                    `1. Add <span class="highlight">${water.toFixed(1)} µL</span> of Nuclease-Free Water.`,
-                    `2. Add <span class="highlight">${mm.toFixed(1)} µL</span> of 2X PCR Master Mix (contains Taq, dNTPs, buffer).`,
-                    `3. Add <span class="highlight">${primerF.toFixed(1)} µL</span> of Forward Primer mix (containing NDM, VIM, IMP primers at 10 µM).`,
-                    `4. Add <span class="highlight">${primerR.toFixed(1)} µL</span> of Reverse Primer mix (10 µM).`,
-                    `Vortex the bulk mix gently and centrifuge briefly to spin down drops.`,
-                    `Aliquot <span class="highlight">23.0 µL</span> of this Master Mix into each of your individual 0.2 mL PCR tubes.`,
-                    `Add <span class="highlight">2.0 µL</span> of your extracted DNA template to each respective patient tube.`,
-                    `Add 2.0 µL of known positive DNA to the Positive Control tube, and 2.0 µL of Nuclease-Free Water to the Negative Control tube.`,
-                    `<span class="highlight">Thermal Cycler Conditions:</span> Initial denaturation at 95°C for 5 min; 35 cycles of [95°C for 30s, 55°C for 30s, 72°C for 1 min]; Final extension at 72°C for 7 min.`
-                ];
-            }
-        },
-        gelElectrophoresis: {
-            name: "Agarose Gel Electrophoresis",
-            inputs: [
-                { id: "percentage", label: "Gel Percentage (%)", default: 1.5 },
-                { id: "volume", label: "Volume of Buffer for Gel (mL)", default: 50 },
-                { id: "samples", label: "Number of Samples to Load", default: 12 }
-            ],
-            calculate: (inputs) => {
-                let p = parseFloat(inputs.percentage);
-                let v = parseFloat(inputs.volume);
-                let s = parseInt(inputs.samples);
-                let agaroseGrams = (p / 100) * v;
-                let sybrSafe = v / 10; 
-                
-                return [
-                    `<span class="highlight">1. Gel Preparation:</span>`,
-                    `Weigh out <span class="highlight">${agaroseGrams.toFixed(2)} grams</span> of Agarose powder.`,
-                    `Add to a conical flask containing <span class="highlight">${v} mL</span> of 1X TAE or TBE Buffer.`,
-                    `Microwave in short bursts (swirling in between) until the agarose is completely dissolved and the liquid is crystal clear. <br><em>Warning: Use thermal gloves. Superheated liquid can boil over instantly.</em>`,
-                    `Cool the flask at room temp until it is warm to the touch (~55°C).`,
-                    `Add <span class="highlight">${sybrSafe.toFixed(1)} µL</span> of DNA stain (e.g., SYBR Safe or Ethidium Bromide) and swirl gently.`,
-                    `Pour the gel into the casting tray, insert the comb, and let it polymerize for 30 minutes.`,
-                    `<span class="highlight">2. Loading and Running:</span>`,
-                    `Place the solidified gel into the electrophoresis tank and cover completely with 1X running buffer. Remove the comb carefully.`,
-                    `Mix <span class="highlight">5 µL</span> of each PCR product with <span class="highlight">1 µL</span> of 6X Loading Dye on parafilm or in a plate.`,
-                    `Load <span class="highlight">5 µL of DNA Ladder</span> into the first well.`,
-                    `Load the <span class="highlight">${s} prepared samples</span> (plus controls) into the remaining wells.`,
-                    `Place the lid on the tank. Run at <span class="highlight">100 Volts for 45-60 minutes</span>.`,
-                    `Visualize under a UV transilluminator or Blue Light LED box.`
-                ];
-            }
-        },
-        giemsaStain: {
-            name: "Giemsa Staining (Blood Smears / Parasites)",
-            inputs: [
-                { id: "bufferVol", label: "Volume of Buffer Required (mL)", default: 50 }
-            ],
-            calculate: (inputs) => {
-                let v = parseFloat(inputs.bufferVol);
-                // Standard 1:10 dilution for working Giemsa
-                let giemsaVol = v / 10;
-                let waterVol = v - giemsaVol;
-                
-                return [
-                    `<span class="highlight">1. Working Solution Preparation:</span>`,
-                    `Prepare a 1:10 dilution of Giemsa stain immediately before use.`,
-                    `Mix <span class="highlight">${giemsaVol.toFixed(1)} mL</span> of stock Giemsa stain with <span class="highlight">${waterVol.toFixed(1)} mL</span> of buffered water (pH 7.1 - 7.2).`,
-                    `<span class="highlight">2. Smear Preparation & Fixing:</span>`,
-                    `Prepare a thin and/or thick peripheral blood smear on a clean glass slide. Let it air dry completely.`,
-                    `<em>Thin Smears:</em> Fix by dipping in absolute methanol for 1-2 minutes. Air dry.`,
-                    `<em>Thick Smears (for Malaria):</em> DO NOT fix with methanol.`,
-                    `<span class="highlight">3. Staining Procedure:</span>`,
-                    `Place the slides on a staining rack.`,
-                    `Gently flood the slides with the freshly prepared working Giemsa solution.`,
-                    `Leave the stain on the slides for <span class="highlight">30 to 45 minutes</span>.`,
-                    `Gently flush the stain off the slide with buffered water. <br><em>CRITICAL: Do not tip the stain off first, as the metallic scum on the surface will adhere to the smear. Float it off by pouring water directly into the stain.</em>`,
-                    `Stand the slides upright in a rack to air dry.`,
-                    `Examine under <span class="highlight">100x Oil Immersion</span>. Look for characteristic intra-erythrocytic parasites (Plasmodium spp.) or evaluate WBC morphology.`
-                ];
-            }
-        }
-    };
-
-
-
-    /* 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 */
-    /* ⚠️⚠️⚠️ PASTE PHASE 7 CODE EXACTLY BELOW THIS LINE ⚠️⚠️⚠️ */
-    /* 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼 */
-    
-    database.phase7_research = {
-        thesisRoadmap: {
-            name: "Complete Thesis / Research Roadmap",
-            inputs: [
-                { id: "topic", label: "Research Topic / Target Gene", default: "e.g., NDM & VIM genes in E. coli" },
-                { id: "sample", label: "Sample Type", default: "e.g., Clinical Urine Isolates" },
-                { id: "weeks", label: "Total Time Available (Weeks)", default: 24 }
-            ],
-            calculate: (inputs) => {
-                let t = inputs.topic;
-                let s = inputs.sample;
-                let w = parseInt(inputs.weeks);
-                
-                // Breaking down the time dynamically
-                let litWeeks = Math.max(1, Math.floor(w * 0.15));
-                let collectWeeks = Math.max(1, Math.floor(w * 0.25));
-                let labWeeks = Math.max(1, Math.floor(w * 0.30));
-                let writeWeeks = Math.max(1, Math.floor(w * 0.20));
-                let defenseWeeks = Math.max(1, Math.floor(w * 0.10));
-
-                return [
-                    `<span class="highlight">Phase 1: Synopsis & Literature Review (Allocated: ${litWeeks} weeks)</span> <i class="fas fa-book-open" style="color: #3b82f6; margin-left: 10px;"></i>`,
-                    `Conduct comprehensive literature search on <span class="highlight">${t}</span>.`,
-                    `Define clear objectives, hypothesis, and methodology.`,
-                    `Submit research synopsis to the Ethical Review Board / University Committee for approval.`,
-                    
-                    `<span class="highlight">Phase 2: Sample Collection & Storage (Allocated: ${collectWeeks} weeks)</span> <i class="fas fa-snowflake" style="color: #06b6d4; margin-left: 10px;"></i>`,
-                    `Gather <span class="highlight">${s}</span> from designated hospital wards or lab archives.`,
-                    `Ensure proper transport media and cold chain maintenance.`,
-                    `Log all patient demographics and sample details into a master Excel database.`,
-                    
-                    `<span class="highlight">Phase 3: Microbiological Bench Work (Allocated: ${labWeeks} weeks)</span> <i class="fas fa-flask fa-shake" style="color: #10b981; margin-left: 10px;"></i>`,
-                    `Perform primary culture, Gram staining, and biochemical identification (Catalase, Oxidase, TSI, Indole, etc.) on all <span class="highlight">${s}</span>.`,
-                    `Perform Antimicrobial Susceptibility Testing (AST) using Kirby-Bauer disk diffusion.`,
-                    `Identify and isolate multi-drug resistant (MDR) strains relevant to <span class="highlight">${t}</span>.`,
-                    `Extract DNA using spin-column kits and quantify purity/concentration.`,
-                    `Run Molecular tests (Multiplex PCR, Gel Electrophoresis) to detect specific target markers.`,
-                    
-                    `<span class="highlight">Phase 4: Data Analysis & Statistics (Allocated: ${writeWeeks} weeks)</span> <i class="fas fa-chart-pie" style="color: #f59e0b; margin-left: 10px;"></i>`,
-                    `Compile all AST zone diameters and PCR band results.`,
-                    `Use SPSS or GraphPad to calculate prevalence, P-values, and statistical significance of your findings regarding <span class="highlight">${t}</span>.`,
-                    
-                    `<span class="highlight">Phase 5: Thesis Writing & Finalizing</span> <i class="fas fa-pen-nib" style="color: #8b5cf6; margin-left: 10px;"></i>`,
-                    `Draft Chapter 1: Introduction & Background.`,
-                    `Draft Chapter 2: Materials & Methods (Detailing exactly how you processed the ${s}).`,
-                    `Draft Chapter 3: Results (Insert graphs and electrophoresis gel images).`,
-                    `Draft Chapter 4: Discussion & Conclusion.`,
-                    `Run final document through plagiarism checker and format citations (APA/Vancouver).`,
-                    
-                    `<span class="highlight">Phase 6: Defense Preparation (Allocated: ${defenseWeeks} weeks)</span> <i class="fas fa-user-graduate fa-bounce" style="color: #e11d48; margin-left: 10px;"></i>`,
-                    `Create a concise PowerPoint presentation.`,
-                    `Draft a presentation script highlighting your key findings on <span class="highlight">${t}</span>.`,
-                    `Conduct mock defense sessions focusing on clinical relevance and technical limitations.`
-                ];
-            }
-        }
-    };
-
-
-    /* ========================================================== */
-    /*               CORE APPLICATION LOGIC BELOW                 */
-    /*             DO NOT TOUCH OR DELETE THIS PART               */
-    /* ========================================================== */
-    let currentSection = "";
-    let currentProtocolId = "";
-
-    function loadProtocols() {
-        currentSection = document.getElementById("categorySelect").value;
-        const protocolSelect = document.getElementById("protocolSelect");
-        const protocolSelectorDiv = document.getElementById("protocolSelectorDiv");
-        
-        protocolSelect.innerHTML = '<option value="">-- Choose Procedure --</option>';
-        document.getElementById("calculatorCard").style.display = "none";
-        document.getElementById("stepsCard").style.display = "none";
-
-        if (currentSection && database[currentSection]) {
-            const protocols = database[currentSection];
-            for (const key in protocols) {
-                let opt = document.createElement("option");
-                opt.value = key;
-                opt.textContent = protocols[key].name;
-                protocolSelect.appendChild(opt);
-            }
-            protocolSelectorDiv.style.display = "block";
-        } else {
-            protocolSelectorDiv.style.display = "none";
-            if(currentSection) alert("You haven't pasted the code for this phase yet! Please paste it into the designated area in your HTML file.");
-        }
+    if(window.scrollY > 30){
+        header.classList.add("scrolled");
+    }else{
+        header.classList.remove("scrolled");
     }
 
-    function renderCalculator() {
-        currentProtocolId = document.getElementById("protocolSelect").value;
-        const calcCard = document.getElementById("calculatorCard");
-        const inputArea = document.getElementById("inputArea");
-        
-        if (!currentProtocolId) {
-            calcCard.style.display = "none";
-            document.getElementById("stepsCard").style.display = "none";
-            return;
+});
+
+
+/* ---------- Mobile Menu ---------- */
+
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+});
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+
+    link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+    });
+
+});
+
+
+/* ---------- Scroll Reveal ---------- */
+
+const revealObserver = new IntersectionObserver(
+
+    entries => {
+
+        entries.forEach(entry => {
+
+            if(entry.isIntersecting){
+
+                entry.target.classList.add("visible");
+
+                revealObserver.unobserve(entry.target);
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold:.12
+    }
+
+);
+
+document.querySelectorAll(".reveal").forEach(el => {
+
+    revealObserver.observe(el);
+
+});
+
+
+/* ---------- FAQ ---------- */
+
+document.querySelectorAll(".faq-question").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const item = button.parentElement;
+
+        document.querySelectorAll(".faq-item").forEach(other => {
+
+            if(other !== item){
+                other.classList.remove("active");
+            }
+
+        });
+
+        item.classList.toggle("active");
+
+    });
+
+});
+
+
+/* ---------- Current Year ---------- */
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+
+/* ---------- Background Particles ---------- */
+
+const particleCount = window.innerWidth < 700 ? 22 : 45;
+
+for(let i = 0; i < particleCount; i++){
+
+    const particle = document.createElement("div");
+
+    particle.className = "particle";
+
+    particle.style.left = Math.random() * 100 + "%";
+    particle.style.top = Math.random() * 100 + "%";
+    particle.style.opacity = Math.random() * .5 + .1;
+
+    const duration = 5 + Math.random() * 9;
+    const distance = 20 + Math.random() * 80;
+
+    particle.animate(
+
+        [
+            {
+                transform:"translateY(0px)",
+                opacity:particle.style.opacity
+            },
+            {
+                transform:`translateY(-${distance}px)`,
+                opacity:0
+            },
+            {
+                transform:"translateY(0px)",
+                opacity:particle.style.opacity
+            }
+        ],
+
+        {
+            duration:duration * 1000,
+            iterations:Infinity,
+            delay:-Math.random() * duration * 1000,
+            easing:"ease-in-out"
         }
 
-        const protocol = database[currentSection][currentProtocolId];
-        document.getElementById("calcTitle").innerHTML = `<i class="fas fa-sliders"></i> ${protocol.name} Variables`;
-        inputArea.innerHTML = "";
-        
-        protocol.inputs.forEach(inp => {
-            let group = document.createElement("div");
-            group.className = "input-group";
+    );
 
-            let label = document.createElement("label");
-            label.textContent = inp.label;
-            
-            let inputField = document.createElement("input");
-            inputField.type = "number";
-            inputField.id = "input_" + inp.id;
-            inputField.value = inp.default;
-            inputField.oninput = updateSteps; 
-            
-            group.appendChild(label);
-            group.appendChild(inputField);
-            inputArea.appendChild(group);
+    document.body.appendChild(particle);
+
+}
+
+
+/* ---------- Mouse Glow ---------- */
+
+let mouseX = 0;
+let mouseY = 0;
+
+document.addEventListener("mousemove", e => {
+
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+});
+
+const glow = document.createElement("div");
+
+glow.style.position = "fixed";
+glow.style.width = "250px";
+glow.style.height = "250px";
+glow.style.borderRadius = "50%";
+glow.style.pointerEvents = "none";
+glow.style.zIndex = "-1";
+glow.style.background =
+    "radial-gradient(circle,rgba(124,92,255,.08),transparent 65%)";
+glow.style.transform = "translate(-50%,-50%)";
+
+document.body.appendChild(glow);
+
+function moveGlow(){
+
+    glow.style.left = mouseX + "px";
+    glow.style.top = mouseY + "px";
+
+    requestAnimationFrame(moveGlow);
+
+}
+
+moveGlow();
+
+
+/* ---------- Subtle Card Tilt ---------- */
+
+if(window.innerWidth > 900){
+
+    document.querySelectorAll(".service-card").forEach(card => {
+
+        card.addEventListener("mousemove", e => {
+
+            const rect = card.getBoundingClientRect();
+
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const rotateX =
+                ((y / rect.height) - .5) * -5;
+
+            const rotateY =
+                ((x / rect.width) - .5) * 5;
+
+            card.style.transform =
+                `translateY(-8px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
         });
 
-        calcCard.style.display = "block";
-        updateSteps(); 
-    }
+        card.addEventListener("mouseleave", () => {
 
-    function updateSteps() {
-        const protocol = database[currentSection][currentProtocolId];
-        let currentInputs = {};
-        
-        protocol.inputs.forEach(inp => {
-            currentInputs[inp.id] = document.getElementById("input_" + inp.id).value;
+            card.style.transform = "";
+
         });
 
-        const steps = protocol.calculate(currentInputs);
-        const stepList = document.getElementById("stepList");
-        stepList.innerHTML = "";
-        
-        steps.forEach((step, index) => {
-            let li = document.createElement("li");
-            li.className = "step-item";
-            
-            let checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.className = "step-checkbox";
-            
-            let contentSpan = document.createElement("span");
-            contentSpan.className = "step-content";
-            contentSpan.innerHTML = step;
+    });
 
-            checkbox.onchange = function() {
-                if(this.checked) contentSpan.classList.add("completed");
-                else contentSpan.classList.remove("completed");
-            };
+}
 
-            li.appendChild(checkbox);
-            li.appendChild(contentSpan);
-            stepList.appendChild(li);
-        });
-
-        document.getElementById("stepsCard").style.display = "block";
-    }
 </script>
+
 </body>
 </html>
+```
