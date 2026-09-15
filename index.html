@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
-<title>Neural Particle Universe</title>
+<title>TAJAMAL — Cosmic Neural Universe</title>
 
 <style>
 *{
@@ -18,70 +17,80 @@ html,body{
     height:100%;
     overflow:hidden;
     background:#000;
+    color:#fff;
     font-family:Arial,Helvetica,sans-serif;
 }
 
 canvas{
-    display:block;
     position:fixed;
     inset:0;
+    display:block;
 }
 
 #camera{
     position:fixed;
     right:18px;
     bottom:18px;
-    width:190px;
-    height:140px;
+    width:180px;
+    height:135px;
     object-fit:cover;
-    border-radius:16px;
-    opacity:.55;
     transform:scaleX(-1);
-    border:1px solid rgba(255,255,255,.15);
-    z-index:10;
+    border-radius:15px;
+    opacity:.38;
+    border:1px solid rgba(255,255,255,.18);
     display:none;
+    z-index:20;
 }
 
 #hud{
     position:fixed;
-    left:18px;
-    top:18px;
-    z-index:20;
-    color:white;
+    top:20px;
+    left:22px;
+    z-index:30;
+    pointer-events:none;
+    text-shadow:0 0 20px #000;
+}
+
+.brand{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:8px;
+}
+
+.signature{
+    margin-top:5px;
+    font-size:9px;
+    letter-spacing:4px;
+    opacity:.5;
+}
+
+.environment{
+    margin-top:13px;
+    font-size:12px;
+    letter-spacing:2px;
+}
+
+#bottom{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:30;
+    text-align:center;
     pointer-events:none;
 }
 
-.title{
-    font-size:20px;
-    font-weight:800;
-    letter-spacing:3px;
-    text-shadow:0 0 20px rgba(255,255,255,.5);
-}
-
-.status{
-    margin-top:8px;
-    font-size:12px;
-    letter-spacing:1px;
-    opacity:.75;
-}
-
-#shape{
-    margin-top:8px;
-    font-size:13px;
-    opacity:.9;
+#gesture{
+    font-size:10px;
+    letter-spacing:2px;
+    opacity:.55;
 }
 
 #hint{
-    position:fixed;
-    bottom:18px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:20;
-    color:rgba(255,255,255,.65);
-    font-size:11px;
+    margin-top:7px;
+    font-size:9px;
     letter-spacing:1px;
-    text-align:center;
-    pointer-events:none;
+    opacity:.32;
 }
 
 #start{
@@ -89,21 +98,55 @@ canvas{
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
-    z-index:30;
-    border:1px solid rgba(255,255,255,.3);
-    background:rgba(0,0,0,.55);
-    color:white;
-    padding:16px 26px;
+    z-index:50;
+
+    padding:18px 34px;
+
     border-radius:999px;
-    font-size:13px;
-    font-weight:bold;
-    letter-spacing:2px;
+
+    border:1px solid rgba(255,255,255,.3);
+
+    color:#fff;
+
+    background:rgba(0,0,0,.62);
+
+    backdrop-filter:blur(16px);
+
     cursor:pointer;
-    backdrop-filter:blur(10px);
+
+    font-size:11px;
+    font-weight:bold;
+
+    letter-spacing:4px;
 }
 
 #start:hover{
     background:rgba(255,255,255,.12);
+}
+
+#loading{
+    position:fixed;
+    top:calc(50% + 58px);
+    left:50%;
+    transform:translateX(-50%);
+    z-index:50;
+
+    font-size:9px;
+    letter-spacing:2px;
+    opacity:.5;
+}
+
+#signature{
+    position:fixed;
+    right:25px;
+    top:24px;
+    z-index:30;
+
+    font-size:9px;
+    letter-spacing:4px;
+    opacity:.3;
+
+    pointer-events:none;
 }
 </style>
 </head>
@@ -113,403 +156,1084 @@ canvas{
 <video id="camera" autoplay muted playsinline></video>
 
 <div id="hud">
-    <div class="title">NEURAL PARTICLE UNIVERSE</div>
-    <div class="status" id="status">INITIALIZING...</div>
-    <div id="shape">FORM: HEART</div>
+
+    <div class="brand">
+        TAJAMAL
+    </div>
+
+    <div class="signature">
+        TAJAMAL COSMIC LAB
+    </div>
+
+    <div
+        class="environment"
+        id="environment">
+        UNIVERSE: MILKY WAY
+    </div>
+
 </div>
 
-<div id="hint">
-OPEN PALM = EXPAND · FIST = COLLAPSE · PINCH = GRAVITY · SWIPE = CHANGE FORM · TWO HANDS = POWER
+<div id="signature">
+    T•K / COSMIC ENGINE
 </div>
 
-<button id="start">START EXPERIENCE</button>
+<div id="bottom">
+
+    <div id="gesture">
+        MOUSE / TOUCH READY
+    </div>
+
+    <div id="hint">
+        OPEN PALM • FIST • PINCH • TWO HANDS • SWIPE • SPACE
+    </div>
+
+</div>
+
+<button id="start">
+    ENTER TAJAMAL UNIVERSE
+</button>
+
+<div id="loading"></div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js"></script>
+
 
 <script>
 
-/* =========================================================
-   CONFIGURATION
-========================================================= */
+/* ============================================================
+   TAJAMAL COSMIC NEURAL ENGINE
+   ============================================================ */
 
-const PARTICLES = 120000;
-
-const canvas = document.createElement("canvas");
-
-const renderer = new THREE.WebGLRenderer({
-    canvas:canvas,
-    antialias:false,
-    powerPreference:"high-performance"
-});
-
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
-renderer.setSize(innerWidth,innerHeight);
-renderer.setClearColor(0x000000,1);
-
-document.body.appendChild(canvas);
+const PARTICLES = 160000;
 
 
-/* =========================================================
-   SCENE
-========================================================= */
+/* ============================================================
+   RENDERER
+   ============================================================ */
 
-const scene = new THREE.Scene();
+const renderer =
+    new THREE.WebGLRenderer({
 
-const camera3D = new THREE.PerspectiveCamera(
-    55,
-    innerWidth / innerHeight,
-    .1,
-    100
+        antialias:false,
+
+        powerPreference:
+            "high-performance"
+    });
+
+renderer.setPixelRatio(
+    Math.min(
+        window.devicePixelRatio,
+        1.5
+    )
 );
 
-camera3D.position.z = 8;
+renderer.setSize(
+    innerWidth,
+    innerHeight
+);
+
+renderer.setClearColor(
+    0x000000,
+    1
+);
+
+document.body.appendChild(
+    renderer.domElement
+);
 
 
-/* =========================================================
-   PARTICLE DATA
-========================================================= */
+/* ============================================================
+   SCENE
+   ============================================================ */
 
-const positions = new Float32Array(PARTICLES * 3);
-const seeds     = new Float32Array(PARTICLES);
-const sizes     = new Float32Array(PARTICLES);
-const randoms   = new Float32Array(PARTICLES);
+const scene =
+    new THREE.Scene();
 
-for(let i=0;i<PARTICLES;i++){
 
-    const i3=i*3;
+const camera =
+    new THREE.PerspectiveCamera(
+        55,
+        innerWidth/
+        innerHeight,
+        .05,
+        250
+    );
 
-    positions[i3]   = (Math.random()-.5)*2;
-    positions[i3+1] = (Math.random()-.5)*2;
-    positions[i3+2] = (Math.random()-.5)*2;
+camera.position.z=10;
 
-    seeds[i]=Math.random()*1000;
 
-    sizes[i]=0.5+Math.random()*1.8;
+/* ============================================================
+   UNIVERSE MODES
+   ============================================================ */
 
-    randoms[i]=Math.random();
+const universes=[
+
+    "MILKY WAY",
+
+    "NEBULA",
+
+    "BLACK HOLE",
+
+    "SATURN SYSTEM",
+
+    "WORMHOLE",
+
+    "SUPERNOVA",
+
+    "GALAXY COLLISION",
+
+    "COSMIC VORTEX",
+
+    "TAJAMAL HEART",
+
+    "TAJAMAL FLOWER",
+
+    "DNA UNIVERSE",
+
+    "FIREWORK UNIVERSE",
+
+    "COSMIC SPHERE",
+
+    "QUASAR",
+
+    "STAR STORM"
+
+];
+
+let universe=0;
+
+
+/* ============================================================
+   HAND STATE
+   ============================================================ */
+
+let handDetected=false;
+
+let targetHandX=0;
+let targetHandY=0;
+
+let handX=0;
+let handY=0;
+
+let openness=.4;
+let pinch=0;
+
+let power=.2;
+
+let velocity=0;
+
+let previousX=.5;
+let previousY=.5;
+
+let previousTime=
+    performance.now();
+
+let swipeLock=0;
+
+
+/* ============================================================
+   PARTICLES
+   ============================================================ */
+
+const positions=
+    new Float32Array(
+        PARTICLES*3
+    );
+
+const seeds=
+    new Float32Array(
+        PARTICLES
+    );
+
+const randoms=
+    new Float32Array(
+        PARTICLES
+    );
+
+const sizes=
+    new Float32Array(
+        PARTICLES
+    );
+
+
+for(
+    let i=0;
+    i<PARTICLES;
+    i++
+){
+
+    const p=i*3;
+
+    positions[p]=
+        (Math.random()-.5)*2;
+
+    positions[p+1]=
+        (Math.random()-.5)*2;
+
+    positions[p+2]=
+        (Math.random()-.5)*2;
+
+    seeds[i]=
+        Math.random()*10000;
+
+    randoms[i]=
+        Math.random();
+
+    sizes[i]=
+        .3+
+        Math.random()*1.8;
 }
 
-const geometry = new THREE.BufferGeometry();
+
+const geometry=
+    new THREE.BufferGeometry();
+
 
 geometry.setAttribute(
     "position",
-    new THREE.BufferAttribute(positions,3)
+    new THREE.BufferAttribute(
+        positions,
+        3
+    )
 );
 
 geometry.setAttribute(
     "aSeed",
-    new THREE.BufferAttribute(seeds,1)
-);
-
-geometry.setAttribute(
-    "aSize",
-    new THREE.BufferAttribute(sizes,1)
+    new THREE.BufferAttribute(
+        seeds,
+        1
+    )
 );
 
 geometry.setAttribute(
     "aRandom",
-    new THREE.BufferAttribute(randoms,1)
+    new THREE.BufferAttribute(
+        randoms,
+        1
+    )
+);
+
+geometry.setAttribute(
+    "aSize",
+    new THREE.BufferAttribute(
+        sizes,
+        1
+    )
 );
 
 
-/* =========================================================
-   GPU PARTICLE SHADER
-========================================================= */
+/* ============================================================
+   COSMIC VERTEX SHADER
+   ============================================================ */
 
 const vertexShader = `
 
 uniform float uTime;
+uniform float uMode;
 uniform float uExpansion;
-uniform float uForm;
-uniform vec3 uHand;
-uniform float uHandPower;
+uniform float uGravity;
 uniform float uShock;
-uniform float uEnergy;
+uniform float uPower;
+
+uniform vec3 uHand;
 
 attribute float aSeed;
-attribute float aSize;
 attribute float aRandom;
+attribute float aSize;
 
 varying float vEnergy;
+varying float vRandom;
 
 #define PI 3.14159265359
 
-vec3 heart(float t){
 
-    float x = 16.0 * pow(sin(t),3.0);
+/* ==========================================================
+   MILKY WAY
+========================================================== */
 
-    float y =
-        13.0*cos(t)
-        -5.0*cos(2.0*t)
-        -2.0*cos(3.0*t)
-        -cos(4.0*t);
+vec3 milkyWay(
+    float a,
+    float r,
+    float s
+){
 
-    return vec3(x,y,0.0)*0.075;
-}
+    float radius=
+        .15+
+        r*5.2;
 
-vec3 flower(float t,float r){
+    float arms=5.0;
 
-    float petals=7.0;
+    float angle=
+        a+
+        radius*1.75+
+        sin(a*arms)*.13;
 
-    float radius =
-        1.5 +
-        .8*sin(t*petals);
-
-    return vec3(
-        cos(t)*radius,
-        sin(t)*radius,
-        sin(t*3.0+r*4.0)*.5
-    );
-}
-
-vec3 galaxy(float t,float r){
-
-    float radius=.3+r*3.4;
-
-    float angle=t+radius*1.8;
+    float thickness=
+        (s-.5)*.75;
 
     return vec3(
+
         cos(angle)*radius,
-        sin(angle)*radius*.45,
-        sin(angle*2.0+r*8.0)*.35
+
+        thickness+
+        sin(a*4.0+s*8.0)*.16,
+
+        sin(angle)*radius
+
     );
 }
 
-vec3 vortex(float t,float r){
 
-    float radius=.15+r*3.2;
+/* ==========================================================
+   NEBULA
+========================================================== */
 
-    float angle=t+radius*3.5;
+vec3 nebula(
+    float a,
+    float r,
+    float s
+){
+
+    float radius=
+        r*5.5;
+
+    float cloud=
+        sin(a*4.0+s*4.0)+
+        sin(a*8.0+s*7.0)+
+        sin(a*13.0+s*2.0);
+
+    radius+=cloud*.28;
 
     return vec3(
+
+        cos(a)*radius,
+
+        sin(a*1.7+s)*radius*.6,
+
+        sin(a)*radius
+
+    );
+}
+
+
+/* ==========================================================
+   BLACK HOLE
+========================================================== */
+
+vec3 blackHole(
+    float a,
+    float r,
+    float s
+){
+
+    float radius=
+        .45+
+        r*4.8;
+
+    float angle=
+        a+
+        radius*3.5+
+        uTime*.9;
+
+    vec3 p=vec3(
+
         cos(angle)*radius,
-        sin(angle)*radius,
-        (r-.5)*3.5
+
+        (s-.5)*.16,
+
+        sin(angle)*radius
+
     );
+
+    float bend=
+        1.0/
+        (radius+.3);
+
+    p.y+=
+        sin(angle*3.0)*
+        bend;
+
+    return p;
 }
 
-vec3 sphere(float t,float r){
 
-    float z=1.0-2.0*r;
+/* ==========================================================
+   SATURN
+========================================================== */
 
-    float rr=sqrt(max(0.0,1.0-z*z));
+vec3 saturn(
+    float a,
+    float r,
+    float s
+){
 
-    float a=t;
+    if(r<.38){
 
-    return vec3(
-        rr*cos(a),
-        rr*sin(a),
-        z
-    )*2.0;
-}
+        float z=
+            1.0-
+            2.0*r;
 
-vec3 torus(float t,float r){
-
-    float R=1.7;
-    float tube=.55;
-
-    return vec3(
-        (R+tube*cos(r*PI*2.0))*cos(t),
-        (R+tube*cos(r*PI*2.0))*sin(t),
-        tube*sin(r*PI*2.0)
-    );
-}
-
-vec3 dna(float t,float r){
-
-    float y=(r-.5)*5.0;
-
-    float angle=y*3.0+t;
-
-    return vec3(
-        cos(angle)*1.3,
-        y,
-        sin(angle)*1.3
-    );
-}
-
-vec3 saturn(float t,float r){
-
-    float ring=r<.65 ? 1.0 : .0;
-
-    if(ring>0.5){
-
-        float rr=1.3+r*.9;
+        float rr=
+            sqrt(
+                max(
+                    0.0,
+                    1.0-z*z
+                )
+            );
 
         return vec3(
-            cos(t)*rr,
-            sin(t)*rr*.35,
-            sin(t*5.0+r*20.0)*.04
-        );
+
+            rr*cos(a),
+
+            z,
+
+            rr*sin(a)
+
+        )*1.5;
+
     }
 
-    return sphere(t,r)*.8;
-}
-
-vec3 firework(float t,float r){
-
-    float theta=acos(1.0-2.0*r);
-    float phi=t;
-
-    float radius=r*3.0;
+    float ring=
+        1.9+
+        r*2.2;
 
     return vec3(
+
+        cos(a)*ring,
+
+        (s-.5)*.08,
+
+        sin(a)*ring
+
+    );
+}
+
+
+/* ==========================================================
+   WORMHOLE
+========================================================== */
+
+vec3 wormhole(
+    float a,
+    float r,
+    float s
+){
+
+    float z=
+        (r-.5)*8.0;
+
+    float radius=
+        .25+
+        abs(z)*.35;
+
+    float angle=
+        a+
+        z*2.5+
+        uTime;
+
+    return vec3(
+
+        cos(angle)*radius,
+
+        sin(angle)*radius,
+
+        z
+
+    );
+}
+
+
+/* ==========================================================
+   SUPERNOVA
+========================================================== */
+
+vec3 supernova(
+    float a,
+    float r,
+    float s
+){
+
+    float theta=
+        acos(
+            1.0-
+            2.0*r
+        );
+
+    float phi=a;
+
+    float radius=
+        .2+
+        r*5.0;
+
+    radius*=
+        1.0+
+        sin(
+            uTime*5.0+
+            radius*3.0
+        )*.08;
+
+    return vec3(
+
         sin(theta)*cos(phi),
+
         sin(theta)*sin(phi),
+
         cos(theta)
+
     )*radius;
 }
 
+
+/* ==========================================================
+   GALAXY COLLISION
+========================================================== */
+
+vec3 collision(
+    float a,
+    float r,
+    float s
+){
+
+    float radius=
+        .2+
+        r*4.5;
+
+    float side=
+        s>.5
+        ?1.0
+        :-1.0;
+
+    float angle=
+        a+
+        side*radius*1.5;
+
+    vec3 p=vec3(
+
+        cos(angle)*radius,
+
+        sin(angle)*radius*.35,
+
+        sin(angle)*radius
+
+    );
+
+    p.x+=
+        side*2.1;
+
+    return p;
+}
+
+
+/* ==========================================================
+   VORTEX
+========================================================== */
+
+vec3 vortex(
+    float a,
+    float r,
+    float s
+){
+
+    float radius=
+        .15+
+        r*4.8;
+
+    float angle=
+        a+
+        radius*4.2+
+        uTime*.8;
+
+    return vec3(
+
+        cos(angle)*radius,
+
+        sin(angle)*radius,
+
+        (r-.5)*5.5
+
+    );
+}
+
+
+/* ==========================================================
+   HEART
+========================================================== */
+
+vec3 heart(
+    float a,
+    float r,
+    float s
+){
+
+    float t=a;
+
+    float x=
+        16.0*
+        pow(
+            sin(t),
+            3.0
+        );
+
+    float y=
+        13.0*cos(t)
+        -
+        5.0*cos(2.0*t)
+        -
+        2.0*cos(3.0*t)
+        -
+        cos(4.0*t);
+
+    float z=
+        (s-.5)*2.0;
+
+    return vec3(
+
+        x*.13,
+
+        y*.13,
+
+        z
+
+    );
+}
+
+
+/* ==========================================================
+   FLOWER
+========================================================== */
+
+vec3 flower(
+    float a,
+    float r,
+    float s
+){
+
+    float petals=9.0;
+
+    float radius=
+        1.5+
+        sin(a*petals)*.9;
+
+    return vec3(
+
+        cos(a)*radius,
+
+        sin(a)*radius,
+
+        sin(
+            a*5.0+
+            s*8.0
+        )*.55
+
+    );
+}
+
+
+/* ==========================================================
+   DNA
+========================================================== */
+
+vec3 dna(
+    float a,
+    float r,
+    float s
+){
+
+    float y=
+        (r-.5)*7.0;
+
+    float angle=
+        y*3.0+
+        uTime;
+
+    return vec3(
+
+        cos(angle)*1.5,
+
+        y,
+
+        sin(angle)*1.5
+
+    );
+}
+
+
+/* ==========================================================
+   FIREWORK
+========================================================== */
+
+vec3 firework(
+    float a,
+    float r,
+    float s
+){
+
+    float theta=
+        acos(
+            1.0-
+            2.0*r
+        );
+
+    float radius=
+        r*4.8;
+
+    return vec3(
+
+        sin(theta)*cos(a),
+
+        sin(theta)*sin(a),
+
+        cos(theta)
+
+    )*radius;
+}
+
+
+/* ==========================================================
+   COSMIC SPHERE
+========================================================== */
+
+vec3 sphere(
+    float a,
+    float r,
+    float s
+){
+
+    float z=
+        1.0-
+        2.0*r;
+
+    float rr=
+        sqrt(
+            max(
+                0.0,
+                1.0-z*z
+            )
+        );
+
+    return vec3(
+
+        rr*cos(a),
+
+        z,
+
+        rr*sin(a)
+
+    )*2.6;
+}
+
+
+/* ==========================================================
+   QUASAR
+========================================================== */
+
+vec3 quasar(
+    float a,
+    float r,
+    float s
+){
+
+    float z=
+        (r-.5)*9.0;
+
+    float radius=
+        .2+
+        abs(z)*.2;
+
+    float angle=
+        a+
+        z*4.0+
+        uTime;
+
+    return vec3(
+
+        cos(angle)*radius,
+
+        z,
+
+        sin(angle)*radius
+
+    );
+}
+
+
+/* ==========================================================
+   STAR STORM
+========================================================== */
+
+vec3 starStorm(
+    float a,
+    float r,
+    float s
+){
+
+    float radius=
+        r*6.0;
+
+    float angle=
+        a+
+        sin(r*20.0)*
+        .5;
+
+    return vec3(
+
+        cos(angle)*radius,
+
+        (s-.5)*radius,
+
+        sin(angle)*radius
+
+    );
+}
+
+
+/* ==========================================================
+   MAIN
+========================================================== */
+
 void main(){
 
-    float t=aSeed+uTime*.25;
+    float t=
+        aSeed+
+        uTime*.13;
 
     float r=aRandom;
 
     vec3 p;
 
-    if(uForm<.5){
 
-        p=heart(t);
-        p*=1.25;
+    if(uMode<.5)
+        p=milkyWay(t,r,aSeed);
 
-    }else if(uForm<1.5){
+    else if(uMode<1.5)
+        p=nebula(t,r,aSeed);
 
-        p=flower(t,r);
+    else if(uMode<2.5)
+        p=blackHole(t,r,aSeed);
 
-    }else if(uForm<2.5){
+    else if(uMode<3.5)
+        p=saturn(t,r,aSeed);
 
-        p=galaxy(t,r);
+    else if(uMode<4.5)
+        p=wormhole(t,r,aSeed);
 
-    }else if(uForm<3.5){
+    else if(uMode<5.5)
+        p=supernova(t,r,aSeed);
 
-        p=vortex(t,r);
+    else if(uMode<6.5)
+        p=collision(t,r,aSeed);
 
-    }else if(uForm<4.5){
+    else if(uMode<7.5)
+        p=vortex(t,r,aSeed);
 
-        p=sphere(t,r);
+    else if(uMode<8.5)
+        p=heart(t,r,aSeed);
 
-    }else if(uForm<5.5){
+    else if(uMode<9.5)
+        p=flower(t,r,aSeed);
 
-        p=torus(t,r);
+    else if(uMode<10.5)
+        p=dna(t,r,aSeed);
 
-    }else if(uForm<6.5){
+    else if(uMode<11.5)
+        p=firework(t,r,aSeed);
 
-        p=dna(t,r);
+    else if(uMode<12.5)
+        p=sphere(t,r,aSeed);
 
-    }else if(uForm<7.5){
+    else if(uMode<13.5)
+        p=quasar(t,r,aSeed);
 
-        p=saturn(t,r);
+    else
+        p=starStorm(t,r,aSeed);
 
-    }else{
 
-        p=firework(t,r);
+    /* cosmic turbulence */
 
-    }
+    p.x+=
+        sin(
+            t*1.3+
+            p.z*2.0
+        )*.09;
 
-    /* organic motion */
+    p.y+=
+        cos(
+            t*1.6+
+            p.x*1.7
+        )*.09;
 
-    p.x += sin(t*1.7+p.z*3.0)*.08;
-    p.y += cos(t*1.3+p.x*2.0)*.08;
-    p.z += sin(t*1.1+p.y*2.0)*.08;
+    p.z+=
+        sin(
+            t*1.1+
+            p.y*2.0
+        )*.09;
+
 
     /* expansion */
 
-    float scale=1.0+uExpansion*1.8;
+    p*=
+        1.0+
+        uExpansion*1.65;
 
-    p*=scale;
 
-    /* hand attraction / repulsion */
+    /* hand gravity */
 
-    vec3 delta=p-uHand;
+    vec3 delta=
+        p-uHand;
 
-    float dist=length(delta)+.001;
+    float distance=
+        length(delta)+.001;
 
-    float force=exp(-dist*1.5)*uHandPower;
+    float gravity=
+        exp(
+            -distance*1.05
+        )*
+        uGravity;
 
-    p += normalize(delta)*force;
+    p-=
+        normalize(delta)*
+        gravity;
+
 
     /* shockwave */
 
-    float wave=sin(dist*9.0-uTime*9.0)*uShock;
+    float wave=
+        sin(
+            distance*8.0-
+            uTime*11.0
+        )*
+        uShock;
 
-    p += normalize(delta)*wave;
+    p+=
+        normalize(delta)*
+        wave;
 
-    /* energy */
 
-    p*=1.0+uEnergy*.15;
+    /* cosmic power */
 
-    vec4 mvPosition=modelViewMatrix*vec4(p,1.0);
+    p*=
+        1.0+
+        uPower*.22;
 
-    float perspective=7.0/(-mvPosition.z);
+
+    vEnergy=
+        uPower+
+        uShock+
+        uGravity*.12;
+
+    vRandom=
+        aRandom;
+
+
+    vec4 mv=
+        modelViewMatrix*
+        vec4(
+            p,
+            1.0
+        );
+
+    gl_Position=
+        projectionMatrix*
+        mv;
+
 
     gl_PointSize=
         aSize*
-        perspective*
-        (1.0+uEnergy*2.0);
-
-    gl_Position=projectionMatrix*mvPosition;
-
-    vEnergy=uEnergy;
+        (7.0/(-mv.z))*
+        (1.0+
+        vEnergy*2.0);
 }
 `;
 
-const fragmentShader = `
+
+/* ============================================================
+   PARTICLE FRAGMENT SHADER
+============================================================ */
+
+const fragmentShader=`
 
 uniform float uTime;
 uniform float uHue;
 
 varying float vEnergy;
+varying float vRandom;
 
 vec3 hsv2rgb(vec3 c){
 
-    vec4 K=vec4(
-        1.0,
-        2.0/3.0,
-        1.0/3.0,
-        3.0
-    );
+    vec4 K=
+        vec4(
+            1.0,
+            2.0/3.0,
+            1.0/3.0,
+            3.0
+        );
 
     vec3 p=
-        abs(fract(c.xxx+K.xyz)*6.0-K.www);
+        abs(
+            fract(
+                c.xxx+
+                K.xyz
+            )*
+            6.0-
+            K.www
+        );
 
     return c.z*
         mix(
             K.xxx,
-            clamp(p-K.xxx,0.0,1.0),
+            clamp(
+                p-K.xxx,
+                0.0,
+                1.0
+            ),
             c.y
         );
 }
 
 void main(){
 
-    vec2 uv=gl_PointCoord-.5;
+    vec2 uv=
+        gl_PointCoord-
+        .5;
 
-    float d=length(uv);
+    float d=
+        length(uv);
 
-    if(d>.5) discard;
+    if(d>.5)
+        discard;
 
-    float glow=smoothstep(.5,0.0,d);
+    float glow=
+        smoothstep(
+            .5,
+            0.0,
+            d
+        );
 
     float hue=
         fract(
             uHue+
-            vEnergy*.15+
-            d*.1
+            vRandom*.4+
+            vEnergy*.08
         );
 
-    vec3 color=hsv2rgb(
-        vec3(
-            hue,
-            .8,
-            1.0
-        )
-    );
+    vec3 color=
+        hsv2rgb(
+            vec3(
+                hue,
+                .8,
+                1.0
+            )
+        );
 
-    color*=glow*(1.0+vEnergy*2.0);
+    color*=
+        glow*
+        (
+            1.0+
+            vEnergy*2.5
+        );
 
     gl_FragColor=
         vec4(
@@ -519,134 +1243,190 @@ void main(){
 }
 `;
 
+
+/* ============================================================
+   PARTICLE MATERIAL
+============================================================ */
+
 const uniforms={
 
     uTime:{value:0},
 
-    uExpansion:{value:.25},
+    uMode:{value:0},
 
-    uForm:{value:0},
+    uExpansion:{value:.3},
 
-    uHand:{
-        value:new THREE.Vector3()
-    },
-
-    uHandPower:{value:0},
+    uGravity:{value:0},
 
     uShock:{value:0},
 
-    uEnergy:{value:.2},
+    uPower:{value:.2},
 
-    uHue:{value:.58}
+    uHue:{value:.58},
+
+    uHand:{
+        value:
+        new THREE.Vector3()
+    }
 };
 
-const material=new THREE.ShaderMaterial({
 
-    uniforms:uniforms,
+const material=
+    new THREE.ShaderMaterial({
 
-    vertexShader,
-    fragmentShader,
+        uniforms,
 
-    transparent:true,
+        vertexShader,
 
-    depthWrite:false,
+        fragmentShader,
 
-    blending:THREE.AdditiveBlending
-});
+        transparent:true,
 
-const particles=new THREE.Points(
-    geometry,
-    material
-);
+        depthWrite:false,
+
+        blending:
+            THREE.AdditiveBlending
+    });
+
+
+const particles=
+    new THREE.Points(
+        geometry,
+        material
+    );
 
 scene.add(particles);
 
 
-/* =========================================================
-   STAR FIELD
-========================================================= */
+/* ============================================================
+   DEEP SPACE STARS
+============================================================ */
 
-const starCount=7000;
+const STAR_COUNT=16000;
 
-const starPositions=new Float32Array(starCount*3);
+const starData=
+    new Float32Array(
+        STAR_COUNT*3
+    );
 
-for(let i=0;i<starCount;i++){
+for(
+    let i=0;
+    i<STAR_COUNT;
+    i++
+){
 
-    const i3=i*3;
+    const p=i*3;
 
-    const radius=15+Math.random()*35;
+    const radius=
+        25+
+        Math.random()*110;
 
-    const theta=Math.random()*Math.PI*2;
-    const phi=Math.acos(2*Math.random()-1);
+    const theta=
+        Math.random()*
+        Math.PI*2;
 
-    starPositions[i3]=
-        radius*Math.sin(phi)*Math.cos(theta);
+    const phi=
+        Math.acos(
+            2*Math.random()-1
+        );
 
-    starPositions[i3+1]=
-        radius*Math.sin(phi)*Math.sin(theta);
+    starData[p]=
+        radius*
+        Math.sin(phi)*
+        Math.cos(theta);
 
-    starPositions[i3+2]=
-        radius*Math.cos(phi);
+    starData[p+1]=
+        radius*
+        Math.sin(phi)*
+        Math.sin(theta);
+
+    starData[p+2]=
+        radius*
+        Math.cos(phi);
 }
 
-const starGeo=new THREE.BufferGeometry();
 
-starGeo.setAttribute(
+const starGeometry=
+    new THREE.BufferGeometry();
+
+starGeometry.setAttribute(
     "position",
-    new THREE.BufferAttribute(starPositions,3)
+    new THREE.BufferAttribute(
+        starData,
+        3
+    )
 );
 
-const starMat=new THREE.PointsMaterial({
 
-    color:0xffffff,
+const starMaterial=
+    new THREE.PointsMaterial({
 
-    size:.025,
+        color:0xffffff,
 
-    transparent:true,
+        size:.035,
 
-    opacity:.65,
+        transparent:true,
 
-    depthWrite:false
-});
+        opacity:.75,
 
-const stars=new THREE.Points(
-    starGeo,
-    starMat
-);
+        depthWrite:false
+    });
+
+
+const stars=
+    new THREE.Points(
+        starGeometry,
+        starMaterial
+    );
 
 scene.add(stars);
 
 
-/* =========================================================
+/* ============================================================
    ENERGY RINGS
-========================================================= */
+============================================================ */
 
 const rings=[];
 
-for(let i=0;i<5;i++){
+for(
+    let i=0;
+    i<9;
+    i++
+){
 
-    const geo=new THREE.RingGeometry(
-        1+i*.45,
-        1.01+i*.45,
-        96
-    );
+    const ringGeometry=
+        new THREE.RingGeometry(
+            1+i*.55,
+            1.006+i*.55,
+            128
+        );
 
-    const mat=new THREE.MeshBasicMaterial({
+    const ringMaterial=
+        new THREE.MeshBasicMaterial({
 
-        color:0xffffff,
+            color:0xffffff,
 
-        transparent:true,
+            transparent:true,
 
-        opacity:0,
+            opacity:.02,
 
-        side:THREE.DoubleSide,
+            side:
+                THREE.DoubleSide,
 
-        blending:THREE.AdditiveBlending
-    });
+            blending:
+                THREE.AdditiveBlending,
 
-    const ring=new THREE.Mesh(geo,mat);
+            depthWrite:false
+        });
 
-    ring.rotation.x=Math.PI/2;
+    const ring=
+        new THREE.Mesh(
+            ringGeometry,
+            ringMaterial
+        );
+
+    ring.rotation.x=
+        Math.PI/2;
 
     scene.add(ring);
 
@@ -654,104 +1434,132 @@ for(let i=0;i<5;i++){
 }
 
 
-/* =========================================================
-   HAND STATE
-========================================================= */
+/* ============================================================
+   PLANETARY SYSTEM
+============================================================ */
 
-let handDetected=false;
+const planetarySystem=
+    new THREE.Group();
 
-let handX=0;
-let handY=0;
-
-let targetHandX=0;
-let targetHandY=0;
-
-let handVelocity=0;
-
-let openness=.5;
-let pinch=.0;
-let power=.2;
-
-let lastPalmX=0;
-let lastPalmY=0;
-let lastHandTime=performance.now();
-
-let swipeCooldown=0;
+scene.add(
+    planetarySystem
+);
 
 
-/* =========================================================
-   FORMS
-========================================================= */
+const planet=
+    new THREE.Mesh(
 
-const forms=[
-    "HEART",
-    "FLOWER",
-    "GALAXY",
-    "VORTEX",
-    "SPHERE",
-    "TORUS",
-    "DNA",
-    "SATURN",
-    "FIREWORK"
-];
+        new THREE.SphereGeometry(
+            .48,
+            32,
+            32
+        ),
 
-let formIndex=0;
+        new THREE.MeshBasicMaterial({
+            color:0x777777
+        })
 
-function changeForm(direction=1){
+    );
 
-    formIndex+=direction;
+planet.position.set(
+    4,
+    .8,
+    -1
+);
 
-    if(formIndex<0)
-        formIndex=forms.length-1;
+planetarySystem.add(
+    planet
+);
 
-    if(formIndex>=forms.length)
-        formIndex=0;
 
-    uniforms.uForm.value=formIndex;
+/* ============================================================
+   COMETS
+============================================================ */
 
-    document.getElementById("shape").textContent=
-        "FORM: "+forms[formIndex];
+const COMETS=120;
+
+const cometPositions=
+    new Float32Array(
+        COMETS*3
+    );
+
+for(
+    let i=0;
+    i<COMETS;
+    i++
+){
+
+    const p=i*3;
+
+    cometPositions[p]=
+        (Math.random()-.5)*35;
+
+    cometPositions[p+1]=
+        (Math.random()-.5)*18;
+
+    cometPositions[p+2]=
+        (Math.random()-.5)*35;
 }
 
 
-/* =========================================================
-   MEDIAPIPE
-========================================================= */
+const cometGeometry=
+    new THREE.BufferGeometry();
 
-const video=document.getElementById("camera");
+cometGeometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(
+        cometPositions,
+        3
+    )
+);
+
+
+const cometMaterial=
+    new THREE.PointsMaterial({
+
+        color:0xffffff,
+
+        size:.065,
+
+        transparent:true,
+
+        opacity:.85,
+
+        blending:
+            THREE.AdditiveBlending
+    });
+
+
+const comets=
+    new THREE.Points(
+        cometGeometry,
+        cometMaterial
+    );
+
+scene.add(comets);
+
+
+/* ============================================================
+   HAND TRACKING
+============================================================ */
 
 let hands=null;
 
-async function startHands(){
+async function startCamera(){
 
     try{
 
-        hands=new Hands({
-            locateFile:(file)=>{
-
-                return "https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/"+file;
-
-            }
-        });
-
-        hands.setOptions({
-
-            maxNumHands:2,
-
-            modelComplexity:0,
-
-            minDetectionConfidence:.45,
-
-            minTrackingConfidence:.45
-
-        });
-
-        hands.onResults(processHands);
+        const video=
+            document.getElementById(
+                "camera"
+            );
 
         const stream=
-            await navigator.mediaDevices.getUserMedia({
+            await navigator.mediaDevices
+            .getUserMedia({
 
                 video:{
+
                     width:{
                         ideal:320
                     },
@@ -771,89 +1579,134 @@ async function startHands(){
                 audio:false
             });
 
-        video.srcObject=stream;
+        video.srcObject=
+            stream;
 
-        video.style.display="block";
+        video.style.display=
+            "block";
 
         await video.play();
 
-        document.getElementById("status").textContent=
-            "CAMERA ACTIVE · LOCAL GPU MODE";
+        initializeHands(
+            video
+        );
 
-        cameraLoop();
+        document.getElementById(
+            "gesture"
+        ).textContent=
+            "CAMERA • LOCAL HAND CONTROL";
 
     }catch(error){
 
-        console.error(error);
+        console.warn(
+            "Camera unavailable",
+            error
+        );
 
-        document.getElementById("status").textContent=
-            "MOUSE MODE · CAMERA UNAVAILABLE";
-
+        document.getElementById(
+            "gesture"
+        ).textContent=
+            "MOUSE / TOUCH • LOCAL CONTROL";
     }
 }
 
 
-/* =========================================================
-   FAST CAMERA LOOP
-========================================================= */
+function initializeHands(video){
 
-let cameraBusy=false;
+    hands=
+        new Hands({
 
-let lastCameraProcess=0;
+            locateFile:
+                file=>
+                    "https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/"
+                    +file
 
-async function cameraLoop(){
+        });
 
-    const now=performance.now();
 
-    /*
-       Important:
+    hands.setOptions({
 
-       We deliberately don't process every rendered frame.
+        maxNumHands:2,
 
-       Rendering can run at 60/120 FPS while
-       AI tracking runs around 24-30 FPS.
-    */
+        modelComplexity:0,
 
-    if(
-        !cameraBusy &&
-        video.readyState>=2 &&
-        now-lastCameraProcess>35
-    ){
+        minDetectionConfidence:.45,
 
-        cameraBusy=true;
+        minTrackingConfidence:.45
+    });
 
-        lastCameraProcess=now;
 
-        try{
+    hands.onResults(
+        processHands
+    );
 
-            await hands.send({
-                image:video
-            });
 
-        }catch(e){
+    let busy=false;
 
-            console.warn("Hand tracking:",e);
+    let lastProcess=0;
 
+
+    async function loop(){
+
+        const now=
+            performance.now();
+
+
+        if(
+
+            !busy &&
+
+            video.readyState>=2 &&
+
+            now-lastProcess>32
+
+        ){
+
+            busy=true;
+
+            lastProcess=now;
+
+            try{
+
+                await hands.send({
+                    image:video
+                });
+
+            }catch(e){
+
+                console.warn(e);
+            }
+
+            busy=false;
         }
 
-        cameraBusy=false;
+        requestAnimationFrame(
+            loop
+        );
     }
 
-    requestAnimationFrame(cameraLoop);
+    loop();
 }
 
 
-/* =========================================================
+/* ============================================================
    HAND PROCESSING
-========================================================= */
+============================================================ */
 
 function distance(a,b){
 
-    const dx=a.x-b.x;
-    const dy=a.y-b.y;
+    const x=
+        a.x-b.x;
 
-    return Math.sqrt(dx*dx+dy*dy);
+    const y=
+        a.y-b.y;
+
+    return Math.sqrt(
+        x*x+
+        y*y
+    );
 }
+
 
 function processHands(results){
 
@@ -867,34 +1720,50 @@ function processHands(results){
         return;
     }
 
+
     handDetected=true;
 
-    const h=results.multiHandLandmarks[0];
 
-    /*
-       Palm center
-    */
+    const h=
+        results.multiHandLandmarks[0];
 
-    const palmX=
-        (h[0].x+h[5].x+h[9].x+h[13].x+h[17].x)/5;
 
-    const palmY=
-        (h[0].y+h[5].y+h[9].y+h[13].y+h[17].y)/5;
+    const px=
+        (
+            h[0].x+
+            h[5].x+
+            h[9].x+
+            h[13].x+
+            h[17].x
+        )/5;
 
-    /*
-       Convert webcam coordinates
-       into particle-space coordinates.
-    */
 
-    targetHandX=(.5-palmX)*6.0;
+    const py=
+        (
+            h[0].y+
+            h[5].y+
+            h[9].y+
+            h[13].y+
+            h[17].y
+        )/5;
 
-    targetHandY=(.5-palmY)*-4.0;
 
-    /*
-       Finger openness
-    */
+    targetHandX=
+        (.5-px)*7;
 
-    const palmSize=distance(h[0],h[9]);
+
+    targetHandY=
+        (.5-py)*5;
+
+
+    /* openness */
+
+    const palm=
+        distance(
+            h[0],
+            h[9]
+        );
+
 
     const tips=[
         h[8],
@@ -903,114 +1772,159 @@ function processHands(results){
         h[20]
     ];
 
-    const joints=[
-        h[6],
-        h[10],
-        h[14],
-        h[18]
-    ];
 
-    let openAmount=0;
+    let open=0;
 
-    for(let i=0;i<4;i++){
 
-        openAmount+=
-            distance(tips[i],h[0]) /
-            palmSize;
+    for(
+        let i=0;
+        i<tips.length;
+        i++
+    ){
+
+        open+=
+            distance(
+                tips[i],
+                h[0]
+            )/
+            palm;
     }
 
-    openAmount/=4;
+
+    open/=4;
+
 
     openness=
         THREE.MathUtils.clamp(
-            (openAmount-1.3)/1.2,
+            (open-1.2)/1.2,
             0,
             1
         );
 
-    /*
-       Pinch
-    */
 
-    const pinchDistance=
-        distance(h[4],h[8]);
+    /* pinch */
 
     pinch=
         1-
         THREE.MathUtils.clamp(
-            pinchDistance/.16,
+            distance(
+                h[4],
+                h[8]
+            )/.16,
             0,
             1
         );
 
-    /*
-       Velocity
-    */
 
-    const now=performance.now();
+    /* velocity */
 
-    const dt=Math.max(
-        .001,
-        (now-lastHandTime)/1000
-    );
+    const now=
+        performance.now();
 
-    const vx=(palmX-lastPalmX)/dt;
-    const vy=(palmY-lastPalmY)/dt;
 
-    const velocity=Math.sqrt(
-        vx*vx+vy*vy
-    );
+    const dt=
+        Math.max(
+            .001,
+            (now-
+            previousTime)/1000
+        );
 
-    handVelocity=
+
+    const vx=
+        (px-
+        previousX)/dt;
+
+
+    const vy=
+        (py-
+        previousY)/dt;
+
+
+    velocity=
         THREE.MathUtils.lerp(
-            handVelocity,
-            Math.min(velocity,8),
+
+            velocity,
+
+            Math.min(
+                Math.sqrt(
+                    vx*vx+
+                    vy*vy
+                ),
+                8
+            ),
+
             .35
         );
 
-    lastPalmX=palmX;
-    lastPalmY=palmY;
-    lastHandTime=now;
 
-    /*
-       Swipe detection
-    */
+    previousX=px;
+    previousY=py;
+    previousTime=now;
+
+
+    /* swipe */
 
     if(
-        Math.abs(vx)>2.8 &&
-        now>swipeCooldown
+
+        Math.abs(vx)>2.7 &&
+
+        now>swipeLock
+
     ){
 
-        changeForm(vx>0?1:-1);
+        changeUniverse(
+            vx>0?1:-1
+        );
 
-        swipeCooldown=now+650;
+        swipeLock=
+            now+700;
     }
 
-    /*
-       Two hands = power mode
-    */
 
-    if(results.multiHandLandmarks.length>=2){
+    /* two hands */
 
-        const h2=results.multiHandLandmarks[1];
+    if(
+        results.multiHandLandmarks.length>=2
+    ){
+
+        const h2=
+            results.multiHandLandmarks[1];
+
 
         const x2=
-            (h2[0].x+h2[5].x+h2[9].x+
-             h2[13].x+h2[17].x)/5;
+            (
+                h2[0].x+
+                h2[5].x+
+                h2[9].x+
+                h2[13].x+
+                h2[17].x
+            )/5;
+
 
         const y2=
-            (h2[0].y+h2[5].y+h2[9].y+
-             h2[13].y+h2[17].y)/5;
+            (
+                h2[0].y+
+                h2[5].y+
+                h2[9].y+
+                h2[13].y+
+                h2[17].y
+            )/5;
 
-        const twoHandDistance=
-            Math.sqrt(
-                Math.pow(palmX-x2,2)+
-                Math.pow(palmY-y2,2)
-            );
 
         power=
             THREE.MathUtils.clamp(
-                twoHandDistance*4,
+
+                Math.sqrt(
+                    Math.pow(
+                        px-x2,
+                        2
+                    )+
+                    Math.pow(
+                        py-y2,
+                        2
+                    )
+                )*4,
+
                 0,
                 1
             );
@@ -1019,105 +1933,197 @@ function processHands(results){
 
         power=.2;
     }
+
+
+    document.getElementById(
+        "gesture"
+    ).textContent=
+        "HAND ACTIVE • COSMIC CONTROL";
 }
 
 
-/* =========================================================
-   MOUSE FALLBACK
-========================================================= */
+/* ============================================================
+   MOUSE
+============================================================ */
 
-let mouseActive=false;
+window.addEventListener(
+    "pointermove",
+    e=>{
 
-window.addEventListener("pointermove",(e)=>{
+        if(handDetected)
+            return;
 
-    mouseActive=true;
+        targetHandX=
+            (
+                e.clientX/
+                innerWidth-
+                .5
+            )*7;
 
-    targetHandX=
-        (e.clientX/innerWidth-.5)*6;
+        targetHandY=
+            -(
+                e.clientY/
+                innerHeight-
+                .5
+            )*5;
+    }
+);
 
-    targetHandY=
-        -(e.clientY/innerHeight-.5)*4;
 
-});
+window.addEventListener(
+    "pointerdown",
+    ()=>{
 
-window.addEventListener("pointerdown",()=>{
+        if(handDetected)
+            return;
 
-    if(!handDetected){
+        uniforms.uShock.value=
+            1.6;
 
         power=1;
-
-        uniforms.uShock.value=1;
     }
-
-});
-
-window.addEventListener("pointerup",()=>{
-
-    power=.2;
-
-});
+);
 
 
-/* =========================================================
+window.addEventListener(
+    "pointerup",
+    ()=>{
+
+        if(!handDetected)
+            power=.2;
+    }
+);
+
+
+/* ============================================================
+   CHANGE UNIVERSE
+============================================================ */
+
+function changeUniverse(
+    direction=1
+){
+
+    universe+=direction;
+
+
+    if(universe<0)
+        universe=
+            universes.length-1;
+
+
+    if(
+        universe>=
+        universes.length
+    )
+        universe=0;
+
+
+    uniforms.uMode.value=
+        universe;
+
+
+    document.getElementById(
+        "environment"
+    ).textContent=
+        "UNIVERSE: "+
+        universes[universe];
+
+
+    uniforms.uShock.value=
+        1.7;
+}
+
+
+/* ============================================================
    KEYBOARD
-========================================================= */
+============================================================ */
 
-window.addEventListener("keydown",(e)=>{
+window.addEventListener(
+    "keydown",
+    e=>{
 
-    if(e.key==="ArrowRight")
-        changeForm(1);
-
-    if(e.key==="ArrowLeft")
-        changeForm(-1);
-
-    if(e.key===" ")
-        uniforms.uShock.value=1;
-
-    if(e.key==="1") formIndex=0;
-    if(e.key==="2") formIndex=1;
-    if(e.key==="3") formIndex=2;
-    if(e.key==="4") formIndex=3;
-    if(e.key==="5") formIndex=4;
-    if(e.key==="6") formIndex=5;
-    if(e.key==="7") formIndex=6;
-    if(e.key==="8") formIndex=7;
-    if(e.key==="9") formIndex=8;
-
-    uniforms.uForm.value=formIndex;
-
-    document.getElementById("shape").textContent=
-        "FORM: "+forms[formIndex];
-});
+        if(
+            e.key==="ArrowRight"
+        )
+            changeUniverse(1);
 
 
-/* =========================================================
+        if(
+            e.key==="ArrowLeft"
+        )
+            changeUniverse(-1);
+
+
+        if(
+            e.key===" "
+        )
+            uniforms.uShock.value=
+                1.7;
+
+
+        const n=
+            parseInt(e.key);
+
+
+        if(
+            n>=1 &&
+            n<=9
+        ){
+
+            universe=
+                n-1;
+
+            uniforms.uMode.value=
+                universe;
+
+            document.getElementById(
+                "environment"
+            ).textContent=
+                "UNIVERSE: "+
+                universes[universe];
+        }
+    }
+);
+
+
+/* ============================================================
    ANIMATION
-========================================================= */
+============================================================ */
 
-const clock=new THREE.Clock();
+const clock=
+    new THREE.Clock();
 
-let frame=0;
 
 function animate(){
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(
+        animate
+    );
 
-    const t=clock.getElapsedTime();
 
-    uniforms.uTime.value=t;
+    const time=
+        clock.getElapsedTime();
 
-    /*
-       VERY FAST RESPONSE:
 
-       Instead of instantly snapping to camera position,
-       we use extremely small smoothing.
-    */
+    uniforms.uTime.value=
+        time;
+
+
+    /* ultra-low-latency hand movement */
 
     handX+=
-        (targetHandX-handX)*.32;
+        (
+            targetHandX-
+            handX
+        )*.40;
+
 
     handY+=
-        (targetHandY-handY)*.32;
+        (
+            targetHandY-
+            handY
+        )*.40;
+
 
     uniforms.uHand.value.set(
         handX,
@@ -1125,21 +2131,13 @@ function animate(){
         0
     );
 
-    /*
-       Hand behavior
-    */
+
+    /* expansion */
 
     let expansion;
 
+
     if(handDetected){
-
-        /*
-           Open hand:
-           huge expansion
-
-           Closed fist:
-           collapse
-        */
 
         expansion=
             openness*.95-
@@ -1150,168 +2148,237 @@ function animate(){
         expansion=.25;
     }
 
+
     uniforms.uExpansion.value=
         THREE.MathUtils.lerp(
+
             uniforms.uExpansion.value,
+
             expansion,
-            .15
-        );
 
-    /*
-       Pinch = strong local gravity
-    */
-
-    uniforms.uHandPower.value=
-        THREE.MathUtils.lerp(
-            uniforms.uHandPower.value,
-            pinch*2.8,
             .2
         );
 
-    /*
-       Hand movement creates energy
-    */
 
-    const movementEnergy=
+    /* gravity */
+
+    uniforms.uGravity.value=
+        THREE.MathUtils.lerp(
+
+            uniforms.uGravity.value,
+
+            pinch*3.2,
+
+            .25
+        );
+
+
+    /* energy */
+
+    const motion=
         Math.min(
             1,
-            handVelocity*.16
+            velocity*.15
         );
 
-    const targetEnergy=
-        .18+
-        movementEnergy+
-        power*.55;
 
-    uniforms.uEnergy.value=
+    uniforms.uPower.value=
         THREE.MathUtils.lerp(
-            uniforms.uEnergy.value,
-            targetEnergy,
-            .12
+
+            uniforms.uPower.value,
+
+            .2+
+            motion+
+            power*.7,
+
+            .16
         );
 
-    /*
-       Shockwave decays automatically
-    */
 
-    uniforms.uShock.value*=.91;
+    /* shock */
 
-    /*
-       Color movement
-    */
+    uniforms.uShock.value*=
+        .91;
+
+
+    /* color */
 
     uniforms.uHue.value=
         .55+
-        Math.sin(t*.12)*.25+
-        movementEnergy*.25;
+        Math.sin(
+            time*.08
+        )*.3+
+        motion*.25;
 
-    /*
-       Slow cinematic universe rotation.
 
-       This is GPU-cheap because the whole particle
-       object rotates instead of changing every particle.
-    */
+    /* particle rotation */
 
-    particles.rotation.y=t*.045;
+    particles.rotation.y=
+        time*.035;
 
     particles.rotation.x=
-        Math.sin(t*.17)*.12;
+        Math.sin(
+            time*.12
+        )*.12;
 
-    stars.rotation.y=t*.006;
 
-    /*
-       Energy rings
-    */
+    /* stars */
 
-    for(let i=0;i<rings.length;i++){
+    stars.rotation.y=
+        time*.004;
 
-        const ring=rings[i];
+    stars.rotation.x=
+        time*.001;
+
+
+    /* comets */
+
+    comets.rotation.y=
+        -time*.012;
+
+
+    /* planetary system */
+
+    planetarySystem.rotation.y=
+        time*.15;
+
+    planet.rotation.y=
+        time*.8;
+
+
+    /* rings */
+
+    for(
+        let i=0;
+        i<rings.length;
+        i++
+    ){
+
+        const ring=
+            rings[i];
+
 
         ring.rotation.z=
-            t*(.2+i*.08);
+            time*
+            (
+                .08+
+                i*.025
+            );
+
+
+        ring.rotation.x=
+            Math.PI/2+
+            Math.sin(
+                time*.15+i
+            )*.08;
+
 
         ring.scale.setScalar(
+
             1+
             power*.4+
-            Math.sin(t*2+i)*.05
+            Math.sin(
+                time*1.8+i
+            )*.025
+
         );
 
+
         ring.material.opacity=
-            .015+
-            uniforms.uEnergy.value*.025;
+            .012+
+            uniforms.uPower.value*
+            .02;
     }
 
-    /*
-       Camera breathing
-    */
 
-    camera3D.position.x=
-        Math.sin(t*.15)*.12;
+    /* cinematic camera */
 
-    camera3D.position.y=
-        Math.cos(t*.18)*.08;
+    camera.position.x=
+        Math.sin(
+            time*.12
+        )*.25;
 
-    camera3D.lookAt(0,0,0);
+
+    camera.position.y=
+        Math.cos(
+            time*.16
+        )*.15;
+
+
+    camera.position.z=
+        10-
+        power*.8;
+
+
+    camera.lookAt(
+        0,
+        0,
+        0
+    );
+
 
     renderer.render(
         scene,
-        camera3D
+        camera
     );
-
-    /*
-       Lightweight status update.
-
-       NOT every frame.
-    */
-
-    frame++;
-
-    if(frame%20===0){
-
-        document.getElementById("status").textContent=
-            handDetected
-            ? "HAND TRACKING · GPU PARTICLES"
-            : "MOUSE MODE · GPU PARTICLES";
-    }
 }
 
 
-/* =========================================================
-   START
-========================================================= */
+/* ============================================================
+   START EXPERIENCE
+============================================================ */
 
-document.getElementById("start").addEventListener(
+document.getElementById(
+    "start"
+).addEventListener(
     "click",
-    async ()=>{
+    async()=>{
 
-        document.getElementById("start").style.display="none";
+        document.getElementById(
+            "start"
+        ).style.display=
+            "none";
+
+
+        document.getElementById(
+            "loading"
+        ).textContent=
+            "INITIALIZING TAJAMAL COSMIC ENGINE...";
+
 
         animate();
 
-        await startHands();
 
+        await startCamera();
+
+
+        document.getElementById(
+            "loading"
+        ).textContent="";
     }
 );
 
 
-/* =========================================================
+/* ============================================================
    RESIZE
-========================================================= */
+============================================================ */
 
-window.addEventListener("resize",()=>{
+window.addEventListener(
+    "resize",
+    ()=>{
 
-    camera3D.aspect=
-        innerWidth/innerHeight;
+        camera.aspect=
+            innerWidth/
+            innerHeight;
 
-    camera3D.updateProjectionMatrix();
+        camera.updateProjectionMatrix();
 
-    renderer.setSize(
-        innerWidth,
-        innerHeight
-    );
-
-});
-
+        renderer.setSize(
+            innerWidth,
+            innerHeight
+        );
+    }
+);
 
 </script>
 
