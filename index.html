@@ -2,27 +2,39 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>NEBULA // Hand Controlled Particle Universe</title>
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+>
+
+<title>NEBULA — Interactive Particle Universe</title>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
     margin:0;
     width:100%;
     height:100%;
     overflow:hidden;
     background:#000;
-    font-family:Inter,Arial,sans-serif;
     color:#fff;
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 }
 
 body{
-    cursor:crosshair;
+    touch-action:none;
 }
 
 #app{
@@ -32,272 +44,588 @@ body{
 
 canvas{
     display:block;
+    width:100%;
+    height:100%;
 }
 
-#camera{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    width:220px;
-    height:165px;
-    object-fit:cover;
-    transform:scaleX(-1);
-    border-radius:18px;
-    border:1px solid rgba(255,255,255,.2);
-    opacity:.65;
-    z-index:20;
-    box-shadow:
-        0 0 30px rgba(0,0,0,.8),
-        0 0 50px rgba(100,120,255,.08);
-}
 
-#cameraLabel{
-    position:fixed;
-    right:30px;
-    bottom:193px;
-    z-index:21;
-    font-size:9px;
-    letter-spacing:2px;
-    color:rgba(255,255,255,.5);
-}
-
-#hud{
-    position:fixed;
-    left:22px;
-    top:22px;
-    z-index:30;
-    width:330px;
-    padding:22px;
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:22px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(10,12,30,.72),
-            rgba(4,5,15,.45)
-        );
-    backdrop-filter:blur(22px);
-    box-shadow:
-        0 20px 70px rgba(0,0,0,.45),
-        inset 0 0 30px rgba(255,255,255,.015);
-}
-
-.logo{
-    font-size:12px;
-    letter-spacing:5px;
-    font-weight:800;
-    opacity:.9;
-}
-
-.title{
-    margin-top:5px;
-    font-size:25px;
-    font-weight:800;
-    letter-spacing:-1px;
-}
-
-.subtitle{
-    margin-top:5px;
-    font-size:10px;
-    color:rgba(255,255,255,.45);
-    letter-spacing:1px;
-}
-
-.line{
-    height:1px;
-    margin:18px 0;
-    background:rgba(255,255,255,.09);
-}
-
-.stat{
-    display:flex;
-    justify-content:space-between;
-    margin:9px 0;
-    font-size:11px;
-}
-
-.stat span:first-child{
-    color:rgba(255,255,255,.45);
-}
-
-.stat strong{
-    font-weight:700;
-}
-
-#gesture{
-    margin-top:16px;
-    padding:12px;
-    border-radius:13px;
-    background:rgba(255,255,255,.045);
-    border:1px solid rgba(255,255,255,.07);
-    font-size:11px;
-}
-
-#gesture strong{
-    display:block;
-    margin-top:4px;
-    font-size:14px;
-}
-
-#templates{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:6px;
-    margin-top:15px;
-}
-
-button{
-    border:1px solid rgba(255,255,255,.1);
-    background:rgba(255,255,255,.045);
-    color:#fff;
-    border-radius:9px;
-    padding:8px 5px;
-    font-size:9px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-button:hover{
-    background:rgba(255,255,255,.14);
-    transform:translateY(-1px);
-}
-
-button.active{
-    background:rgba(255,255,255,.18);
-    border-color:rgba(255,255,255,.4);
-}
-
-#bottom{
-    position:fixed;
-    left:50%;
-    bottom:25px;
-    transform:translateX(-50%);
-    z-index:30;
-    padding:10px 20px;
-    border-radius:40px;
-    border:1px solid rgba(255,255,255,.1);
-    background:rgba(0,0,0,.35);
-    backdrop-filter:blur(15px);
-    color:rgba(255,255,255,.55);
-    font-size:10px;
-    letter-spacing:.5px;
-    text-align:center;
-}
-
-#crosshair{
-    position:fixed;
-    left:50%;
-    top:50%;
-    width:20px;
-    height:20px;
-    transform:translate(-50%,-50%);
-    z-index:10;
-    opacity:.12;
-}
-
-#crosshair:before,
-#crosshair:after{
-    content:"";
-    position:absolute;
-    background:white;
-}
-
-#crosshair:before{
-    left:9px;
-    top:0;
-    width:1px;
-    height:20px;
-}
-
-#crosshair:after{
-    left:0;
-    top:9px;
-    width:20px;
-    height:1px;
-}
+/* =========================================================
+   LOADING
+========================================================= */
 
 #loading{
     position:fixed;
     inset:0;
-    z-index:100;
+    z-index:9999;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#000;
-    transition:opacity 1s;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #10152f 0%,
+            #02030a 45%,
+            #000 100%
+        );
+
+    transition:
+        opacity .8s ease,
+        visibility .8s ease;
+}
+
+#loading.hide{
+    opacity:0;
+    visibility:hidden;
 }
 
 .loader{
     text-align:center;
 }
 
-.loaderBig{
-    font-size:14px;
-    letter-spacing:7px;
+.loaderLogo{
+    font-size:12px;
     font-weight:800;
+    letter-spacing:8px;
 }
 
-.loaderSmall{
+.loaderTitle{
+    margin-top:10px;
+    font-size:32px;
+    font-weight:900;
+}
+
+.loaderText{
     margin-top:12px;
-    color:rgba(255,255,255,.35);
-    font-size:9px;
+    color:rgba(255,255,255,.45);
+    font-size:10px;
     letter-spacing:2px;
 }
 
-#flash{
-    position:fixed;
-    inset:0;
-    z-index:50;
-    pointer-events:none;
-    background:white;
-    opacity:0;
+.loaderBar{
+    width:220px;
+    height:2px;
+    margin:22px auto 0;
+    overflow:hidden;
+    background:rgba(255,255,255,.1);
 }
+
+.loaderBar div{
+    width:40%;
+    height:100%;
+    background:white;
+    animation:
+        loading 1.2s infinite ease-in-out;
+}
+
+@keyframes loading{
+
+    0%{
+        transform:translateX(-150%);
+    }
+
+    100%{
+        transform:translateX(500%);
+    }
+
+}
+
+
+/* =========================================================
+   HUD
+========================================================= */
+
+#hud{
+    position:fixed;
+
+    left:20px;
+    top:20px;
+
+    width:315px;
+
+    z-index:100;
+
+    padding:20px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.11);
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(12,14,35,.78),
+            rgba(2,3,12,.55)
+        );
+
+    backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
+        blur(22px);
+
+    box-shadow:
+        0 20px 80px rgba(0,0,0,.45);
+}
+
+.brand{
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:4px;
+    color:rgba(255,255,255,.55);
+}
+
+.title{
+    margin-top:5px;
+
+    font-size:25px;
+    font-weight:900;
+
+    letter-spacing:-1px;
+}
+
+.subtitle{
+    margin-top:4px;
+
+    color:rgba(255,255,255,.4);
+
+    font-size:9px;
+
+    letter-spacing:1px;
+}
+
+.separator{
+    height:1px;
+
+    margin:
+        17px
+        0;
+
+    background:
+        rgba(255,255,255,.08);
+}
+
+.stat{
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:8px 0;
+
+    font-size:10px;
+}
+
+.stat span{
+    color:
+        rgba(255,255,255,.42);
+}
+
+.stat strong{
+    font-weight:800;
+}
+
+#gestureBox{
+
+    margin-top:15px;
+
+    padding:11px;
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+}
+
+.gestureLabel{
+
+    color:
+        rgba(255,255,255,.35);
+
+    font-size:8px;
+
+    letter-spacing:2px;
+}
+
+#gesture{
+
+    margin-top:5px;
+
+    font-size:12px;
+
+    font-weight:800;
+}
+
+
+/* =========================================================
+   FORM BUTTONS
+========================================================= */
+
+#forms{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:6px;
+
+    margin-top:14px;
+}
+
+button{
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    border-radius:9px;
+
+    padding:8px 4px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    color:#fff;
+
+    font-size:8px;
+
+    cursor:pointer;
+
+    transition:
+        transform .18s ease,
+        background .18s ease,
+        border .18s ease;
+
+}
+
+button:hover{
+
+    transform:
+        translateY(-1px);
+
+    background:
+        rgba(255,255,255,.1);
+
+}
+
+button.active{
+
+    background:
+        rgba(255,255,255,.18);
+
+    border-color:
+        rgba(255,255,255,.4);
+
+}
+
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+#cameraContainer{
+
+    position:fixed;
+
+    right:20px;
+    bottom:20px;
+
+    z-index:100;
+
+    width:210px;
+
+}
+
+#camera{
+
+    display:block;
+
+    width:210px;
+    height:158px;
+
+    object-fit:cover;
+
+    transform:
+        scaleX(-1);
+
+    border-radius:18px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    background:#020207;
+
+    opacity:.7;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.6);
+
+}
+
+.cameraStatus{
+
+    position:absolute;
+
+    left:10px;
+    top:9px;
+
+    padding:5px 8px;
+
+    border-radius:20px;
+
+    background:
+        rgba(0,0,0,.55);
+
+    font-size:7px;
+
+    letter-spacing:1px;
+
+    color:
+        rgba(255,255,255,.7);
+
+}
+
+
+/* =========================================================
+   BOTTOM HELP
+========================================================= */
+
+#help{
+
+    position:fixed;
+
+    z-index:90;
+
+    left:50%;
+    bottom:22px;
+
+    transform:
+        translateX(-50%);
+
+    width:max-content;
+    max-width:90%;
+
+    padding:
+        10px
+        18px;
+
+    border-radius:30px;
+
+    background:
+        rgba(0,0,0,.4);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    backdrop-filter:
+        blur(12px);
+
+    color:
+        rgba(255,255,255,.48);
+
+    font-size:9px;
+
+    text-align:center;
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+#error{
+
+    position:fixed;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    z-index:9998;
+
+    display:none;
+
+    width:
+        min(450px,90%);
+
+    padding:22px;
+
+    border-radius:18px;
+
+    background:
+        rgba(7,8,17,.96);
+
+    border:
+        1px solid
+        rgba(255,80,80,.25);
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.7);
+
+    text-align:center;
+
+}
+
+#errorTitle{
+
+    font-weight:800;
+
+    font-size:15px;
+
+}
+
+#errorText{
+
+    margin-top:9px;
+
+    color:
+        rgba(255,255,255,.55);
+
+    font-size:11px;
+
+    line-height:1.6;
+
+}
+
+
+/* =========================================================
+   FLASH
+========================================================= */
+
+#flash{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:200;
+
+    pointer-events:none;
+
+    background:#fff;
+
+    opacity:0;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:700px){
 
     #hud{
-        transform:scale(.75);
-        transform-origin:top left;
+
+        width:230px;
+
+        padding:15px;
+
+        transform:
+            scale(.78);
+
+        transform-origin:
+            top left;
+
+    }
+
+    #cameraContainer{
+
+        width:130px;
+
+        right:10px;
+
+        bottom:10px;
+
     }
 
     #camera{
+
         width:130px;
+
         height:98px;
+
     }
 
-    #cameraLabel{
-        display:none;
+    #help{
+
+        bottom:12px;
+
+        font-size:7px;
+
     }
 
-    #bottom{
-        width:90%;
-        font-size:9px;
-    }
 }
+
 </style>
 </head>
 
+
 <body>
 
+
 <div id="loading">
+
     <div class="loader">
-        <div class="loaderBig">NEBULA</div>
-        <div class="loaderSmall">
-            INITIALIZING PARTICLE UNIVERSE
+
+        <div class="loaderLogo">
+            VAREZON
         </div>
+
+        <div class="loaderTitle">
+            NEBULA
+        </div>
+
+        <div class="loaderText">
+            BUILDING PARTICLE UNIVERSE
+        </div>
+
+        <div class="loaderBar">
+            <div></div>
+        </div>
+
     </div>
+
 </div>
+
+
+<div id="error">
+
+    <div id="errorTitle">
+        Camera unavailable
+    </div>
+
+    <div id="errorText"></div>
+
+</div>
+
 
 <div id="flash"></div>
 
+
 <div id="app"></div>
 
-<video id="camera" autoplay muted playsinline></video>
-<div id="cameraLabel">HAND SENSOR // LIVE</div>
 
 <div id="hud">
 
-    <div class="logo">VAREZON // EXPERIMENT</div>
+    <div class="brand">
+        VAREZON // EXPERIMENT
+    </div>
 
     <div class="title">
         NEBULA
@@ -307,93 +635,192 @@ button.active{
         HAND CONTROLLED PARTICLE UNIVERSE
     </div>
 
-    <div class="line"></div>
+    <div class="separator"></div>
+
 
     <div class="stat">
         <span>FORM</span>
-        <strong id="form">HEART</strong>
-    </div>
-
-    <div class="stat">
-        <span>PARTICLES</span>
-        <strong id="particles">50,000</strong>
-    </div>
-
-    <div class="stat">
-        <span>ENERGY</span>
-        <strong id="energy">1.00</strong>
-    </div>
-
-    <div class="stat">
-        <span>HUE</span>
-        <strong id="hue">180°</strong>
-    </div>
-
-    <div class="stat">
-        <span>FPS</span>
-        <strong id="fps">--</strong>
-    </div>
-
-    <div id="gesture">
-        GESTURE
-        <strong id="gestureText">
-            INITIALIZING...
+        <strong id="form">
+            HEART
         </strong>
     </div>
 
-    <div id="templates">
 
-        <button data-form="heart">♥ HEART</button>
-        <button data-form="flower">✿ FLOWER</button>
-        <button data-form="saturn">◉ SATURN</button>
+    <div class="stat">
+        <span>PARTICLES</span>
+        <strong>
+            50,000
+        </strong>
+    </div>
 
-        <button data-form="galaxy">✦ GALAXY</button>
-        <button data-form="vortex">◌ VORTEX</button>
-        <button data-form="sphere">● SPHERE</button>
 
-        <button data-form="dna">🧬 DNA</button>
-        <button data-form="fireworks">✹ FIREWORK</button>
-        <button data-form="torus">◎ TORUS</button>
+    <div class="stat">
+        <span>ENERGY</span>
+        <strong id="energy">
+            1.00
+        </strong>
+    </div>
 
-        <button data-form="helix">∞ HELIX</button>
-        <button data-form="wave">≈ WAVE</button>
-        <button data-form="explosion">✷ EXPLODE</button>
+
+    <div class="stat">
+        <span>HUE</span>
+        <strong id="hue">
+            180°
+        </strong>
+    </div>
+
+
+    <div class="stat">
+        <span>FPS</span>
+        <strong id="fps">
+            --
+        </strong>
+    </div>
+
+
+    <div id="gestureBox">
+
+        <div class="gestureLabel">
+            GESTURE ENGINE
+        </div>
+
+        <div id="gesture">
+            INITIALIZING
+        </div>
+
+    </div>
+
+
+    <div id="forms">
+
+        <button data-form="heart">
+            ♥ HEART
+        </button>
+
+        <button data-form="flower">
+            ✿ FLOWER
+        </button>
+
+        <button data-form="saturn">
+            ◉ SATURN
+        </button>
+
+        <button data-form="galaxy">
+            ✦ GALAXY
+        </button>
+
+        <button data-form="vortex">
+            ◌ VORTEX
+        </button>
+
+        <button data-form="sphere">
+            ● SPHERE
+        </button>
+
+        <button data-form="dna">
+            DNA
+        </button>
+
+        <button data-form="fireworks">
+            ✹ FIREWORK
+        </button>
+
+        <button data-form="torus">
+            ◎ TORUS
+        </button>
+
+        <button data-form="helix">
+            ∞ HELIX
+        </button>
+
+        <button data-form="wave">
+            ≋ WAVE
+        </button>
+
+        <button data-form="explosion">
+            ✷ EXPLODE
+        </button>
 
     </div>
 
 </div>
 
-<div id="crosshair"></div>
 
-<div id="bottom">
-    OPEN HAND = EXPAND · FIST = COMPRESS · PINCH = GRAB ·
-    TWO HANDS = POWER · SWIPE = MORPH · CLICK = NEXT FORM ·
-    SPACE = EXPLOSION
+<div id="cameraContainer">
+
+    <div class="cameraStatus">
+        ● HAND TRACKING
+    </div>
+
+    <video
+        id="camera"
+        autoplay
+        muted
+        playsinline
+    ></video>
+
 </div>
 
 
-<!-- THREE -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<div id="help">
 
-<!-- POST PROCESSING -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    🖐 OPEN = EXPAND
+    &nbsp;·&nbsp;
+    ✊ FIST = COLLAPSE
+    &nbsp;·&nbsp;
+    🤏 PINCH = GRAB
+    &nbsp;·&nbsp;
+    👋 SWIPE = MORPH
+    &nbsp;·&nbsp;
+    SPACE = EXPLOSION
 
-<!-- MEDIAPIPE -->
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+</div>
+
+
+<!-- =====================================================
+     THREE.JS
+===================================================== -->
+
+<script
+src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js">
+</script>
+
+
+<!-- =====================================================
+     MEDIAPIPE
+===================================================== -->
+
+<script
+src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js">
+</script>
+
+<script
+src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js">
+</script>
 
 
 <script>
 
 /* =========================================================
-   CORE CONFIG
+   CONFIG
 ========================================================= */
 
 const COUNT = 50000;
+
+const forms = [
+    "heart",
+    "flower",
+    "saturn",
+    "galaxy",
+    "vortex",
+    "sphere",
+    "dna",
+    "fireworks",
+    "torus",
+    "helix",
+    "wave",
+    "explosion"
+];
 
 let currentForm = "heart";
 
@@ -405,48 +832,43 @@ let hue = .5;
 
 let targetHue = .5;
 
-let time = 0;
+let handDetected = false;
 
-let handActive = false;
+let previousHandX = null;
 
-let handCount = 0;
-
-let handX = .5;
-
-let handY = .5;
-
-let previousX = null;
-
-let previousSwipe = 0;
-
-let autoMode = false;
+let lastSwipe = 0;
 
 let mouseX = .5;
 
 let mouseY = .5;
 
+let clock = new THREE.Clock();
+
 
 /* =========================================================
-   THREE SCENE
+   THREE
 ========================================================= */
 
 const scene =
     new THREE.Scene();
 
 scene.background =
-    new THREE.Color(0x000006);
+    new THREE.Color(
+        0x000006
+    );
 
 scene.fog =
     new THREE.FogExp2(
         0x000006,
-        .018
+        .015
     );
 
 
 const camera =
     new THREE.PerspectiveCamera(
         65,
-        innerWidth / innerHeight,
+        innerWidth /
+        innerHeight,
         .1,
         1000
     );
@@ -456,9 +878,16 @@ camera.position.z = 11;
 
 const renderer =
     new THREE.WebGLRenderer({
+
         antialias:false,
-        powerPreference:"high-performance"
+
+        alpha:false,
+
+        powerPreference:
+            "high-performance"
+
     });
+
 
 renderer.setPixelRatio(
     Math.min(
@@ -472,52 +901,19 @@ renderer.setSize(
     innerHeight
 );
 
-renderer.outputEncoding =
-    THREE.sRGBEncoding;
+renderer.outputColorSpace =
+    THREE.SRGBColorSpace;
+
 
 document
     .getElementById("app")
-    .appendChild(renderer.domElement);
+    .appendChild(
+        renderer.domElement
+    );
 
 
 /* =========================================================
-   POST PROCESSING
-========================================================= */
-
-const composer =
-    new THREE.EffectComposer(
-        renderer
-    );
-
-const renderPass =
-    new THREE.RenderPass(
-        scene,
-        camera
-    );
-
-composer.addPass(
-    renderPass
-);
-
-
-const bloom =
-    new THREE.UnrealBloomPass(
-        new THREE.Vector2(
-            innerWidth,
-            innerHeight
-        ),
-        1.65,
-        .8,
-        .15
-    );
-
-composer.addPass(
-    bloom
-);
-
-
-/* =========================================================
-   PARTICLE ARRAYS
+   PARTICLE DATA
 ========================================================= */
 
 const positions =
@@ -530,10 +926,11 @@ const targets =
         COUNT * 3
     );
 
-const randoms =
+const random =
     new Float32Array(
         COUNT
     );
+
 
 for(
     let i=0;
@@ -541,48 +938,60 @@ for(
     i++
 ){
 
-    const i3=i*3;
+    const n=i*3;
 
-    positions[i3] =
-        (Math.random()-.5)*20;
+    positions[n]=
+        (Math.random()-.5)*15;
 
-    positions[i3+1] =
-        (Math.random()-.5)*20;
+    positions[n+1]=
+        (Math.random()-.5)*15;
 
-    positions[i3+2] =
-        (Math.random()-.5)*20;
+    positions[n+2]=
+        (Math.random()-.5)*15;
 
-    randoms[i] =
+    random[i]=
         Math.random();
+
 }
 
 
 /* =========================================================
-   PARTICLE GEOMETRY
+   GEOMETRY
 ========================================================= */
 
 const geometry =
     new THREE.BufferGeometry();
 
-geometry.setAttribute(
-    "position",
+
+const positionAttribute =
     new THREE.BufferAttribute(
         positions,
         3
-    )
+    );
+
+
+positionAttribute.setUsage(
+    THREE.DynamicDrawUsage
 );
+
+
+geometry.setAttribute(
+    "position",
+    positionAttribute
+);
+
 
 geometry.setAttribute(
     "aRandom",
     new THREE.BufferAttribute(
-        randoms,
+        random,
         1
     )
 );
 
 
 /* =========================================================
-   CINEMATIC PARTICLE SHADER
+   PARTICLE MATERIAL
 ========================================================= */
 
 const material =
@@ -597,24 +1006,16 @@ const material =
 
         uniforms:{
 
-            uTime:{
+            time:{
                 value:0
             },
 
-            uHue:{
+            hue:{
                 value:.5
             },
 
-            uEnergy:{
+            energy:{
                 value:1
-            },
-
-            uPixelRatio:{
-                value:
-                    Math.min(
-                        devicePixelRatio,
-                        2
-                    )
             }
 
         },
@@ -623,85 +1024,90 @@ const material =
 
             attribute float aRandom;
 
-            uniform float uTime;
-            uniform float uEnergy;
-            uniform float uPixelRatio;
+            uniform float time;
+
+            uniform float energy;
 
             varying float vRandom;
+
             varying float vDepth;
 
             void main(){
 
-                vec3 p=position;
+                vec3 p =
+                    position;
 
-                float wave=
+                float wave =
                     sin(
-                        uTime*1.2+
+                        time*1.4+
                         p.x*.7+
-                        p.z*.4
+                        p.z*.5
                     );
 
                 p.y +=
                     wave*
-                    .035*
-                    uEnergy;
+                    .025*
+                    energy;
 
-                vec4 mv=
+                vec4 mv =
                     modelViewMatrix*
                     vec4(
                         p,
                         1.0
                     );
 
-                float depth=
+                float depth =
                     clamp(
                         1.0+
-                        mv.z/15.0,
-                        .15,
+                        mv.z/
+                        18.0,
+                        .2,
                         1.0
                     );
 
-                gl_PointSize=
+                gl_PointSize =
                     (
-                        2.1+
-                        aRandom*3.2
+                        1.6+
+                        aRandom*3.8
                     )
-                    *
-                    uPixelRatio
                     *
                     depth
                     *
                     (
-                        .75+
-                        uEnergy*.55
+                        .8+
+                        energy*.45
                     );
 
-                gl_Position=
+                gl_Position =
                     projectionMatrix*
                     mv;
 
-                vRandom=
+                vRandom =
                     aRandom;
 
-                vDepth=
+                vDepth =
                     depth;
+
             }
 
         `,
 
         fragmentShader:`
 
-            uniform float uHue;
-            uniform float uEnergy;
+            uniform float hue;
+
+            uniform float energy;
 
             varying float vRandom;
+
             varying float vDepth;
+
 
             vec3 hsv(
                 vec3 c
             ){
 
-                vec4 K=
+                vec4 K =
                     vec4(
                         1.0,
                         2.0/3.0,
@@ -709,12 +1115,13 @@ const material =
                         3.0
                     );
 
-                vec3 p=
+                vec3 p =
                     abs(
                         fract(
                             c.xxx+
                             K.xyz
-                        )*6.0-
+                        )*
+                        6.0-
                         K.www
                     );
 
@@ -728,72 +1135,72 @@ const material =
                         ),
                         c.y
                     );
+
             }
+
 
             void main(){
 
-                vec2 uv=
+                vec2 uv =
                     gl_PointCoord-
                     .5;
 
-                float d=
+                float d =
                     length(uv);
 
                 if(d>.5)
                     discard;
 
-                float core=
+                float glow =
                     1.0-
                     smoothstep(
                         0.0,
-                        .28,
-                        d
-                    );
-
-                float glow=
-                    1.0-
-                    smoothstep(
-                        .08,
                         .5,
                         d
                     );
 
-                vec3 color=
+                float core =
+                    1.0-
+                    smoothstep(
+                        0.0,
+                        .2,
+                        d
+                    );
+
+                vec3 color =
                     hsv(
                         vec3(
                             fract(
-                                uHue+
-                                vRandom*.09
+                                hue+
+                                vRandom*.08
                             ),
-                            .65+
-                            vRandom*.3,
+                            .72,
                             1.0
                         )
                     );
 
                 color +=
                     vec3(
-                        .2,
-                        .25,
-                        .5
+                        .12,
+                        .16,
+                        .35
                     )*
-                    uEnergy;
+                    energy;
 
-                float alpha=
-                    (
-                        core+
-                        glow*.65
-                    )*
-                    vDepth;
-
-                gl_FragColor=
+                gl_FragColor =
                     vec4(
                         color,
-                        alpha
+                        (
+                            glow*.55+
+                            core*.8
+                        )*
+                        vDepth
                     );
+
             }
 
         `
+
     });
 
 
@@ -802,6 +1209,7 @@ const particleSystem =
         geometry,
         material
     );
+
 
 scene.add(
     particleSystem
@@ -812,24 +1220,25 @@ scene.add(
    STAR FIELD
 ========================================================= */
 
-const starCount=3500;
+const STAR_COUNT=5000;
 
 const starPositions =
     new Float32Array(
-        starCount*3
+        STAR_COUNT*3
     );
+
 
 for(
     let i=0;
-    i<starCount;
+    i<STAR_COUNT;
     i++
 ){
 
-    const i3=i*3;
+    const n=i*3;
 
     const r=
-        20+
-        Math.random()*60;
+        25+
+        Math.random()*70;
 
     const a=
         Math.random()*
@@ -840,18 +1249,26 @@ for(
             2*Math.random()-1
         );
 
-    starPositions[i3]=
-        r*Math.sin(b)*Math.cos(a);
+    starPositions[n]=
+        Math.sin(b)*
+        Math.cos(a)*
+        r;
 
-    starPositions[i3+1]=
-        r*Math.sin(b)*Math.sin(a);
+    starPositions[n+1]=
+        Math.sin(b)*
+        Math.sin(a)*
+        r;
 
-    starPositions[i3+2]=
-        r*Math.cos(b);
+    starPositions[n+2]=
+        Math.cos(b)*
+        r;
+
 }
+
 
 const starGeometry =
     new THREE.BufferGeometry();
+
 
 starGeometry.setAttribute(
     "position",
@@ -861,20 +1278,25 @@ starGeometry.setAttribute(
     )
 );
 
+
 const starMaterial =
     new THREE.PointsMaterial({
 
         color:0xffffff,
 
-        size:.055,
+        size:.045,
 
         transparent:true,
 
         opacity:.7,
 
+        depthWrite:false,
+
         blending:
             THREE.AdditiveBlending
+
     });
+
 
 const stars =
     new THREE.Points(
@@ -882,24 +1304,39 @@ const stars =
         starMaterial
     );
 
-scene.add(stars);
+
+scene.add(
+    stars
+);
 
 
 /* =========================================================
-   FORM GENERATORS
+   TARGET HELPER
 ========================================================= */
 
-function setTarget(i,x,y,z){
+function target(
+    i,
+    x,
+    y,
+    z
+){
 
-    targets[i*3]=x;
-    targets[i*3+1]=y;
-    targets[i*3+2]=z;
+    const n=i*3;
+
+    targets[n]=x;
+
+    targets[n+1]=y;
+
+    targets[n+2]=z;
+
 }
 
 
-/* HEART */
+/* =========================================================
+   HEART
+========================================================= */
 
-function heart(){
+function makeHeart(){
 
     for(
         let i=0;
@@ -914,7 +1351,7 @@ function heart(){
         const r=
             Math.pow(
                 Math.random(),
-                .4
+                .38
             );
 
         const x=
@@ -925,29 +1362,29 @@ function heart(){
             );
 
         const y=
-            13*Math.cos(t)-
-            5*Math.cos(2*t)-
-            2*Math.cos(3*t)-
-            Math.cos(4*t);
+            13*Math.cos(t)
+            -5*Math.cos(2*t)
+            -2*Math.cos(3*t)
+            -Math.cos(4*t);
 
-        const z=
-            (Math.random()-.5)*
-            4*
-            r;
-
-        setTarget(
+        target(
             i,
             x*.22*r,
             y*.22*r,
-            z
+            (Math.random()-.5)
+            *4*r
         );
+
     }
+
 }
 
 
-/* FLOWER */
+/* =========================================================
+   FLOWER
+========================================================= */
 
-function flower(){
+function makeFlower(){
 
     for(
         let i=0;
@@ -959,29 +1396,29 @@ function flower(){
             Math.random()*
             Math.PI*2;
 
-        const petal=
+        const r=
+            3.5*
             Math.cos(
-                6*t
+                7*t
             );
 
-        const radius=
-            3.3*
-            petal*
-            (Math.random()*.5+.5);
-
-        setTarget(
+        target(
             i,
-            Math.cos(t)*radius,
-            Math.sin(t)*radius,
-            (Math.random()-.5)*1.2
+            Math.cos(t)*r,
+            Math.sin(t)*r,
+            (Math.random()-.5)*1.3
         );
+
     }
+
 }
 
 
-/* SATURN */
+/* =========================================================
+   SATURN
+========================================================= */
 
-function saturn(){
+function makeSaturn(){
 
     for(
         let i=0;
@@ -991,7 +1428,7 @@ function saturn(){
 
         if(
             i<
-            COUNT*.38
+            COUNT*.4
         ){
 
             const u=
@@ -1000,25 +1437,25 @@ function saturn(){
             const v=
                 Math.random();
 
-            const theta=
+            const a=
                 2*Math.PI*u;
 
-            const phi=
+            const b=
                 Math.acos(
                     2*v-1
                 );
 
             const r=
-                2.0*
+                2.2*
                 Math.cbrt(
                     Math.random()
                 );
 
-            setTarget(
+            target(
                 i,
-                r*Math.sin(phi)*Math.cos(theta),
-                r*Math.sin(phi)*Math.sin(theta),
-                r*Math.cos(phi)
+                r*Math.sin(b)*Math.cos(a),
+                r*Math.sin(b)*Math.sin(a),
+                r*Math.cos(b)
             );
 
         }else{
@@ -1029,22 +1466,27 @@ function saturn(){
 
             const r=
                 2.8+
-                Math.random()*3.2;
+                Math.random()*3.3;
 
-            setTarget(
+            target(
                 i,
                 Math.cos(a)*r,
-                (Math.random()-.5)*.35,
+                (Math.random()-.5)*.3,
                 Math.sin(a)*r
             );
+
         }
+
     }
+
 }
 
 
-/* GALAXY */
+/* =========================================================
+   GALAXY
+========================================================= */
 
-function galaxy(){
+function makeGalaxy(){
 
     for(
         let i=0;
@@ -1052,36 +1494,39 @@ function galaxy(){
         i++
     ){
 
-        const arm=
-            i%7;
+        const arm=i%8;
 
         const r=
             Math.pow(
                 Math.random(),
-                .55
+                .58
             )*6;
 
         const a=
-            r*1.8+
+            r*1.7+
             arm*
-            Math.PI*2/7+
+            Math.PI*2/8+
             (Math.random()-.5)*.55;
 
-        setTarget(
+        target(
             i,
             Math.cos(a)*r,
             (Math.random()-.5)*
-                .35*
-                (1-r/7),
+            .35*
+            (1-r/7),
             Math.sin(a)*r
         );
+
     }
+
 }
 
 
-/* VORTEX */
+/* =========================================================
+   VORTEX
+========================================================= */
 
-function vortex(){
+function makeVortex(){
 
     for(
         let i=0;
@@ -1093,22 +1538,26 @@ function vortex(){
             Math.random()*6;
 
         const a=
-            r*2.4+
-            Math.random()*.8;
+            r*2.5+
+            Math.random();
 
-        setTarget(
+        target(
             i,
             Math.cos(a)*r,
-            (Math.random()-.5)*.8,
+            (Math.random()-.5)*.9,
             Math.sin(a)*r
         );
+
     }
+
 }
 
 
-/* SPHERE */
+/* =========================================================
+   SPHERE
+========================================================= */
 
-function sphere(){
+function makeSphere(){
 
     for(
         let i=0;
@@ -1122,10 +1571,10 @@ function sphere(){
         const v=
             Math.random();
 
-        const theta=
+        const a=
             2*Math.PI*u;
 
-        const phi=
+        const b=
             Math.acos(
                 2*v-1
             );
@@ -1136,19 +1585,23 @@ function sphere(){
                 Math.random()
             );
 
-        setTarget(
+        target(
             i,
-            r*Math.sin(phi)*Math.cos(theta),
-            r*Math.sin(phi)*Math.sin(theta),
-            r*Math.cos(phi)
+            r*Math.sin(b)*Math.cos(a),
+            r*Math.sin(b)*Math.sin(a),
+            r*Math.cos(b)
         );
+
     }
+
 }
 
 
-/* DNA */
+/* =========================================================
+   DNA
+========================================================= */
 
-function dna(){
+function makeDNA(){
 
     for(
         let i=0;
@@ -1157,33 +1610,37 @@ function dna(){
     ){
 
         const t=
-            (i/COUNT)*
+            Math.random()*
             Math.PI*18;
 
         const strand=
             i%2;
 
-        const radius=2.1;
+        const r=2;
 
-        setTarget(
+        target(
             i,
             Math.cos(
                 t+
                 strand*Math.PI
-            )*radius,
-            (i/COUNT-.5)*8,
+            )*r,
+            (t/(Math.PI*18)-.5)*8,
             Math.sin(
                 t+
                 strand*Math.PI
-            )*radius
+            )*r
         );
+
     }
+
 }
 
 
-/* FIREWORKS */
+/* =========================================================
+   FIREWORKS
+========================================================= */
 
-function fireworks(){
+function makeFireworks(){
 
     for(
         let i=0;
@@ -1191,11 +1648,11 @@ function fireworks(){
         i++
     ){
 
-        const theta=
+        const a=
             Math.random()*
             Math.PI*2;
 
-        const phi=
+        const b=
             Math.acos(
                 2*Math.random()-1
             );
@@ -1203,29 +1660,28 @@ function fireworks(){
         const r=
             Math.pow(
                 Math.random(),
-                .3
+                .28
             )*6;
 
-        setTarget(
+        target(
             i,
-            Math.sin(phi)*
-            Math.cos(theta)*
-            r,
-
-            Math.sin(phi)*
-            Math.sin(theta)*
-            r,
-
-            Math.cos(phi)*
-            r
+            Math.sin(b)*
+            Math.cos(a)*r,
+            Math.sin(b)*
+            Math.sin(a)*r,
+            Math.cos(b)*r
         );
+
     }
+
 }
 
 
-/* TORUS */
+/* =========================================================
+   TORUS
+========================================================= */
 
-function torus(){
+function makeTorus(){
 
     for(
         let i=0;
@@ -1245,23 +1701,29 @@ function torus(){
 
         const r=.85;
 
-        setTarget(
+        target(
             i,
-            (R+r*Math.cos(b))*
-                Math.cos(a),
+            (R+
+            r*Math.cos(b))*
+            Math.cos(a),
 
             r*Math.sin(b),
 
-            (R+r*Math.cos(b))*
-                Math.sin(a)
+            (R+
+            r*Math.cos(b))*
+            Math.sin(a)
         );
+
     }
+
 }
 
 
-/* HELIX */
+/* =========================================================
+   HELIX
+========================================================= */
 
-function helix(){
+function makeHelix(){
 
     for(
         let i=0;
@@ -1271,25 +1733,29 @@ function helix(){
 
         const t=
             Math.random()*
-            Math.PI*16;
+            Math.PI*18;
 
         const r=
             2.4+
             (Math.random()-.5)*.3;
 
-        setTarget(
+        target(
             i,
             Math.cos(t)*r,
-            (t/(Math.PI*16)-.5)*8,
+            (t/(Math.PI*18)-.5)*8,
             Math.sin(t)*r
         );
+
     }
+
 }
 
 
-/* WAVE */
+/* =========================================================
+   WAVE
+========================================================= */
 
-function wave(){
+function makeWave(){
 
     for(
         let i=0;
@@ -1307,21 +1773,25 @@ function wave(){
             Math.sin(
                 x*1.5+
                 z
-            )*1.3;
+            )*1.4;
 
-        setTarget(
+        target(
             i,
             x,
             y,
             z
         );
+
     }
+
 }
 
 
-/* EXPLOSION */
+/* =========================================================
+   EXPLOSION
+========================================================= */
 
-function explosion(){
+function makeExplosion(){
 
     for(
         let i=0;
@@ -1329,97 +1799,107 @@ function explosion(){
         i++
     ){
 
-        const u=
-            Math.random();
+        const a=
+            Math.random()*
+            Math.PI*2;
 
-        const v=
-            Math.random();
-
-        const theta=
-            2*Math.PI*u;
-
-        const phi=
+        const b=
             Math.acos(
-                2*v-1
+                2*Math.random()-1
             );
 
         const r=
             Math.pow(
                 Math.random(),
-                .18
+                .15
             )*9;
 
-        setTarget(
+        target(
             i,
-            Math.sin(phi)*
-                Math.cos(theta)*r,
+            Math.sin(b)*
+            Math.cos(a)*r,
 
-            Math.sin(phi)*
-                Math.sin(theta)*r,
+            Math.sin(b)*
+            Math.sin(a)*r,
 
-            Math.cos(phi)*r
+            Math.cos(b)*r
         );
+
     }
 
-    triggerFlash();
+    const flash=
+        document.getElementById(
+            "flash"
+        );
+
+    flash.style.opacity=".8";
+
+    setTimeout(
+        ()=>{
+            flash.style.opacity="0";
+        },
+        80
+    );
+
 }
 
 
 /* =========================================================
-   FORM SWITCH
+   FORM SELECTOR
 ========================================================= */
 
-function generateForm(name){
+function setForm(name){
 
     switch(name){
 
         case"heart":
-            heart();
+            makeHeart();
             break;
 
         case"flower":
-            flower();
+            makeFlower();
             break;
 
         case"saturn":
-            saturn();
+            makeSaturn();
             break;
 
         case"galaxy":
-            galaxy();
+            makeGalaxy();
             break;
 
         case"vortex":
-            vortex();
+            makeVortex();
             break;
 
         case"sphere":
-            sphere();
+            makeSphere();
             break;
 
         case"dna":
-            dna();
+            makeDNA();
             break;
 
         case"fireworks":
-            fireworks();
+            makeFireworks();
             break;
 
         case"torus":
-            torus();
+            makeTorus();
             break;
 
         case"helix":
-            helix();
+            makeHelix();
             break;
 
         case"wave":
-            wave();
+            makeWave();
             break;
 
         case"explosion":
-            explosion();
+            makeExplosion();
             break;
+
     }
 
     currentForm=name;
@@ -1431,24 +1911,26 @@ function generateForm(name){
 
     document
         .querySelectorAll(
-            "#templates button"
+            "#forms button"
         )
         .forEach(
             b=>{
                 b.classList.toggle(
                     "active",
-                    b.dataset.form===name
+                    b.dataset.form===
+                    name
                 );
             }
         );
+
 }
 
 
 /* =========================================================
-   MORPH ENGINE
+   PARTICLE MORPH
 ========================================================= */
 
-function updateMorph(){
+function morph(){
 
     const p=
         geometry
@@ -1456,331 +1938,372 @@ function updateMorph(){
         .position
         .array;
 
+    /*
+     * Keep this deliberately simple:
+     * GPU renders the particles.
+     */
+
     for(
         let i=0;
         i<COUNT;
         i++
     ){
 
-        const i3=i*3;
+        const n=i*3;
 
-        const tx=
-            targets[i3]*
-            energy;
+        p[n]+=
+            (
+                targets[n]*
+                energy-
+                p[n]
+            )*.055;
 
-        const ty=
-            targets[i3+1]*
-            energy;
+        p[n+1]+=
+            (
+                targets[n+1]*
+                energy-
+                p[n+1]
+            )*.055;
 
-        const tz=
-            targets[i3+2]*
-            energy;
+        p[n+2]+=
+            (
+                targets[n+2]*
+                energy-
+                p[n+2]
+            )*.055;
 
-        p[i3]+=
-            (tx-p[i3])*.055;
-
-        p[i3+1]+=
-            (ty-p[i3+1])*.055;
-
-        p[i3+2]+=
-            (tz-p[i3+2])*.055;
     }
 
-    geometry
-        .attributes
-        .position
-        .needsUpdate=true;
+    positionAttribute.needsUpdate=true;
+
 }
 
 
 /* =========================================================
-   EXPLOSION EFFECT
+   HAND HELPERS
 ========================================================= */
 
-function triggerFlash(){
-
-    const flash=
-        document.getElementById(
-            "flash"
-        );
-
-    flash.style.opacity=".7";
-
-    setTimeout(
-        ()=>{
-            flash.style.opacity="0";
-        },
-        70
-    );
-}
-
-
-/* =========================================================
-   MEDIAPIPE HANDS
-========================================================= */
-
-const video=
-    document.getElementById(
-        "camera"
-    );
-
-const hands=
-    new Hands({
-        locateFile:file=>
-            `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
-    });
-
-hands.setOptions({
-
-    maxNumHands:2,
-
-    modelComplexity:1,
-
-    minDetectionConfidence:.55,
-
-    minTrackingConfidence:.55
-});
-
-
-function dist(a,b){
+function distance(a,b){
 
     return Math.sqrt(
-        Math.pow(a.x-b.x,2)+
-        Math.pow(a.y-b.y,2)+
-        Math.pow(a.z-b.z,2)
+
+        Math.pow(
+            a.x-b.x,
+            2
+        )+
+
+        Math.pow(
+            a.y-b.y,
+            2
+        )+
+
+        Math.pow(
+            a.z-b.z,
+            2
+        )
+
     );
+
 }
 
 
-function fingers(lm){
+function fingerCount(lm){
 
     let n=0;
 
-    if(lm[8].y<lm[6].y)
+    if(
+        lm[8].y<
+        lm[6].y
+    )
         n++;
 
-    if(lm[12].y<lm[10].y)
+    if(
+        lm[12].y<
+        lm[10].y
+    )
         n++;
 
-    if(lm[16].y<lm[14].y)
+    if(
+        lm[16].y<
+        lm[14].y
+    )
         n++;
 
-    if(lm[20].y<lm[18].y)
+    if(
+        lm[20].y<
+        lm[18].y
+    )
         n++;
 
     return n;
+
 }
 
 
-hands.onResults(
-    results=>{
+/* =========================================================
+   MEDIAPIPE
+========================================================= */
 
-        const list=
-            results.multiHandLandmarks || [];
+let handsReady=false;
 
-        handCount=list.length;
+try{
 
-        if(!list.length){
+    const hands =
+        new Hands({
 
-            handActive=false;
+            locateFile:
+                file =>
+                    "https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/" +
+                    file
 
-            targetEnergy=
-                .9;
+        });
 
-            document
-                .getElementById(
-                    "gestureText"
-                )
-                .textContent=
-                "NO HAND // MOUSE MODE";
 
-            return;
-        }
+    hands.setOptions({
 
-        handActive=true;
+        maxNumHands:2,
 
-        const hand=
-            list[0];
+        modelComplexity:1,
 
-        const palm=
-            hand[9];
+        minDetectionConfidence:.55,
 
-        handX=
-            1-palm.x;
+        minTrackingConfidence:.55
 
-        handY=
-            palm.y;
+    });
 
-        targetHue=
-            handX;
 
-        const f=
-            fingers(hand);
+    hands.onResults(
+        results => {
 
-        const pinch=
-            dist(
-                hand[4],
-                hand[8]
-            );
+            const list =
+                results.multiHandLandmarks ||
+                [];
 
-        /*
-         * TWO HAND POWER
-         */
 
-        if(list.length>=2){
+            if(!list.length){
 
-            const d=
-                dist(
-                    list[0][9],
-                    list[1][9]
+                handDetected=false;
+
+                targetEnergy=.9;
+
+                document
+                    .getElementById(
+                        "gesture"
+                    )
+                    .textContent=
+                    "NO HAND // MOUSE MODE";
+
+                return;
+
+            }
+
+
+            handDetected=true;
+
+
+            const h=
+                list[0];
+
+            const palm=
+                h[9];
+
+
+            const count=
+                fingerCount(h);
+
+
+            const pinch=
+                distance(
+                    h[4],
+                    h[8]
                 );
 
-            targetEnergy=
-                THREE.MathUtils.clamp(
-                    d*3.2,
-                    .6,
-                    2.8
-                );
 
-            document
-                .getElementById(
-                    "gestureText"
-                )
-                .textContent=
-                "TWO HANDS // POWER FIELD";
-
-        }
-
-        /*
-         * OPEN HAND
-         */
-
-        else if(f>=4){
-
-            targetEnergy=
-                1.25+
-                (1-handY)*1.2;
-
-            document
-                .getElementById(
-                    "gestureText"
-                )
-                .textContent=
-                "OPEN HAND // EXPANSION";
-
-        }
-
-        /*
-         * FIST
-         */
-
-        else if(f===0){
-
-            targetEnergy=
-                .48;
-
-            document
-                .getElementById(
-                    "gestureText"
-                )
-                .textContent=
-                "FIST // GRAVITY COLLAPSE";
-
-        }
-
-        /*
-         * PINCH
-         */
-
-        else if(pinch<.055){
-
-            targetEnergy=
-                .65;
-
-            document
-                .getElementById(
-                    "gestureText"
-                )
-                .textContent=
-                "PINCH // PARTICLE GRAB";
-
-        }
-
-        else{
-
-            targetEnergy=
-                1;
-
-            document
-                .getElementById(
-                    "gestureText"
-                )
-                .textContent=
-                `${f} FINGER // FIELD CONTROL`;
-        }
+            targetHue=
+                1-palm.x;
 
 
-        /*
-         * SWIPE
-         */
-
-        if(previousX!==null){
-
-            const dx=
-                palm.x-
-                previousX;
-
-            const now=
-                performance.now();
+            /*
+             * TWO HANDS
+             */
 
             if(
-                Math.abs(dx)>.10 &&
-                now-previousSwipe>800
+                list.length>=2
             ){
 
-                const forms=[
-                    "heart",
-                    "flower",
-                    "saturn",
-                    "galaxy",
-                    "vortex",
-                    "sphere",
-                    "dna",
-                    "fireworks",
-                    "torus",
-                    "helix",
-                    "wave",
-                    "explosion"
-                ];
-
-                let index=
-                    forms.indexOf(
-                        currentForm
+                const d=
+                    distance(
+                        list[0][9],
+                        list[1][9]
                     );
 
-                if(dx>0)
-                    index++;
-                else
-                    index--;
+                targetEnergy=
+                    THREE.MathUtils.clamp(
+                        d*3,
+                        .5,
+                        2.8
+                    );
 
-                if(index<0)
-                    index=forms.length-1;
+                document
+                    .getElementById(
+                        "gesture"
+                    )
+                    .textContent=
+                    "TWO HANDS // POWER";
 
-                if(index>=forms.length)
-                    index=0;
-
-                generateForm(
-                    forms[index]
-                );
-
-                previousSwipe=now;
             }
-        }
 
-        previousX=
-            palm.x;
-    }
-);
+
+            /*
+             * OPEN
+             */
+
+            else if(
+                count>=4
+            ){
+
+                targetEnergy=
+                    1.15+
+                    (1-palm.y)*1.3;
+
+                document
+                    .getElementById(
+                        "gesture"
+                    )
+                    .textContent=
+                    "OPEN HAND // EXPAND";
+
+            }
+
+
+            /*
+             * FIST
+             */
+
+            else if(
+                count===0
+            ){
+
+                targetEnergy=.42;
+
+                document
+                    .getElementById(
+                        "gesture"
+                    )
+                    .textContent=
+                    "FIST // COLLAPSE";
+
+            }
+
+
+            /*
+             * PINCH
+             */
+
+            else if(
+                pinch<.055
+            ){
+
+                targetEnergy=.62;
+
+                document
+                    .getElementById(
+                        "gesture"
+                    )
+                    .textContent=
+                    "PINCH // GRAB";
+
+            }
+
+
+            else{
+
+                targetEnergy=1;
+
+                document
+                    .getElementById(
+                        "gesture"
+                    )
+                    .textContent=
+                    count+
+                    " FINGER // FIELD";
+
+            }
+
+
+            /*
+             * SWIPE
+             */
+
+            if(
+                previousHandX!==null
+            ){
+
+                const dx=
+                    palm.x-
+                    previousHandX;
+
+                const now=
+                    performance.now();
+
+
+                if(
+                    Math.abs(dx)>.11 &&
+                    now-lastSwipe>900
+                ){
+
+                    let index=
+                        forms.indexOf(
+                            currentForm
+                        );
+
+
+                    if(dx>0)
+                        index++;
+
+                    else
+                        index--;
+
+
+                    if(index<0)
+                        index=
+                            forms.length-1;
+
+
+                    if(
+                        index>=forms.length
+                    )
+                        index=0;
+
+
+                    setForm(
+                        forms[index]
+                    );
+
+                    lastSwipe=now;
+
+                }
+
+            }
+
+
+            previousHandX=
+                palm.x;
+
+        }
+    );
+
+
+    handsReady=true;
+
+}catch(error){
+
+    console.error(
+        "MediaPipe initialization failed",
+        error
+    );
+
+}
 
 
 /* =========================================================
@@ -1788,6 +2311,31 @@ hands.onResults(
 ========================================================= */
 
 async function startCamera(){
+
+    if(!handsReady){
+
+        showCameraError(
+            "Hand tracking library could not be initialized. Mouse controls remain available."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+    ){
+
+        showCameraError(
+            "This browser does not provide webcam access."
+        );
+
+        return;
+
+    }
+
 
     try{
 
@@ -1797,128 +2345,238 @@ async function startCamera(){
             .getUserMedia({
 
                 video:{
-                    width:640,
-                    height:480,
-                    facingMode:"user"
+
+                    width:{
+                        ideal:640
+                    },
+
+                    height:{
+                        ideal:480
+                    },
+
+                    facingMode:
+                        "user"
+
                 },
 
                 audio:false
+
             });
 
-        video.srcObject=stream;
+
+        const video=
+            document.getElementById(
+                "camera"
+            );
+
+
+        video.srcObject=
+            stream;
+
 
         await video.play();
 
-        const cam=
+
+        const cameraFeed=
             new Camera(
                 video,
                 {
 
                     onFrame:
                     async()=>{
-                        await hands.send({
-                            image:video
-                        });
+
+                        try{
+
+                            await hands.send({
+                                image:video
+                            });
+
+                        }catch(error){
+
+                            console.warn(
+                                "Hand frame error",
+                                error
+                            );
+
+                        }
+
                     },
 
                     width:640,
 
                     height:480
+
                 }
             );
 
-        cam.start();
 
-    }catch(e){
+        cameraFeed.start();
 
-        console.warn(
-            "Camera unavailable",
-            e
+
+    }catch(error){
+
+        console.error(
+            "Camera error",
+            error
         );
 
-        document
-            .getElementById(
-                "gestureText"
-            )
-            .textContent=
-            "MOUSE MODE";
+
+        showCameraError(
+            "Camera permission was denied or the camera is unavailable. Mouse and keyboard controls are still active."
+        );
+
     }
+
 }
 
 
 /* =========================================================
-   MOUSE CONTROL
+   ERROR
+========================================================= */
+
+function showCameraError(message){
+
+    document
+        .getElementById(
+            "error"
+        )
+        .style.display=
+        "block";
+
+
+    document
+        .getElementById(
+            "errorText"
+        )
+        .textContent=
+        message;
+
+
+    setTimeout(
+        ()=>{
+
+            document
+                .getElementById(
+                    "error"
+                )
+                .style.display=
+                "none";
+
+        },
+        5000
+    );
+
+}
+
+
+/* =========================================================
+   MOUSE
 ========================================================= */
 
 window.addEventListener(
-    "mousemove",
-    e=>{
+    "pointermove",
+    event=>{
 
         mouseX=
-            e.clientX/
+            event.clientX/
             innerWidth;
 
         mouseY=
-            e.clientY/
+            event.clientY/
             innerHeight;
 
-        if(!handActive){
+
+        if(
+            !handDetected
+        ){
 
             targetHue=
                 mouseX;
 
             targetEnergy=
-                .55+
-                (1-mouseY)*1.5;
+                .5+
+                (1-mouseY)*1.6;
+
         }
+
     }
 );
 
 
 /* =========================================================
-   CLICK
+   TOUCH
+========================================================= */
+
+window.addEventListener(
+    "touchmove",
+    event=>{
+
+        if(!event.touches[0])
+            return;
+
+        mouseX=
+            event.touches[0].clientX/
+            innerWidth;
+
+        mouseY=
+            event.touches[0].clientY/
+            innerHeight;
+
+
+        if(
+            !handDetected
+        ){
+
+            targetHue=
+                mouseX;
+
+            targetEnergy=
+                .5+
+                (1-mouseY)*1.6;
+
+        }
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+/* =========================================================
+   CLICK = NEXT
 ========================================================= */
 
 window.addEventListener(
     "click",
-    e=>{
+    event=>{
 
         if(
-            e.target.tagName===
-            "BUTTON"
+            event.target.closest(
+                "button"
+            )
         )
             return;
 
-        const forms=[
-            "heart",
-            "flower",
-            "saturn",
-            "galaxy",
-            "vortex",
-            "sphere",
-            "dna",
-            "fireworks",
-            "torus",
-            "helix",
-            "wave",
-            "explosion"
-        ];
 
-        let index=
+        let i=
             forms.indexOf(
                 currentForm
             );
 
-        index++;
+
+        i++;
 
         if(
-            index>=forms.length
+            i>=forms.length
         )
-            index=0;
+            i=0;
 
-        generateForm(
-            forms[index]
+
+        setForm(
+            forms[i]
         );
+
     }
 );
 
@@ -1929,17 +2587,21 @@ window.addEventListener(
 
 document
     .querySelectorAll(
-        "#templates button"
+        "#forms button"
     )
     .forEach(
         button=>{
 
             button.addEventListener(
                 "click",
-                ()=>{
-                    generateForm(
+                event=>{
+
+                    event.stopPropagation();
+
+                    setForm(
                         button.dataset.form
                     );
+
                 }
             );
 
@@ -1953,44 +2615,59 @@ document
 
 window.addEventListener(
     "keydown",
-    e=>{
+    event=>{
 
-        if(e.code==="Space"){
+        if(
+            event.code===
+            "Space"
+        ){
 
-            e.preventDefault();
+            event.preventDefault();
 
-            generateForm(
+            setForm(
                 "explosion"
             );
+
         }
 
-        if(e.key==="r"){
 
-            generateForm(
-                "vortex"
+        const keys={
+
+            h:"heart",
+
+            f:"flower",
+
+            g:"galaxy",
+
+            s:"saturn",
+
+            v:"vortex",
+
+            d:"dna",
+
+            t:"torus",
+
+            w:"wave",
+
+            e:"explosion"
+
+        };
+
+
+        if(
+            keys[
+                event.key.toLowerCase()
+            ]
+        ){
+
+            setForm(
+                keys[
+                    event.key.toLowerCase()
+                ]
             );
+
         }
 
-        if(e.key==="g"){
-
-            generateForm(
-                "galaxy"
-            );
-        }
-
-        if(e.key==="h"){
-
-            generateForm(
-                "heart"
-            );
-        }
-
-        if(e.key==="f"){
-
-            generateForm(
-                "fireworks"
-            );
-        }
     }
 );
 
@@ -2002,9 +2679,10 @@ window.addEventListener(
 let lastTime=
     performance.now();
 
-let frames=0;
+let frameCounter=0;
 
 let fps=60;
+
 
 function animate(){
 
@@ -2012,8 +2690,10 @@ function animate(){
         animate
     );
 
+
     const now=
         performance.now();
+
 
     const dt=
         Math.min(
@@ -2021,14 +2701,15 @@ function animate(){
             .05
         );
 
+
     lastTime=now;
 
-    time+=dt;
 
-    frames++;
+    frameCounter++;
+
 
     if(
-        frames%20===0
+        frameCounter%20===0
     ){
 
         fps=
@@ -2036,121 +2717,116 @@ function animate(){
                 1/dt
             );
 
+
         document
             .getElementById(
                 "fps"
             )
             .textContent=
             fps;
+
     }
 
 
     /*
-     * Smooth controls
+     * Smooth interaction
      */
 
     energy +=
-        (targetEnergy-energy)
-        *.055;
+        (
+            targetEnergy-
+            energy
+        )*.055;
+
 
     hue +=
-        (targetHue-hue)
-        *.035;
+        (
+            targetHue-
+            hue
+        )*.035;
 
-
-    /*
-     * Shader uniforms
-     */
 
     material
         .uniforms
-        .uTime
+        .time
         .value=
-        time;
+        clock.getElapsedTime();
+
 
     material
         .uniforms
-        .uEnergy
+        .energy
         .value=
         energy;
 
+
     material
         .uniforms
-        .uHue
+        .hue
         .value=
         hue;
 
 
     /*
-     * Particle morph
+     * Morph
      */
 
-    updateMorph();
+    morph();
 
 
     /*
-     * Cinematic rotation
+     * Universe rotation
      */
 
     particleSystem.rotation.y +=
         dt*
-        (.12+
-        energy*.08);
+        (
+            .1+
+            energy*.09
+        );
 
-    particleSystem.rotation.x =
+
+    particleSystem.rotation.x=
         Math.sin(
-            time*.18
+            clock.getElapsedTime()*
+            .18
         )*.12;
 
-    particleSystem.rotation.z =
+
+    particleSystem.rotation.z=
         Math.cos(
-            time*.13
+            clock.getElapsedTime()*
+            .13
         )*.06;
 
 
-    /*
-     * Star universe
-     */
-
     stars.rotation.y +=
-        dt*.008;
-
-    stars.rotation.x =
-        Math.sin(
-            time*.04
-        )*.03;
+        dt*.006;
 
 
     /*
-     * Camera subtle breathing
+     * Camera movement
      */
 
     camera.position.x +=
         (
-            (handX-.5)*1.3-
+            (mouseX-.5)*1.2-
             camera.position.x
-        )*.015;
+        )*.01;
+
 
     camera.position.y +=
         (
-            (.5-handY)*.8-
+            (.5-mouseY)*.8-
             camera.position.y
-        )*.015;
+        )*.01;
+
 
     camera.lookAt(
         0,
         0,
         0
     );
-
-
-    /*
-     * Dynamic bloom
-     */
-
-    bloom.strength=
-        1.2+
-        energy*.8;
 
 
     /*
@@ -2164,6 +2840,7 @@ function animate(){
         .textContent=
         energy.toFixed(2);
 
+
     document
         .getElementById(
             "hue"
@@ -2174,7 +2851,11 @@ function animate(){
         )+"°";
 
 
-    composer.render();
+    renderer.render(
+        scene,
+        camera
+    );
+
 }
 
 
@@ -2197,10 +2878,6 @@ window.addEventListener(
             innerHeight
         );
 
-        composer.setSize(
-            innerWidth,
-            innerHeight
-        );
     }
 );
 
@@ -2209,11 +2886,13 @@ window.addEventListener(
    START
 ========================================================= */
 
-generateForm(
+setForm(
     "heart"
 );
 
+
 animate();
+
 
 startCamera();
 
@@ -2221,25 +2900,18 @@ startCamera();
 setTimeout(
     ()=>{
 
-        const loading=
-            document.getElementById(
+        document
+            .getElementById(
                 "loading"
-            );
-
-        loading.style.opacity="0";
-
-        setTimeout(
-            ()=>{
-                loading.remove();
-            },
-            1000
-        );
+            )
+            .classList
+            .add("hide");
 
     },
-    1400
+    1500
 );
 
 </script>
 
 </body>
-</html> 
+</html>
