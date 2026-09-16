@@ -2005,6 +2005,178 @@ body::after {
   opacity: 1 !important;
 }
 
+
+
+/* ============================================================== */
+/* MODERN ACCORDION & MOBILE NAVIGATION REPAIR STYLES */
+/* ============================================================== */
+
+/* Chapter Accordion Styles */
+.sidebar-chapter-group {
+  margin-bottom: 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.sidebar-chapter-group:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.sidebar-chapter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03);
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.sidebar-chapter-header:hover {
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.chap-hdr-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.chap-arrow {
+  font-size: 0.72rem;
+  color: #38bdf8;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chap-arrow.expanded {
+  transform: rotate(90deg);
+}
+
+.chap-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 12px;
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.chap-badge.active-badge {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.sidebar-chapter-content {
+  display: none;
+  padding: 6px 8px 10px 8px;
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-chapter-content.open {
+  display: block;
+}
+
+.sidebar-chapter-content .nav-link {
+  padding: 7px 10px;
+  font-size: 0.8rem;
+  margin-bottom: 3px;
+}
+
+/* Mobile Sidebar Drawer & Backdrop Overhaul (Zero Blurring / Fast Hardware Acceleration) */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  z-index: 999990 !important;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.sidebar-backdrop.open {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.sidebar-close-btn {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 320px !important;
+    max-width: 86vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    padding: 16px 14px 40px 14px !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 999999 !important;
+    box-shadow: 12px 0 35px rgba(0, 0, 0, 0.85) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    background: #0f172a !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  .sidebar.open {
+    transform: translateX(0) !important;
+  }
+
+  .sidebar-close-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 8px;
+    color: #f87171;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .mobile-topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 16px !important;
+    background: #0f172a !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+    z-index: 99990 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .main-content {
+    padding-top: 75px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2040,6 +2212,13 @@ body::after {
   <div class="app-container">
     <!-- MASTER SIDEBAR & TABLE OF CONTENTS -->
     <aside class="sidebar" id="appSidebar">
+
+      <!-- MOBILE CLOSE BUTTON -->
+      <button class="sidebar-close-btn" onclick="toggleMobileSidebar()">
+        <span><i class="fas fa-times"></i> Close Menu</span>
+        <span style="font-size:0.7rem; opacity:0.8;">Tap to dismiss</span>
+      </button>
+
       <div class="brand-badge">
         <div class="brand-title">KAZMI LABS</div>
         <div class="brand-powered">POWERED BY VAREZON</div>
@@ -2049,266 +2228,142 @@ body::after {
           <div><i class="fas fa-mobile-alt"></i> 03421402024 / +923421402024</div>
         </div>
         <div class="brand-actions">
-          <a href="https://wa.me/923421402024" target="_blank" class="brand-btn wa"> WhatsApp</a>
+          <a href="https://wa.me/923421402024" target="_blank" class="brand-btn wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
           <a href="mailto:tajamalshah72@gmail.com" class="brand-btn email"><i class="fas fa-envelope"></i> Email</a>
         </div>
       </div>
 
       <!-- DASHBOARD QUICK LINK -->
       <a class="nav-link active" id="link-dashboard" onclick="navigateToSection('dashboard')">
-        <span><i class="fas fa-home"></i> Master Overview & Stats</span>
+        <span><i class="fas fa-home"></i> Master Overview &amp; Stats</span>
         <span class="nav-badge">Hub</span>
       </a>
 
-      
       <!-- THEME & HIGHLIGHTER PREFERENCES -->
       <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:12px; padding:12px; margin:14px 0;">
         <div style="font-size:0.75rem; font-weight:800; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; display:flex; justify-content:space-between;">
           <span><i class="fas fa-palette"></i> Eye-Care Theme</span>
         </div>
         <select class="pref-dropdown" id="themeSelectSidebar" onchange="setAppTheme(this.value)" style="width:100%; margin-bottom:10px;">
-          <option value="midnight"><i class="fas fa-space-shuttle"></i> 1. Midnight Cyberpunk (Dark)</option>
-          <option value="cosmic"><i class="fas fa-star"></i> 2. Live Cosmic Galaxy (Animated)</option>
-          <option value="obsidian"><i class="fas fa-circle"></i> 3. OLED Obsidian (True Black)</option>
-          <option value="aquamarine"><i class="fas fa-water"></i> 4. Aqua Marine (Arctic Glass)</option>
-          <option value="daylight"><i class="fas fa-sun"></i> 5. Clinical Daylight (Light)</option>
-          <option value="sepia"><i class="fas fa-scroll"></i> 6. Warm Sepia (Eye-Care)</option>
-          <option value="forest"><i class="fas fa-tree"></i> 7. Deep Forest (Emerald)</option>
+          <option value="midnight">1. Midnight Cyberpunk (Dark)</option>
+          <option value="cosmic">2. Live Cosmic Galaxy (Animated)</option>
+          <option value="obsidian">3. OLED Obsidian (True Black)</option>
+          <option value="aquamarine">4. Aquamarine Medical (Teal)</option>
+          <option value="emerald">5. Emerald Bio-Shield (Green)</option>
+          <option value="slate">6. Deep Slate Minimalist (Navy)</option>
+          <option value="contrast">7. High-Contrast Clinical (Vivid)</option>
+          <option value="solarized">8. Solarized Clean (Daylight Light)</option>
+          <option value="clinical">9. Clinical Ivory (Warm Light)</option>
         </select>
+        <button onclick="toggleCalculator()" class="calc-btn" style="width:100%; justify-content:center;">
+          <i class="fas fa-calculator"></i> Clinical Formula Calculator
+        </button>
+      </div>
 
-        <div style="font-size:0.75rem; font-weight:800; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">
-          <span><i class="fas fa-star"></i> Highlighter Color</span>
+      <!-- CHAPTER 1 ACCORDION -->
+      <div class="sidebar-chapter-group" id="grp-ch1">
+        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch1')">
+          <div class="chap-hdr-left">
+            <i class="fas fa-chevron-right chap-arrow" id="arrow-ch1"></i>
+            <span>Chapter 1: Organization &amp; Staffing</span>
+          </div>
+          <span class="chap-badge">4 / 4 &bull; 100%</span>
         </div>
-        <div class="highlighter-palette">
-          <div class="palette-dot active" style="background:#38bdf8;" title="Neon Cyan" onclick="setHighlighterColor('cyan')"></div>
-          <div class="palette-dot" style="background:#34d399;" title="Emerald Mint" onclick="setHighlighterColor('emerald')"></div>
-          <div class="palette-dot" style="background:#fbbf24;" title="Electric Amber" onclick="setHighlighterColor('amber')"></div>
-          <div class="palette-dot" style="background:#c084fc;" title="Royal Lavender" onclick="setHighlighterColor('purple')"></div>
-          <div class="palette-dot" style="background:#fb7185;" title="Coral Rose" onclick="setHighlighterColor('rose')"></div>
-        </div>
-      </div>
-
-      <!-- CALCULATORS QUICK MODAL LINK -->
-      <a class="nav-link" onclick="openCalculatorModal()" style="border:1px dashed var(--accent-cyan); margin-bottom:12px;">
-        <span><i class="fas fa-calculator"></i> Metrology & Lab Calculators</span>
-        <span class="nav-badge" style="background:rgba(6,182,212,0.2); color:#38bdf8;">Suite</span>
-      </a>
-
-      <!-- CHAPTER 1 TOC -->
-      <div class="sidebar-section-title">
-        <span>PART 1 &bull; CHAPTER 1 (pp. 1–13)</span>
-        <span style="color:#34d399;">100%</span>
-      </div>
-      <div class="sidebar-chapter-block">
-        <div class="chapter-label">Organization & Staffing <span>32 MCQs</span></div>
-        <a class="nav-link" id="link-sec1_1" onclick="navigateToSection('sec1_1')">
-          <span>1.1 Importance in District Health</span>
-          <span class="nav-badge">pp. 1–3</span>
-        </a>
-        <a class="nav-link" id="link-sec1_2" onclick="navigateToSection('sec1_2')">
-          <span>1.2 District Lab Network</span>
-          <span class="nav-badge">pp. 3–9</span>
-        </a>
-        <a class="nav-link" id="link-sec1_3" onclick="navigateToSection('sec1_3')">
-          <span>1.3 Personnel Training & CPD</span>
-          <span class="nav-badge">pp. 10–11</span>
-        </a>
-        <a class="nav-link" id="link-sec1_4" onclick="navigateToSection('sec1_4')">
-          <span>1.4 Code of Conduct & Status</span>
-          <span class="nav-badge">pp. 11–13</span>
-        </a>
-      </div>
-
-      <!-- CHAPTER 2 TOC -->
-      <div class="sidebar-section-title">
-        <span>PART 1 &bull; CHAPTER 2 (pp. 14–49)</span>
-        <span style="color:#34d399;">100%</span>
-      </div>
-      <div class="sidebar-chapter-block">
-        <div class="chapter-label">Total Quality Management <span>56 MCQs</span></div>
-        <a class="nav-link" id="link-sec2_1" onclick="navigateToSection('sec2_1')">
-          <span>2.1 Reliable Quality Service (TQM)</span>
-          <span class="nav-badge">pp. 14–20</span>
-        </a>
-        <a class="nav-link" id="link-sec2_2" onclick="navigateToSection('sec2_2')">
-          <span>2.2 Test Selection & Interpretation</span>
-          <span class="nav-badge">pp. 20–28</span>
-        </a>
-        <a class="nav-link" id="link-sec2_3" onclick="navigateToSection('sec2_3')">
-          <span>2.3 Financing & Controlling Costs</span>
-          <span class="nav-badge">pp. 28–31</span>
-        </a>
-        <a class="nav-link" id="link-sec2_4" onclick="navigateToSection('sec2_4')">
-          <span>2.4 Quality Assurance & Errors</span>
-          <span class="nav-badge">pp. 31–37</span>
-        </a>
-        <a class="nav-link" id="link-sec2_5" onclick="navigateToSection('sec2_5')">
-          <span>2.5 SI Units in Laboratory Practice</span>
-          <span class="nav-badge">pp. 37–40</span>
-        </a>
-        <a class="nav-link" id="link-sec2_6" onclick="navigateToSection('sec2_6')">
-          <span>2.6 Preparing Stains and Reagents</span>
-          <span class="nav-badge">pp. 40–47</span>
-        </a>
-        <a class="nav-link" id="link-sec2_7" onclick="navigateToSection('sec2_7')">
-          <span>2.7 Communicating Effectively</span>
-          <span class="nav-badge">pp. 47–48</span>
-        </a>
-      </div>
-
-      <!-- CHAPTER 3 TOC -->
-      <div class="sidebar-section-title">
-        <span>PART 1 &bull; CHAPTER 3 (pp. 50–95)</span>
-        <span style="color:#34d399;">100%</span>
-      </div>
-      <div class="sidebar-chapter-block">
-        <div class="chapter-label">Health and Safety <span>64 MCQs (Complete)</span></div>
-        <a class="nav-link" id="link-sec3_1" onclick="navigateToSection('sec3_1')">
-          <span>3.1 Safety Features & Organization</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 50–55</span>
-        </a>
-        <a class="nav-link" id="link-sec3_2" onclick="navigateToSection('sec3_2')">
-          <span>3.2 Biological Hazards</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 55–65</span>
-        </a>
-        <a class="nav-link" id="link-sec3_3" onclick="navigateToSection('sec3_3')">
-          <span>3.3 Specimen Handling & Waste</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 65–72</span>
-        </a>
-        <a class="nav-link" id="link-sec3_4" onclick="navigateToSection('sec3_4')">
-          <span>3.4 Chemical Hazards</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 72–81</span>
-        </a>
-        <a class="nav-link" id="link-sec3_5" onclick="navigateToSection('sec3_5')">
-          <span>3.5 Chemical Handling & Storage</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 81–86</span>
-        </a>
-        <a class="nav-link" id="link-sec3_6" onclick="navigateToSection('sec3_6')">
-          <span>3.6 Equipment & Glassware Hazards</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 86–90</span>
-        </a>
-        <a class="nav-link" id="link-sec3_7" onclick="navigateToSection('sec3_7')">
-          <span>3.7 Fire Safety & Emergency First Aid</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 90–93</span>
-        </a>
-        <a class="nav-link" id="link-sec3_8" onclick="navigateToSection('sec3_8')">
-          <span>3.8 Safety Auditing & First Aid</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 93–95</span>
-        </a>
-      </div>
-
-      
-      <!-- CHAPTER 4 TOC -->
-      <div class="sidebar-section-title">
-        <span>PART 1 &bull; CHAPTER 4 (pp. 96–149)</span>
-        <span style="color:#38bdf8;">ACTIVE</span>
-      </div>
-      <div class="sidebar-chapter-block">
-        <div class="chapter-label">Equipment Selection & Care <span>48 MCQs Ready</span></div>
-        <a class="nav-link" id="link-sec4_1" onclick="navigateToSection('sec4_1')">
-          <span>4.1 Selection & Procurement</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 96–103</span>
-        </a>
-        <a class="nav-link" id="link-sec4_2" onclick="navigateToSection('sec4_2')">
-          <span>4.2 Power Supplies & Inverters</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 103–109</span>
-        </a>
-        <a class="nav-link" id="link-sec4_3" onclick="navigateToSection('sec4_3')">
-          <span>4.3 Microscopes & Microscopy</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 109–120</span>
-        </a>
-        <a class="nav-link" id="link-sec4_4" onclick="navigateToSection('sec4_4')">
-          <span>4.4 Water Purification Equipment</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 126–131</span>
-        </a>
-        <a class="nav-link" id="link-sec4_5" onclick="navigateToSection('sec4_5')">
-          <span>4.5 Equipment for Weighing</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 131–134</span>
-        </a>
-        <a class="nav-link" id="link-sec4_6" onclick="navigateToSection('sec4_6')">
-          <span>4.6 Pipetting & Dispensing</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 134–139</span>
-        </a>
-        <a class="nav-link" id="link-sec4_7" onclick="navigateToSection('sec4_7')">
-          <span>4.7 Centrifuges & Rotors</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 139–143</span>
-        </a>
-        <a class="nav-link" id="link-sec4_8" onclick="navigateToSection('sec4_8')">
-          <span>4.8 Autoclaves & Pressure Cookers</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 143–148</span>
-        </a>
-        <a class="nav-link" id="link-sec4_9" onclick="navigateToSection('sec4_9')">
-          <span>4.9 Incubators, Baths & Heat Blocks</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 148–152</span>
-        </a>
-        <a class="nav-link" id="link-sec4_10" onclick="navigateToSection('sec4_10')">
-          <span>4.10 Colorimeters & Spectrophotometers</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 152–158</span>
-        </a>
-        <a class="nav-link" id="link-sec4_11" onclick="navigateToSection('sec4_11')">
-          <span>4.11 Mixers, Rotators &amp; Stirrers</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 158–162</span>
-        </a>
-        <a class="nav-link" id="link-sec4_12" onclick="navigateToSection('sec4_12')">
-          <span>4.12 General Laboratory-Ware</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 162–177</span>
-        </a>
-      
-      <!-- CHAPTER 5 -->
-      <div class="sidebar-chapter-block">
-        <div class="sidebar-section-title">
-          <span>CHAPTER 5 &bull; PARASITOLOGICAL TESTS</span>
-          <span class="nav-badge" style="color:var(--emerald-accent);">pp. 178–238</span>
-        </div>
-        <a class="nav-link" id="link-sec5_1" onclick="navigateToSection('sec5_1')">
-          <span>5.1 Parasitology in District Labs &amp; QA</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 178–184</span>
-        </a>
-        <a class="nav-link" id="link-sec5_2" onclick="navigateToSection('sec5_2')">
-          <span>5.2 Parasites &amp; Parasitic Diseases</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 184–192</span>
-        </a>
-        <a class="nav-link" id="link-sec5_3" onclick="navigateToSection('sec5_3')">
-          <span>5.3 Faecal Exam &amp; Concentration</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 192–206</span>
-        </a>
-        <a class="nav-link" id="link-sec5_4" onclick="navigateToSection('sec5_4')">
-          <span>5.4 Identification of Protozoa</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 207–216</span>
-        </a>
-        <a class="nav-link" id="link-sec5_5" onclick="navigateToSection('sec5_5')">
-          <span>5.5 Helminth Eggs &amp; Larvae</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 216–227</span>
-        </a>
-        <a class="nav-link" id="link-sec5_6" onclick="navigateToSection('sec5_6')">
-          <span>5.6 Flukes, Cestodes &amp; Pinworm</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 227–243</span>
-        </a>
-        <a class="nav-link" id="link-sec5_7" onclick="navigateToSection('sec5_7')">
-          <span>5.7 Blood Examination for Malaria</span>
-          <span class="nav-badge" style="color:#34d399;">pp. 244–262</span>
-        </a>
-        <div class="nav-link" style="opacity:0.45; cursor:not-allowed;">
-          <span>5.3 Direct Faecal Exam &amp; Concentration</span>
-          <span class="nav-badge">pp. 192–206</span>
-        </div>
-        <div class="nav-link" style="opacity:0.45; cursor:not-allowed;">
-          <span>5.4 Protozoan Infections</span>
-          <span class="nav-badge">pp. 206–220</span>
-        </div>
-        <div class="nav-link" style="opacity:0.45; cursor:not-allowed;">
-          <span>5.5 Helminthic Infections</span>
-          <span class="nav-badge">pp. 220–238</span>
+        <div class="sidebar-chapter-content" id="content-ch1">
+          <a class="nav-link" id="link-sec1_1" onclick="navigateToSection('sec1_1')"><span>1.1 District Health Care</span><span class="nav-badge">pp. 1–5</span></a>
+          <a class="nav-link" id="link-sec1_2" onclick="navigateToSection('sec1_2')"><span>1.2 Functions &amp; Staffing</span><span class="nav-badge">pp. 5–7</span></a>
+          <a class="nav-link" id="link-sec1_3" onclick="navigateToSection('sec1_3')"><span>1.3 Lab Workload Metrics</span><span class="nav-badge">pp. 7–9</span></a>
+          <a class="nav-link" id="link-sec1_4" onclick="navigateToSection('sec1_4')"><span>1.4 Training &amp; Codes</span><span class="nav-badge">pp. 9–13</span></a>
         </div>
       </div>
-</div>
 
-<!-- CONTACT FOOTER -->
-      <div style="margin-top:auto; padding-top:16px;">
-        <a href="https://wa.me/923421402024" target="_blank" class="btn-primary" style="width:100%; display:block; text-align:center; text-decoration:none; padding:10px;">
-          <i class="fab fa-whatsapp"></i> WhatsApp Support
-        </a>
+      <!-- CHAPTER 2 ACCORDION -->
+      <div class="sidebar-chapter-group" id="grp-ch2">
+        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch2')">
+          <div class="chap-hdr-left">
+            <i class="fas fa-chevron-right chap-arrow" id="arrow-ch2"></i>
+            <span>Chapter 2: Total Quality Management</span>
+          </div>
+          <span class="chap-badge">7 / 7 &bull; 100%</span>
+        </div>
+        <div class="sidebar-chapter-content" id="content-ch2">
+          <a class="nav-link" id="link-sec2_1" onclick="navigateToSection('sec2_1')"><span>2.1 TQM Fundamentals</span><span class="nav-badge">pp. 14–20</span></a>
+          <a class="nav-link" id="link-sec2_2" onclick="navigateToSection('sec2_2')"><span>2.2 Planning &amp; Procurement</span><span class="nav-badge">pp. 20–27</span></a>
+          <a class="nav-link" id="link-sec2_3" onclick="navigateToSection('sec2_3')"><span>2.3 Worksheets &amp; Registers</span><span class="nav-badge">pp. 27–33</span></a>
+          <a class="nav-link" id="link-sec2_4" onclick="navigateToSection('sec2_4')"><span>2.4 Reference Ranges</span><span class="nav-badge">pp. 34–38</span></a>
+          <a class="nav-link" id="link-sec2_5" onclick="navigateToSection('sec2_5')"><span>2.5 Reagent Quality</span><span class="nav-badge">pp. 38–43</span></a>
+          <a class="nav-link" id="link-sec2_6" onclick="navigateToSection('sec2_6')"><span>2.6 Equipment Maintenance</span><span class="nav-badge">pp. 43–46</span></a>
+          <a class="nav-link" id="link-sec2_7" onclick="navigateToSection('sec2_7')"><span>2.7 EQA &amp; QC Charts</span><span class="nav-badge">pp. 46–49</span></a>
+        </div>
       </div>
+
+      <!-- CHAPTER 3 ACCORDION -->
+      <div class="sidebar-chapter-group" id="grp-ch3">
+        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch3')">
+          <div class="chap-hdr-left">
+            <i class="fas fa-chevron-right chap-arrow" id="arrow-ch3"></i>
+            <span>Chapter 3: Health and Safety</span>
+          </div>
+          <span class="chap-badge">8 / 8 &bull; 100%</span>
+        </div>
+        <div class="sidebar-chapter-content" id="content-ch3">
+          <a class="nav-link" id="link-sec3_1" onclick="navigateToSection('sec3_1')"><span>3.1 Safety Program &amp; Risk</span><span class="nav-badge">pp. 50–59</span></a>
+          <a class="nav-link" id="link-sec3_2" onclick="navigateToSection('sec3_2')"><span>3.2 Biosafety &amp; Pathogens</span><span class="nav-badge">pp. 60–65</span></a>
+          <a class="nav-link" id="link-sec3_3" onclick="navigateToSection('sec3_3')"><span>3.3 Safety Equipment</span><span class="nav-badge">pp. 65–70</span></a>
+          <a class="nav-link" id="link-sec3_4" onclick="navigateToSection('sec3_4')"><span>3.4 Decontamination</span><span class="nav-badge">pp. 70–76</span></a>
+          <a class="nav-link" id="link-sec3_5" onclick="navigateToSection('sec3_5')"><span>3.5 Chemical Safety</span><span class="nav-badge">pp. 76–82</span></a>
+          <a class="nav-link" id="link-sec3_6" onclick="navigateToSection('sec3_6')"><span>3.6 Physical &amp; Electrical</span><span class="nav-badge">pp. 82–89</span></a>
+          <a class="nav-link" id="link-sec3_7" onclick="navigateToSection('sec3_7')"><span>3.7 Fire &amp; First Aid</span><span class="nav-badge">pp. 90–93</span></a>
+          <a class="nav-link" id="link-sec3_8" onclick="navigateToSection('sec3_8')"><span>3.8 Safety Audits</span><span class="nav-badge">pp. 93–95</span></a>
+        </div>
+      </div>
+
+      <!-- CHAPTER 4 ACCORDION -->
+      <div class="sidebar-chapter-group" id="grp-ch4">
+        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch4')">
+          <div class="chap-hdr-left">
+            <i class="fas fa-chevron-right chap-arrow" id="arrow-ch4"></i>
+            <span>Chapter 4: Equipping District Labs</span>
+          </div>
+          <span class="chap-badge">12 / 12 &bull; 100%</span>
+        </div>
+        <div class="sidebar-chapter-content" id="content-ch4">
+          <a class="nav-link" id="link-sec4_1" onclick="navigateToSection('sec4_1')"><span>4.1 Procurement &amp; Costs</span><span class="nav-badge">pp. 96–103</span></a>
+          <a class="nav-link" id="link-sec4_2" onclick="navigateToSection('sec4_2')"><span>4.2 Power &amp; Inverters</span><span class="nav-badge">pp. 103–109</span></a>
+          <a class="nav-link" id="link-sec4_3" onclick="navigateToSection('sec4_3')"><span>4.3 Microscopes &amp; Optics</span><span class="nav-badge">pp. 109–135</span></a>
+          <a class="nav-link" id="link-sec4_4" onclick="navigateToSection('sec4_4')"><span>4.4 Water Purification</span><span class="nav-badge">pp. 135–139</span></a>
+          <a class="nav-link" id="link-sec4_5" onclick="navigateToSection('sec4_5')"><span>4.5 Balances &amp; Weighing</span><span class="nav-badge">pp. 139–141</span></a>
+          <a class="nav-link" id="link-sec4_6" onclick="navigateToSection('sec4_6')"><span>4.6 Pipettes &amp; Dispensers</span><span class="nav-badge">pp. 141–147</span></a>
+          <a class="nav-link" id="link-sec4_7" onclick="navigateToSection('sec4_7')"><span>4.7 Centrifuges &amp; Rotors</span><span class="nav-badge">pp. 147–152</span></a>
+          <a class="nav-link" id="link-sec4_8" onclick="navigateToSection('sec4_8')"><span>4.8 Autoclaves &amp; Pressure</span><span class="nav-badge">pp. 152–156</span></a>
+          <a class="nav-link" id="link-sec4_9" onclick="navigateToSection('sec4_9')"><span>4.9 Incubators &amp; Baths</span><span class="nav-badge">pp. 156–161</span></a>
+          <a class="nav-link" id="link-sec4_10" onclick="navigateToSection('sec4_10')"><span>4.10 Colorimeters</span><span class="nav-badge">pp. 161–166</span></a>
+          <a class="nav-link" id="link-sec4_11" onclick="navigateToSection('sec4_11')"><span>4.11 Mixers &amp; Stirrers</span><span class="nav-badge">pp. 166–169</span></a>
+          <a class="nav-link" id="link-sec4_12" onclick="navigateToSection('sec4_12')"><span>4.12 Labware &amp; Chambers</span><span class="nav-badge">pp. 169–177</span></a>
+        </div>
+      </div>
+
+      <!-- CHAPTER 5 ACCORDION -->
+      <div class="sidebar-chapter-group" id="grp-ch5">
+        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch5')">
+          <div class="chap-hdr-left">
+            <i class="fas fa-chevron-right chap-arrow expanded" id="arrow-ch5"></i>
+            <span>Chapter 5: Parasitological Tests</span>
+          </div>
+          <span class="chap-badge active-badge">8 / 11 Done</span>
+        </div>
+        <div class="sidebar-chapter-content open" id="content-ch5">
+          <a class="nav-link" id="link-sec5_1" onclick="navigateToSection('sec5_1')"><span>5.1 Parasitology QA</span><span class="nav-badge">pp. 178–184</span></a>
+          <a class="nav-link" id="link-sec5_2" onclick="navigateToSection('sec5_2')"><span>5.2 Parasites &amp; Diseases</span><span class="nav-badge">pp. 184–192</span></a>
+          <a class="nav-link" id="link-sec5_3" onclick="navigateToSection('sec5_3')"><span>5.3 Faecal Exam &amp; Conc.</span><span class="nav-badge">pp. 192–206</span></a>
+          <a class="nav-link" id="link-sec5_4" onclick="navigateToSection('sec5_4')"><span>5.4 Faecal Protozoa</span><span class="nav-badge">pp. 207–216</span></a>
+          <a class="nav-link" id="link-sec5_5" onclick="navigateToSection('sec5_5')"><span>5.5 Helminth Eggs &amp; Larvae</span><span class="nav-badge">pp. 216–227</span></a>
+          <a class="nav-link" id="link-sec5_6" onclick="navigateToSection('sec5_6')"><span>5.6 Flukes, Cestodes &amp; Pinworm</span><span class="nav-badge">pp. 227–243</span></a>
+          <a class="nav-link" id="link-sec5_7" onclick="navigateToSection('sec5_7')"><span>5.7 Blood Exam for Malaria</span><span class="nav-badge">pp. 244–262</span></a>
+          <a class="nav-link" id="link-sec5_8" onclick="navigateToSection('sec5_8')"><span>5.8 Other Blood Parasites</span><span class="nav-badge">pp. 263–274</span></a>
+        </div>
+      </div>
+
     </aside>
 
     <!-- MAIN VIEWPORT -->
@@ -17409,7 +17464,7 @@ body::after {
         <div class="sec-nav-buttons">
           <button class="sec-nav-btn prev-btn" onclick="navigateToSection('sec5_6')"><i class="fas fa-arrow-left"></i> Previous: 5.6</button>
           <button class="sec-nav-btn home-btn" onclick="navigateToSection('dashboard')"><i class="fas fa-clipboard-list"></i> Overview</button>
-          <button class="sec-nav-btn disabled" disabled>Next: 5.8 (Upcoming) <i class="fas fa-hourglass-half"></i></button>
+          <button class="sec-nav-btn next-btn" onclick="navigateToSection('sec5_8')">Next: 5.8 <i class="fas fa-arrow-right"></i></button>
         </div>
       </div>
 
@@ -17777,6 +17832,387 @@ body::after {
         </div>
       </div>
     </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 5.8: EXAMINATION OF BLOOD FOR OTHER PARASITES -->
+    <!-- ============================================================== -->
+    <section id="sec5_8" class="content-section">
+      <div class="section-quick-bar">
+        <div class="sec-breadcrumb">
+          <span class="bc-home" onclick="navigateToSection('dashboard')"><i class="fas fa-home"></i> Master Overview</span>
+          <span class="bc-sep">&rsaquo;</span>
+          <span class="bc-chap">Chapter 5: Parasitological Tests</span>
+          <span class="bc-sep">&rsaquo;</span>
+          <span class="bc-current">5.8 Examination of Blood for Other Parasites</span>
+        </div>
+        <div class="sec-nav-buttons">
+          <button class="sec-nav-btn prev-btn" onclick="navigateToSection('sec5_7')"><i class="fas fa-arrow-left"></i> Previous: 5.7</button>
+          <button class="sec-nav-btn home-btn" onclick="navigateToSection('dashboard')"><i class="fas fa-clipboard-list"></i> Overview</button>
+          <button class="sec-nav-btn disabled" disabled>Next: 5.9 (Upcoming) <i class="fas fa-hourglass-half"></i></button>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div>
+          <span class="section-meta-tag">PART 1 &bull; CHAPTER 5 &bull; SUBUNIT 5.8</span>
+          <h2 class="section-title">Examination of Blood for Other Parasites: Trypanosomes, Leishmania, Microfilariae &amp; Babesia</h2>
+        </div>
+        <span class="section-pages">Book Pages: 263–274</span>
+      </div>
+
+      <!-- KEY HIGH-YIELD TAKEAWAYS -->
+      <div class="key-takeaways">
+        <div class="takeaways-title"><i class="fas fa-bullseye"></i> Section 5.8 Core Examination &amp; Clinical Competencies (Cheesbrough pp. 263–274)</div>
+        <div class="takeaways-grid">
+          <div class="takeaway-card">
+            <h4><i class="fas fa-shield-virus"></i> 1. African &amp; American Trypanosomiasis</h4>
+            <p>
+              &bull; <strong><span class="pulse-term pulse-purple" data-term="Trypanosoma brucei"><em>Trypanosoma brucei gambiense / rhodesiense</em></span>:</strong> Transmitted by tsetse fly (<em>Glossina</em>); polymorphic slender trypomastigotes in blood/lymph node aspirates; causes sleeping sickness, <strong>Winterbottom's sign</strong>, and meningoencephalitis.
+              <br>&bull; <strong><span class="pulse-term pulse-purple" data-term="Trypanosoma cruzi"><em>Trypanosoma cruzi</em></span> (Chagas Disease):</strong> Triatomine kissing bug vector; <strong>Romaña's sign</strong>; C-shaped blood trypomastigotes in acute stage &rarr; intracellular amastigotes in cardiac myocytes causing fatal <strong>dilated cardiomyopathy, megaoesophagus, and megacolon</strong>.
+            </p>
+          </div>
+          <div class="takeaway-card">
+            <h4><i class="fas fa-vial"></i> 2. Visceral Leishmaniasis (Kala-Azar)</h4>
+            <p>
+              &bull; <strong><span class="pulse-term pulse-purple" data-term="Leishmania donovani"><em>Leishmania donovani</em></span>:</strong> Transmitted by female sandflies (*Phlebotomus*); obligate intracellular <strong>amastigotes (Leishman-Donovan bodies)</strong> (\(2	ext{–}4\ \mu	ext{m}\)) inside reticuloendothelial macrophages.
+              <br>&bull; <em>Clinical Pentad:</em> Prolonged fever, massive splenomegaly, pancytopenia, hypergammaglobulinaemia, and severe cachexia. Confirmed via <strong>splenic / bone marrow aspirate</strong> and <strong>rK39 dipstick RDT</strong>.
+            </p>
+          </div>
+          <div class="takeaway-card">
+            <h4><i class="fas fa-dna"></i> 3. Microfilariae Tail Diagnostics</h4>
+            <p>
+              &bull; <strong><em>Wuchereria bancrofti:</em></strong> Sheathed; smooth graceful body; <strong>tail tip completely free of nuclei</strong>; nocturnal periodicity (\(22:00	ext{–}04:00\)).
+              <br>&bull; <strong><em>Brugia malayi:</em></strong> Sheathed; kinky body; <strong>two distinct separate terminal nuclei in tail tip</strong>.
+              <br>&bull; <strong><em>Loa loa:</em></strong> Sheathed; diurnal periodicity (\(10:00	ext{–}14:00\)); <strong>continuous column of nuclei extending to the very tip of the rounded tail</strong>; Calabar swellings.
+              <br>&bull; <strong><em>Mansonella perstans:</em></strong> Unsheathed; nuclei extending to blunt rounded tail tip; non-periodic.
+            </p>
+          </div>
+          <div class="takeaway-card">
+            <h4><i class="fas fa-crosshairs"></i> 4. Babesiosis &amp; Blood Concentration SOPs</h4>
+            <p>
+              &bull; <strong><em>Babesia microti / divergens:</em></strong> Tick-borne (*Ixodes*); intraerythrocytic pleomorphic rings mimicking *P. falciparum* but <strong>lacks malarial pigment (haemozoin)</strong> and forms a pathognomonic <strong>"Maltese Cross" tetrad</strong> of 4 budding merozoites.
+              <br>&bull; <em>Concentration Techniques:</em> <strong>Knott's 2% formalin concentration</strong> and <strong>\(3\ \mu	ext{m}\) polycarbonate membrane filtration</strong> increase microfilarial sensitivity 100-fold.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT 1: AFRICAN & AMERICAN TRYPANOSOMIASIS -->
+      <div class="content-block">
+        <h3 class="content-h3"><i class="fas fa-bug"></i> 1. Hemoflagellates: African &amp; American Trypanosomes (Cheesbrough pp. 263–268)</h3>
+        <p class="content-p">
+          Trypanosomes are extracellular hemoflagellates that circulate in blood, lymph, and cerebrospinal fluid:
+        </p>
+
+        <!-- EMBEDDED FIG 5.28 & 5.29 -->
+        <div class="figure-grid-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin: 25px 0;">
+          <figure class="book-figure" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:12px; text-align:center;">
+            <img src="assets/images/part1_page264_img3.png" alt="Fig. 5.28 Trypanosoma brucei" style="max-height:240px; width:auto; border-radius:4px;">
+            <figcaption style="font-size:0.85rem; color:#475569; margin-top:8px;"><strong>Fig. 5.28 &amp; Plates 5.47/5.48: <em>Trypanosoma brucei</em>:</strong> Slender polymorphic trypomastigotes (\(14	ext{–}33\ \mu	ext{m}\)) in blood film showing central nucleus, posterior kinetoplast, undulating membrane, and anterior flagellum (Cheesbrough pp. 264–265).</figcaption>
+          </figure>
+          <figure class="book-figure" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:12px; text-align:center;">
+            <img src="assets/images/part1_page265_img1.png" alt="Fig. 5.29 Trypanosoma cruzi" style="max-height:240px; width:auto; border-radius:4px;">
+            <figcaption style="font-size:0.85rem; color:#475569; margin-top:8px;"><strong>Fig. 5.29 &amp; Plate 5.49: <em>Trypanosoma cruzi</em>:</strong> Characteristic C-shaped/U-shaped blood trypomastigotes (\(20\ \mu	ext{m}\)) with massive subterminal kinetoplast and intracellular amastigotes in myocardium (Cheesbrough p. 265).</figcaption>
+          </figure>
+        </div>
+
+        <div class="custom-table-wrapper" style="margin: 20px 0;">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Disease &amp; Organism</th>
+                <th>Insect Vector &amp; Geographic Range</th>
+                <th>Diagnostic Stages &amp; Morphology</th>
+                <th>Clinical Pathology &amp; Staging Protocols</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Human African Trypanosomiasis (HAT)<br><em>Trypanosoma brucei gambiense</em> (Chronic) &amp; <em>T. b. rhodesiense</em> (Acute)</strong></td>
+                <td>Tsetse flies (<strong><em>Glossina</em></strong> species: <em>G. palpalis</em> group in West/Central Africa; <em>G. morsitans</em> group in East Africa). Inoculation of metacyclic trypomastigotes during painful bite.</td>
+                <td>Slender polymorphic <strong>trypomastigote</strong> (\(12	ext{–}35	imes 1.5	ext{–}3.5\ \mu	ext{m}\)) with central oval nucleus, small subterminal posterior kinetoplast, long undulating membrane, and free anterior flagellum. Actively wriggling in wet mounts.</td>
+                <td>
+                  <strong>Stage 1 (Haemolymphatic):</strong> Trypanosomal chancre, intermittent fevers, splenomegaly, generalized pruritus, and <strong>Winterbottom's sign</strong> (enlarged, non-tender posterior cervical lymph nodes).
+                  <br><strong>Stage 2 (Meningoencephalitic):</strong> Invasion of blood-brain barrier &rarr; daytime somnolence, nocturnal insomnia (sleeping sickness), tremors, ataxia, Mott morula plasma cells in CSF (\(	ext{WBC} >5/\mu	ext{L}\) or trypanosomes in CSF), coma, death.
+                  <br><strong>Screening:</strong> <strong>CATT</strong> (Card Agglutination Test for Trypanosomiasis) for <em>T. b. gambiense</em>.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>American Trypanosomiasis (Chagas Disease)<br><em>Trypanosoma cruzi</em></strong></td>
+                <td>Triatomine reduviid bugs ("kissing / assassin bugs": <strong><em>Triatoma infestans</em>, <em>Rhodnius prolixus</em></strong>). Bug defecates metacyclic forms while feeding; rubbed into mucous membranes/skin.</td>
+                <td>
+                  <strong>Blood:</strong> Rigid <strong>C-shaped / U-shaped / S-shaped trypomastigote</strong> (\(20\ \mu	ext{m}\)) with a very large, prominent subterminal oval kinetoplast.
+                  <br><strong>Tissue:</strong> Round non-flagellated <strong>amastigotes</strong> (\(2	ext{–}4\ \mu	ext{m}\)) packed inside pseudocysts in myocardial fibers and neural ganglia.
+                </td>
+                <td>
+                  <strong>Acute Stage:</strong> <strong>Romaña's sign</strong> (unilateral painless periorbital and palpebral oedema with conjunctivitis), chagoma, acute myocarditis.
+                  <br><strong>Chronic Stage:</strong> Autoimmune/neurogenic destruction of cardiac conduction system and myenteric plexus &rarr; <strong>dilated cardiomyopathy</strong> with apical aneurysms and fatal arrhythmias, <strong>megaoesophagus</strong> (dysphagia), and <strong>megacolon</strong> (severe obstipation).
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT 2: VISCERAL LEISHMANIASIS -->
+      <div class="content-block">
+        <h3 class="content-h3"><i class="fas fa-vial"></i> 2. Visceral Leishmaniasis (Kala-Azar / Leishmania donovani) (Cheesbrough pp. 268–270)</h3>
+        <p class="content-p">
+          <span class="pulse-term pulse-purple" data-term="Leishmania donovani"><em>Leishmania donovani</em></span> (and <em>L. infantum</em>) are obligate intracellular parasites of macrophages in the reticuloendothelial system:
+        </p>
+
+        <!-- EMBEDDED FIG 5.30 & PLATES 5.50, 5.51 -->
+        <div class="figure-grid-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin: 25px 0;">
+          <figure class="book-figure" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:12px; text-align:center;">
+            <img src="assets/images/part1_page271_img3.png" alt="Fig. 5.30 Leishmania donovani" style="max-height:240px; width:auto; border-radius:4px;">
+            <figcaption style="font-size:0.85rem; color:#475569; margin-top:8px;"><strong>Fig. 5.30 &amp; Plate 5.50: <em>Leishmania donovani</em>:</strong> Life cycle via *Phlebotomus* sandfly. Splenic aspirate smear showing intracellular round/oval amastigotes (LD bodies, \(2	ext{–}4\ \mu	ext{m}\)) inside a ruptured reticuloendothelial macrophage (Cheesbrough pp. 270–271).</figcaption>
+          </figure>
+          <figure class="book-figure" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:12px; text-align:center;">
+            <img src="assets/images/part1_page271_img4.png" alt="Plate 5.51 rK39 Rapid Diagnostic Test" style="max-height:240px; width:auto; border-radius:4px;">
+            <figcaption style="font-size:0.85rem; color:#475569; margin-top:8px;"><strong>Plate 5.51: rK39 Immunochromatographic Dipstick:</strong> Rapid test strip showing control band and positive recombinant kinesin-39 test band for visceral leishmaniasis (Cheesbrough p. 271).</figcaption>
+          </figure>
+        </div>
+
+        <ul style="margin: 8px 0 12px 22px; line-height: 1.6;">
+          <li><strong>Transmission &amp; Vector:</strong> Inoculation of flagellated promastigotes during the blood meal of female phlebotomine sandflies (<strong><em>Phlebotomus</em></strong> species in Asia/Africa; <strong><em>Lutzomyia</em></strong> in the Americas). Promastigotes are phagocytosed by mononuclear macrophages, transform into non-flagellated amastigotes, and multiply within phagolysosomes until the host cell ruptures.</li>
+          <li><strong>Clinical Pentad of Kala-Azar:</strong>
+            <br>1. Chronic, persistent, irregular double-spiking remittent fever.
+            <br>2. <strong>Massive Splenomegaly</strong> (spleen extends into right iliac fossa) and hepatomegaly.
+            <br>3. <strong>Pancytopenia:</strong> Severe normocytic normochromic anaemia, profound leucopenia (\(	ext{WBC} <2000/\mu	ext{L}\) with neutropenia), and thrombocytopenia causing petechiae and epistaxis.
+            <br>4. <strong>Hypergammaglobulinaemia:</strong> Polyclonal IgG elevation with reversal of the albumin:globulin (A:G) ratio.
+            <br>5. Severe muscle wasting, cachexia, and hyperpigmentation of skin ("black fever").
+          </li>
+          <li><strong>Laboratory Diagnostic Methods:</strong>
+            <br>&bull; <strong>Microscopic Detection of Leishman-Donovan (LD) Bodies:</strong> Giemsa-stained smears of <strong>splenic aspirate</strong> (highest sensitivity \(95	ext{–}98\%\), but requires caution due to haemorrhage risk), <strong>bone marrow aspirate</strong> (\(70	ext{–}85\%\) sensitivity), or lymph node aspirate (\(50	ext{–}60\%\)). Amastigotes are oval (\(2	ext{–}4\ \mu	ext{m}\)) with a large purple nucleus and a distinct, perpendicular rod-shaped bar <strong>kinetoplast</strong>.
+            <br>&bull; <strong>rK39 Immunochromatographic Rapid Dipstick:</strong> Recombinant 39-amino-acid kinesin protein antigen of <em>L. donovani</em>; sensitivity and specificity \(&gt;98\%\) in acute symptomatic visceral leishmaniasis.
+            <br>&bull; <strong>Formol-Gel (Napier's Aldehyde) Test:</strong> Add 1 drop of 40% commercial formaldehyde to 1 mL patient serum. Immediate complete solidification/gelification like boiled egg white within 1–20 minutes indicates high serum gamma-globulins.
+          </li>
+        </ul>
+      </div>
+
+      <!-- MAIN CONTENT 3: BLOOD & LYMPHATIC MICROFILARIAE -->
+      <div class="content-block">
+        <h3 class="content-h3"><i class="fas fa-worm"></i> 3. Blood and Lymphatic Microfilariae (Filarial Nematodes) (Cheesbrough pp. 270–274)</h3>
+        <p class="content-p">
+          Filarial nematodes are tissue-dwelling roundworms that produce motile embryos (<strong>microfilariae</strong>) that circulate in peripheral blood or skin tissues:
+        </p>
+
+        <!-- EMBEDDED FIG 5.31 & PLATES 5.52–5.55 -->
+        <div class="figure-grid-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin: 25px 0;">
+          <figure class="book-figure" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:12px; text-align:center;">
+            <img src="assets/images/part1_page273_img3.png" alt="Fig. 5.31 Microfilariae Morphology" style="max-height:240px; width:auto; border-radius:4px;">
+            <figcaption style="font-size:0.85rem; color:#475569; margin-top:8px;"><strong>Fig. 5.31 &amp; Plates 5.52–5.55: Microfilariae Diagnostic Tail Morphology:</strong> Differential anatomical guide showing presence/absence of sheath, cephalic space, body curves, and terminal tail nuclei architecture (Cheesbrough pp. 272–273).</figcaption>
+          </figure>
+          <figure class="book-figure" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:12px; text-align:center;">
+            <img src="assets/images/part1_page278_img1.png" alt="Plate 5.56 Babesia Maltese Cross" style="max-height:240px; width:auto; border-radius:4px;">
+            <figcaption style="font-size:0.85rem; color:#475569; margin-top:8px;"><strong>Plate 5.56: <em>Babesia</em> Intraerythrocytic Rings &amp; Maltese Cross:</strong> Giemsa-stained thin blood film showing pleomorphic pyriform ring trophozoites and pathognomonic cruciform tetrads without haemozoin (Cheesbrough p. 278).</figcaption>
+          </figure>
+        </div>
+
+        <div class="custom-table-wrapper" style="margin: 20px 0;">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Species &amp; Disease</th>
+                <th>Vector &amp; Periodicity</th>
+                <th>Sheath &amp; Dimensions</th>
+                <th>Diagnostic Tail Tip Nuclear Architecture</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong><em>Wuchereria bancrofti</em><br>(Bancroftian Lymphatic Filariasis)</strong></td>
+                <td>Mosquitoes: <em>Culex quinquefasciatus</em> (urban), <em>Anopheles</em>, <em>Aedes</em>. <strong>Strict Nocturnal Periodicity (\(22:00	ext{–}04:00\))</strong> (except diurnal subperiodic in South Pacific).</td>
+                <td><strong>SHEATHED</strong>; graceful, smooth sweeping body curves (\(240	ext{–}300	imes 7.5	ext{–}10\ \mu	ext{m}\)); cephalic space length = width (\(1:1\)).</td>
+                <td><strong>Tail tip is completely CLEAR and FREE OF NUCLEI</strong> (terminal column of nuclei stops short of the pointed tail tip). Causes hydrocele, lymphangitis, and gross brawny <strong>elephantiasis</strong> of lower limbs and genitalia.</td>
+              </tr>
+              <tr>
+                <td><strong><em>Brugia malayi</em><br>(Malayan Lymphatic Filariasis)</strong></td>
+                <td>Mosquitoes: <strong><em>Mansonia</em></strong> species (associated with aquatic water lettuce *Pistia*) and <em>Anopheles</em>. <strong>Nocturnal Periodicity</strong>.</td>
+                <td><strong>SHEATHED</strong>; stiff, irregular, crinkled kinky body curves (\(175	ext{–}230	imes 5	ext{–}6\ \mu	ext{m}\)); long cephalic space (\(2:1\)). Sheath stains bright pink with Giemsa.</td>
+                <td><strong>TWO SEPARATE TERMINAL NUCLEI:</strong> Tail tip tapers to a bulbous swelling containing one subterminal nucleus and one isolated terminal nucleus at the extreme tip. Causes elephantiasis below the knees.</td>
+              </tr>
+              <tr>
+                <td><strong><em>Loa loa</em><br>(African Eye Worm / Loiasis)</strong></td>
+                <td>Day-biting Chrysops deerflies / mango flies (<strong><em>Chrysops silacea, C. dimidiata</em></strong>). <strong>Strict Diurnal Periodicity (\(10:00	ext{–}14:00\))</strong>.</td>
+                <td><strong>SHEATHED</strong>; stiff, undulating body curves (\(250	ext{–}300	imes 6	ext{–}8\ \mu	ext{m}\)); short cephalic space. Sheath stains poorly with Giemsa.</td>
+                <td><strong>CONTINUOUS COLUMN OF NUCLEI EXTENDING TO THE VERY TIP OF THE BLUNT ROUNDED TAIL:</strong> Large, crowded, irregular nuclei run in an unbroken line to the extreme caudal margin. Causes transient <strong>Calabar swellings</strong> (angioedema) and subconjunctival adult worm migration across the cornea.</td>
+              </tr>
+              <tr>
+                <td><strong><em>Mansonella perstans</em></strong></td>
+                <td>Biting midges / gnats (<strong><em>Culicoides</em></strong> species: <em>C. austeni, C. grahamii</em>). <strong>Non-Periodic</strong> (circulates equally day and night).</td>
+                <td><strong>UNSHEATHED</strong>; small, slender (\(100	ext{–}150	imes 4	ext{–}5\ \mu	ext{m}\)); actively mobile.</td>
+                <td><strong>Nuclei extend to the very tip of the blunt, rounded, truncated tail</strong>. Usually benign or causes mild eosinophilia and serositis.</td>
+              </tr>
+              <tr>
+                <td><strong><em>Mansonella ozzardi</em></strong></td>
+                <td>Biting midges (*Culicoides*) and blackflies (*Simulium*). Non-periodic (Americas).</td>
+                <td><strong>UNSHEATHED</strong>; slender (\(160	ext{–}200	imes 4	ext{–}5\ \mu	ext{m}\)).</td>
+                <td><strong>Tail is sharply pointed and completely free of nuclei</strong>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- BLOOD CONCENTRATION TECHNIQUES PROTOCOL CARD -->
+        <div class="protocol-card" style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 18px; margin: 18px 0;">
+          <h4 style="color: #166534; margin-bottom: 8px;"><i class="fas fa-filter"></i> Standard Blood Concentration Techniques for Microfilariae &amp; Trypanosomes</h4>
+          <p><strong>1. Knott's Concentration Technique:</strong></p>
+          <p>Collect \(1	ext{ mL}\) of venous blood and mix thoroughly with \(9	ext{ mL}\) of <strong>2% (v/v) formalin</strong> in a centrifuge tube. Formalin lyses all red blood cells and straightens microfilariae. Centrifuge at \(500	ext{ g}\) for 5 minutes. Decant the supernatant, transfer the sediment to a glass slide, allow to dry completely, and stain with Giemsa.</p>
+          <p><strong>2. Polycarbonate Membrane Filtration Technique (WHO Gold Standard for Surveys):</strong></p>
+          <p>Draw \(1	ext{ mL}\) of venous blood into a syringe containing \(9	ext{ mL}\) of 10% Teepol or saline. Attach a Swinney filter holder housing a <strong>\(3\ \mu	ext{m}\) pore size polycarbonate membrane filter</strong> (e.g., Nuclepore). Pass the lysed blood through the filter, flush with \(10	ext{ mL}\) of distilled water followed by air, remove the membrane filter, mount on a glass slide, fix with methanol, and stain with Giemsa. Recovers 100% of microfilariae in \(1	ext{ mL}\) of blood.</p>
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- SECTION 5.8 INTERACTIVE QUESTION BANK (8 HIGH-YIELD MCQS) -->
+      <!-- ============================================================== -->
+      <div class="content-block">
+        <h3 class="content-h3"><i class="fas fa-question-circle"></i> Section 5.8 Interactive Examination Bank (8 High-Yield Clinical MCQs)</h3>
+        <p class="content-p">
+          Test your diagnostic competence on trypanosomiasis staging, Leishmania LD body identification, microfilarial tail nuclear anatomy, and Babesia differentiation:
+        </p>
+
+        <div class="mcq-container">
+          <!-- MCQ 1 -->
+          <div class="mcq-card" id="q_5_8_1">
+            <div class="mcq-question">
+              <strong>Question 5.8.1 (Q305):</strong> A patient from rural West Africa presents with intermittent fever, extreme daytime somnolence, and non-tender posterior cervical lymphadenopathy (Winterbottom's sign). Microscopic examination of a Giemsa-stained lymph node aspirate reveals actively motile hemoflagellates with a central nucleus, small posterior kinetoplast, undulating membrane, and free anterior flagellum. What is the diagnosis and the primary screening test for this condition?
+            </div>
+            <div class="mcq-options">
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_1', 0, 0)"><input type="radio" name="opt_5_8_1" value="0"> A) <em>Trypanosoma brucei gambiense</em> (Human African Trypanosomiasis); screened using the Card Agglutination Test for Trypanosomiasis (CATT).</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_1', 1, 0)"><input type="radio" name="opt_5_8_1" value="1"> B) <em>Trypanosoma cruzi</em> (Chagas disease); screened using xenodiagnosis.</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_1', 2, 0)"><input type="radio" name="opt_5_8_1" value="2"> C) <em>Leishmania donovani</em> (Kala-azar); screened using the formol-gel test.</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_1', 3, 0)"><input type="radio" name="opt_5_8_1" value="3"> D) <em>Wuchereria bancrofti</em>; screened using diurnal blood films.</label>
+            </div>
+            <div class="mcq-rationale" id="rat_5_8_1" style="display:none;">
+              <strong>Correct Answer: A (<em>Trypanosoma brucei gambiense</em>; screened by CATT)</strong><br>
+              <em>Cheesbrough Reference pp. 263–265 &amp; Fig. 5.28:</em> <em>Trypanosoma brucei gambiense</em> causes chronic West African sleeping sickness transmitted by riverine tsetse flies (<em>Glossina palpalis</em>). The hallmark early physical finding is <strong>Winterbottom's sign</strong> (enlargement of posterior cervical lymph nodes). <strong>CATT</strong> is the standard mass field screening agglutination assay for <em>T. b. gambiense</em> antibody detection.
+            </div>
+          </div>
+
+          <!-- MCQ 2 -->
+          <div class="mcq-card" id="q_5_8_2">
+            <div class="mcq-question">
+              <strong>Question 5.8.2 (Q306):</strong> A blood specimen collected at midnight (\(23:30\)) from an immigrant with gross brawny leg elephantiasis is processed via Knott's concentration technique. Giemsa staining reveals sheathed microfilariae measuring \(280\ \mu	ext{m}\) with graceful, smooth body curves and a tapered tail whose <strong>terminal tip is completely free of nuclei</strong>. What organism has been identified?
+            </div>
+            <div class="mcq-options">
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_2', 0, 1)"><input type="radio" name="opt_5_8_2" value="0"> A) <em>Loa loa</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_2', 1, 1)"><input type="radio" name="opt_5_8_2" value="1"> B) <em>Wuchereria bancrofti</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_2', 2, 1)"><input type="radio" name="opt_5_8_2" value="2"> C) <em>Brugia malayi</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_2', 3, 1)"><input type="radio" name="opt_5_8_2" value="3"> D) <em>Mansonella perstans</em></label>
+            </div>
+            <div class="mcq-rationale" id="rat_5_8_2" style="display:none;">
+              <strong>Correct Answer: B (<em>Wuchereria bancrofti</em>)</strong><br>
+              <em>Cheesbrough Reference pp. 270–273 &amp; Fig. 5.31:</em> <em>Wuchereria bancrofti</em> microfilariae are sheathed, have smooth graceful body curves, display <strong>strict nocturnal periodicity</strong> (\(22:00	ext{–}04:00\)), and are definitively characterized by a <strong>tail tip completely clear and free of nuclei</strong>. In contrast, <em>Brugia malayi</em> has two distinct terminal nuclei in the tail, and <em>Loa loa</em> has nuclei extending to the very end of the rounded tail.
+            </div>
+          </div>
+
+          <!-- MCQ 3 -->
+          <div class="mcq-card" id="q_5_8_3">
+            <div class="mcq-question">
+              <strong>Question 5.8.3 (Q307):</strong> A missionary returning from Cameroon presents with transient, painful, non-pitting subcutaneous swelling on the forearm (Calabar swelling) and reports having observed a thin white worm crawling across the subconjunctival space of the eye. A daytime blood film (\(12:00\)) reveals sheathed microfilariae with <strong>nuclei extending in an unbroken, continuous column to the extreme tip of the rounded tail</strong>. What is the diagnosis?
+            </div>
+            <div class="mcq-options">
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_3', 0, 2)"><input type="radio" name="opt_5_8_3" value="0"> A) <em>Onchocerca volvulus</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_3', 1, 2)"><input type="radio" name="opt_5_8_3" value="1"> B) <em>Wuchereria bancrofti</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_3', 2, 2)"><input type="radio" name="opt_5_8_3" value="2"> C) <em>Loa loa</em> (African Eye Worm)</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_3', 3, 2)"><input type="radio" name="opt_5_8_3" value="3"> D) <em>Dracunculus medinensis</em></label>
+            </div>
+            <div class="mcq-rationale" id="rat_5_8_3" style="display:none;">
+              <strong>Correct Answer: C (<em>Loa loa</em> / African Eye Worm)</strong><br>
+              <em>Cheesbrough Reference pp. 272–274 &amp; Plate 5.54:</em> <em>Loa loa</em> microfilariae are sheathed, have <strong>strict diurnal periodicity</strong> (\(10:00	ext{–}14:00\)), and possess a continuous column of crowded nuclei extending all the way to the <strong>blunt rounded tip of the tail</strong>. Adults migrate through subcutaneous tissue causing allergic <strong>Calabar swellings</strong> and frequently migrate across the anterior subconjunctival sclera. Transmitted by day-biting <em>Chrysops</em> deerflies.
+            </div>
+          </div>
+
+          <!-- MCQ 4 -->
+          <div class="mcq-card" id="q_5_8_4">
+            <div class="mcq-question">
+              <strong>Question 5.8.4 (Q308):</strong> A Giemsa-stained splenic aspirate smear from a patient with high remittent fever, massive splenomegaly, profound pancytopenia, and hypergammaglobulinaemia demonstrates numerous small, intracellular, oval bodies (\(2	ext{–}4\ \mu	ext{m}\)) inside reticuloendothelial macrophages. Each body possesses a distinct spherical nucleus and a perpendicular, rod-like bar kinetoplast. What organism has been detected?
+            </div>
+            <div class="mcq-options">
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_4', 0, 1)"><input type="radio" name="opt_5_8_4" value="0"> A) <em>Histoplasma capsulatum</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_4', 1, 1)"><input type="radio" name="opt_5_8_4" value="1"> B) <em>Leishmania donovani</em> (Leishman-Donovan / LD bodies)</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_4', 2, 1)"><input type="radio" name="opt_5_8_4" value="2"> C) <em>Toxoplasma gondii</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_4', 3, 1)"><input type="radio" name="opt_5_8_4" value="3"> D) <em>Trypanosoma cruzi</em></label>
+            </div>
+            <div class="mcq-rationale" id="rat_5_8_4" style="display:none;">
+              <strong>Correct Answer: B (<em>Leishmania donovani</em> / LD bodies)</strong><br>
+              <em>Cheesbrough Reference pp. 268–271 &amp; Plate 5.50:</em> Visceral leishmaniasis (Kala-azar) is caused by <em>Leishmania donovani</em>, which multiplies within host macrophages as non-flagellated <strong>amastigotes (Leishman-Donovan bodies)</strong>. The pathognomonic feature on Giemsa stain is the presence of two distinct internal organelle structures: a large purple spherical nucleus and a smaller, dark, perpendicular rod-shaped <strong>kinetoplast</strong>.
+            </div>
+          </div>
+
+          <!-- MCQ 5 -->
+          <div class="mcq-card" id="q_5_8_5">
+            <div class="mcq-question">
+              <strong>Question 5.8.5 (Q309):</strong> An asplenic patient from the northeastern United States presents with hemolytic anaemia, high fever, and hemoglobinuria. A thin blood film reveals intraerythrocytic pleomorphic ring trophozoites resembling <em>Plasmodium falciparum</em>, but the rings lack malarial pigment (haemozoin), extracellular rings are observed, and characteristic <strong>tetrads of 4 budding pyriform merozoites forming a "Maltese Cross"</strong> are identified. What is the diagnosis?
+            </div>
+            <div class="mcq-options">
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_5', 0, 3)"><input type="radio" name="opt_5_8_5" value="0"> A) <em>Plasmodium knowlesi</em> hyperparasitaemia</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_5', 1, 3)"><input type="radio" name="opt_5_8_5" value="1"> B) <em>Bartonella bacilliformis</em> infection</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_5', 2, 3)"><input type="radio" name="opt_5_8_3" value="2"> C) <em>Theileria annulata</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_5', 3, 3)"><input type="radio" name="opt_5_8_5" value="3"> D) <em>Babesia microti</em> (Babesiosis / Piroplasmosis)</label>
+            </div>
+            <div class="mcq-rationale" id="rat_5_8_5" style="display:none;">
+              <strong>Correct Answer: D (<em>Babesia microti</em> / Babesiosis)</strong><br>
+              <em>Cheesbrough Reference p. 278 &amp; Plate 5.56:</em> <em>Babesia</em> species are tick-borne (*Ixodes*) intraerythrocytic piroplasms. While their ring forms can closely mimic <em>P. falciparum</em>, <em>Babesia</em> is definitively distinguished by: 1) <strong>Complete absence of malarial pigment (haemozoin)</strong> at all stages; 2) Presence of extracellular naked rings; and 3) Pathognomonic <strong>"Maltese Cross" tetrads</strong> formed by cruciform division of 4 daughter merozoites attached at their pointed ends.
+            </div>
+          </div>
+
+          <!-- MCQ 6 -->
+          <div class="mcq-card" id="q_5_8_6">
+            <div class="mcq-question">
+              <strong>Question 5.8.6 (Q310):</strong> What pore size is specified for the polycarbonate membrane filter used in the WHO standard membrane filtration concentration technique for the quantitative recovery of blood microfilariae?
+            </div>
+            <div class="mcq-options">
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_6', 0, 0)"><input type="radio" name="opt_5_8_6" value="0"> A) \(3.0\ \mu	ext{m}\)</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_6', 1, 0)"><input type="radio" name="opt_5_8_6" value="1"> B) \(0.22\ \mu	ext{m}\)</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_6', 2, 0)"><input type="radio" name="opt_5_8_6" value="2"> C) \(10.0\ \mu	ext{m}\)</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_6', 3, 0)"><input type="radio" name="opt_5_8_6" value="3"> D) \(25.0\ \mu	ext{m}\)</label>
+            </div>
+            <div class="mcq-rationale" id="rat_5_8_6" style="display:none;">
+              <strong>Correct Answer: A (\(3.0\ \mu	ext{m}\) polycarbonate membrane)</strong><br>
+              <em>Cheesbrough Reference pp. 273–274 &amp; Plate 5.42:</em> The standard membrane filtration technique utilizes a <strong>\(3.0\ \mu	ext{m}\) pore size polycarbonate membrane filter</strong> (Nuclepore). When \(1	ext{ mL}\) of lysed venous blood is forced through the filter, red cell debris and water pass freely while all microfilariae (measuring \(5	ext{–}10\ \mu	ext{m}\) in diameter) are quantitatively retained on the membrane surface, providing 100% recovery.
+            </div>
+          </div>
+
+          <!-- MCQ 7 -->
+          <div class="mcq-card" id="q_5_8_7">
+            <div class="mcq-question">
+              <strong>Question 5.8.7 (Q311):</strong> A South American patient from an endemic triatomine bug region presents with chronic congestive heart failure, complete heart block, severe dysphagia, and massive colonic dilatation. What is the pathological mechanism of this condition?
+            </div>
+            <div class="mcq-options">
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_7', 0, 1)"><input type="radio" name="opt_5_8_7" value="0"> A) Direct mechanical obstruction of the coronary arteries by adult filarial worms.</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_7', 1, 1)"><input type="radio" name="opt_5_8_7" value="1"> B) Chronic intracellular multiplication of <em>Trypanosoma cruzi</em> amastigotes causing autoimmune and inflammatory destruction of myocardial fibers, cardiac conduction pathways, and myenteric parasympathetic nerve plexuses (Auerbach's plexus).</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_7', 2, 1)"><input type="radio" name="opt_5_8_7" value="2"> C) Vitamin \(	ext{B}_{12}\) depletion causing neurogenic autonomic paralysis.</label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_7', 3, 1)"><input type="radio" name="opt_5_8_7" value="3"> D) Microfilarial granuloma formation within the esophageal mucosa.</label>
+            </div>
+            <div class="mcq-rationale" id="rat_5_8_7" style="display:none;">
+              <strong>Correct Answer: B (<em>T. cruzi</em> amastigote destruction of myocardium and myenteric plexuses)</strong><br>
+              <em>Cheesbrough Reference p. 265:</em> In chronic Chagas disease (<em>Trypanosoma cruzi</em>), pseudocysts of multiplying intracellular <strong>amastigotes</strong> trigger persistent chronic myocarditis, fibrosis of the bundle of His/Purkinje fibers (leading to right bundle branch block and apical aneurysms), and progressive denervation of the enteric autonomic nervous system (Auerbach's plexus), resulting in massive smooth muscle flaccidity: <strong>megaoesophagus</strong> and <strong>megacolon</strong>.
+            </div>
+          </div>
+
+          <!-- MCQ 8 -->
+          <div class="mcq-card" id="q_5_8_8">
+            <div class="mcq-question">
+              <strong>Question 5.8.8 (Q312):</strong> A blood specimen collected without timing restrictions reveals small, actively motile, <strong>unsheathed</strong> microfilariae measuring \(120\ \mu	ext{m}\) in length. On Giemsa staining, the nuclei extend in a solid column to the <strong>very tip of the blunt, rounded, truncated tail</strong>. What is the species?
+            </div>
+            <div class="mcq-options">
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_8', 0, 0)"><input type="radio" name="opt_5_8_8" value="0"> A) <em>Mansonella perstans</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_8', 1, 0)"><input type="radio" name="opt_5_8_8" value="1"> B) <em>Wuchereria bancrofti</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_8', 2, 0)"><input type="radio" name="opt_5_8_8" value="2"> C) <em>Brugia malayi</em></label>
+              <label class="mcq-option" onclick="handleOptionSelect('q_5_8_8', 3, 0)"><input type="radio" name="opt_5_8_8" value="3"> D) <em>Loa loa</em></label>
+            </div>
+            <div class="mcq-rationale" id="rat_5_8_8" style="display:none;">
+              <strong>Correct Answer: A (<em>Mansonella perstans</em>)</strong><br>
+              <em>Cheesbrough Reference pp. 272–273 &amp; Fig. 5.31:</em> <em>Mansonella perstans</em> is an <strong>unsheathed</strong> microfilaria, is small (\(100	ext{–}150\ \mu	ext{m}\)), displays <strong>no periodicity</strong> (circulates equally day and night), and is definitively identified by having a <strong>blunt, rounded, square-cut tail tip packed with nuclei to the very end</strong>. Transmitted by <em>Culicoides</em> biting midges.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
 
 
 
@@ -19402,6 +19838,69 @@ const conceptDict = {
         explanation.style.display = 'block';
       }
     }
+
+
+
+  // Toggle Chapter Accordion in Sidebar
+  function toggleChapterAccordion(chId) {
+    const content = document.getElementById('content-' + chId);
+    const arrow = document.getElementById('arrow-' + chId);
+    if (!content || !arrow) return;
+    
+    if (content.classList.contains('open')) {
+      content.classList.remove('open');
+      arrow.classList.remove('expanded');
+    } else {
+      content.classList.add('open');
+      arrow.classList.add('expanded');
+    }
+  }
+
+  // Enhanced navigateToSection that auto-expands chapter and auto-closes mobile menu
+  const originalNavigateToSection = window.navigateToSection;
+  window.navigateToSection = function(sectionId) {
+    // Determine which chapter group this section belongs to
+    let chGroup = null;
+    if (sectionId.startsWith('sec1_')) chGroup = 'ch1';
+    else if (sectionId.startsWith('sec2_')) chGroup = 'ch2';
+    else if (sectionId.startsWith('sec3_')) chGroup = 'ch3';
+    else if (sectionId.startsWith('sec4_')) chGroup = 'ch4';
+    else if (sectionId.startsWith('sec5_')) chGroup = 'ch5';
+
+    if (chGroup) {
+      const content = document.getElementById('content-' + chGroup);
+      const arrow = document.getElementById('arrow-' + chGroup);
+      if (content && !content.classList.contains('open')) {
+        content.classList.add('open');
+      }
+      if (arrow && !arrow.classList.contains('expanded')) {
+        arrow.classList.add('expanded');
+      }
+    }
+
+    // Hide all sections, show target
+    document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+    document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
+    
+    const target = document.getElementById(sectionId);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    const activeLink = document.getElementById('link-' + sectionId);
+    if (activeLink) activeLink.classList.add('active');
+
+    // Auto-close mobile drawer on link selection
+    const sidebar = document.getElementById('appSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (sidebar && sidebar.classList.contains('open')) {
+      sidebar.classList.remove('open');
+    }
+    if (backdrop && backdrop.classList.contains('open')) {
+      backdrop.classList.remove('open');
+    }
+  };
 
 </script>
 </body>
