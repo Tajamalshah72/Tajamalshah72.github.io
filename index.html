@@ -95,7 +95,7 @@ body::after {
   right: 0;
   height: 64px;
   background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(16px);
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
   border-bottom: 1px solid var(--border-subtle);
   z-index: 1000;
   padding: 0 16px;
@@ -147,7 +147,7 @@ body::after {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
   z-index: 1050;
 }
 
@@ -249,7 +249,7 @@ body::after {
   right: 0;
   height: 68px;
   background: rgba(15, 23, 42, 0.98);
-  backdrop-filter: blur(20px);
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
   border-bottom: 1.5px solid rgba(6, 182, 212, 0.3);
   z-index: 1000;
   padding: 0 12px;
@@ -490,7 +490,7 @@ body::after {
   border-radius: 12px;
   padding: 10px 18px;
   margin-bottom: 24px;
-  backdrop-filter: blur(12px);
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
   gap: 12px;
   flex-wrap: wrap;
 }
@@ -646,7 +646,7 @@ body::after {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 14px 16px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
 }
 
 .stat-val {
@@ -1470,13 +1470,13 @@ body::after {
 [data-theme="cosmic"] .calc-card,
 [data-theme="cosmic"] .dash-card,
 [data-theme="cosmic"] .book-figure {
-  backdrop-filter: blur(18px) saturate(180%) !important;
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
   background: rgba(12, 18, 38, 0.65) !important;
   border: 1px solid rgba(192, 132, 252, 0.3) !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(192, 132, 252, 0.08) !important;
 }
 [data-theme="cosmic"] .sidebar {
-  backdrop-filter: blur(22px) !important;
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
   background: rgba(6, 9, 20, 0.85) !important;
   border-right: 1px solid rgba(192, 132, 252, 0.25) !important;
 }
@@ -1870,7 +1870,7 @@ body::after {
   width: 380px;
   max-width: 90vw;
   background: rgba(15, 23, 42, 0.98);
-  backdrop-filter: blur(20px);
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
   border: 2px solid var(--cyan-primary);
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 25px var(--cyan-glow);
   border-radius: 16px;
@@ -1930,32 +1930,7 @@ body::after {
 }
 
 /* RESPONSIVE MEDIA QUERIES (MOBILE, TABLET, LAPTOP) */
-@media (max-width: 1024px) {
-  .sidebar {
-    position: fixed;
-    top: 64px;
-    left: 0;
-    height: calc(100vh - 64px);
-    transform: translateX(-100%);
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.7);
-  }
-  
-  .sidebar.open {
-    transform: translateX(0);
-  }
-  
-  .sidebar-backdrop.open {
-    display: block;
-  }
-  
-  .mobile-topbar {
-    display: flex;
-  }
-  
-  .main-content {
-    padding: 84px 20px 40px 20px;
-  }
-}
+/* Consolidated responsive mobile media queries */
 
 @media (max-width: 640px) {
   .hero-banner {
@@ -2007,182 +1982,64 @@ body::after {
 
 
 
+
 /* ============================================================== */
-/* MODERN ACCORDION & MOBILE NAVIGATION REPAIR STYLES */
+/* UNIFIED MASTER RESPONSIVE NAVIGATION ENGINE (DESKTOP + MOBILE) */
 /* ============================================================== */
-
-/* Chapter Accordion Styles */
-.sidebar-chapter-group {
-  margin-bottom: 12px;
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
-  overflow: hidden;
-  transition: all 0.2s ease;
-}
-
-.sidebar-chapter-group:hover {
-  border-color: rgba(56, 189, 248, 0.35);
-}
-
-.sidebar-chapter-header {
+.app-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.03);
-  user-select: none;
-  transition: background 0.2s ease;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
-.sidebar-chapter-header:hover {
-  background: rgba(56, 189, 248, 0.08);
+.mobile-topbar {
+  display: none;
 }
 
-.chap-hdr-left {
+/* DESKTOP SIDEBAR */
+.sidebar {
+  width: 320px;
+  background-color: #0f172a !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 20px 14px 40px 14px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-shrink: 0;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.chap-arrow {
-  font-size: 0.72rem;
-  color: #38bdf8;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.chap-arrow.expanded {
-  transform: rotate(90deg);
-}
-
-.chap-badge {
-  font-size: 0.68rem;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 12px;
-  background: rgba(52, 211, 153, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(52, 211, 153, 0.3);
-}
-
-.chap-badge.active-badge {
-  background: rgba(56, 189, 248, 0.15);
-  color: #38bdf8;
-  border-color: rgba(56, 189, 248, 0.3);
-}
-
-.sidebar-chapter-content {
-  display: none;
-  padding: 6px 8px 10px 8px;
-  border-top: 1px solid var(--border-subtle);
-  background: rgba(0, 0, 0, 0.15);
-}
-
-.sidebar-chapter-content.open {
-  display: block;
-}
-
-.sidebar-chapter-content .nav-link {
-  padding: 7px 10px;
-  font-size: 0.8rem;
-  margin-bottom: 3px;
-}
-
-/* Mobile Sidebar Drawer & Backdrop Overhaul (Zero Blurring / Fast Hardware Acceleration) */
-.sidebar-backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  z-index: 999990 !important;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.sidebar-backdrop.open {
-  display: block !important;
-  opacity: 1 !important;
+  flex-direction: column;
+  z-index: 500;
 }
 
 .sidebar-close-btn {
   display: none;
 }
 
-@media (max-width: 1024px) {
-  .sidebar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 320px !important;
-    max-width: 86vw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    padding: 16px 14px 40px 14px !important;
-    transform: translateX(-100%) !important;
-    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    z-index: 999999 !important;
-    box-shadow: 12px 0 35px rgba(0, 0, 0, 0.85) !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    background: #0f172a !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  
-  .sidebar.open {
-    transform: translateX(0) !important;
-  }
-
-  .sidebar-close-btn {
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 8px 12px;
-    margin-bottom: 12px;
-    background: rgba(239, 68, 68, 0.15);
-    border: 1px solid rgba(239, 68, 68, 0.35);
-    border-radius: 8px;
-    color: #f87171;
-    font-size: 0.8rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  .mobile-topbar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 60px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 0 16px !important;
-    background: #0f172a !important;
-    border-bottom: 1px solid var(--border-subtle) !important;
-    z-index: 99990 !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  .main-content {
-    padding-top: 75px !important;
-  }
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  z-index: 99998 !important;
 }
 
+.sidebar-backdrop.open {
+  display: block !important;
+}
 
-/* ============================================================== */
-/* SLEEK NON-BOX TREE SIDEBAR NAVIGATION STYLES                   */
-/* ============================================================== */
+/* TREE NAVIGATION STYLING */
 .nav-chapter-tree {
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .nav-chapter-item {
@@ -2239,11 +2096,11 @@ body::after {
 
 .nav-chapter-sublist {
   display: none;
-  padding-left: 20px;
+  padding-left: 18px;
   margin-top: 2px;
   margin-bottom: 6px;
-  border-left: 1.5px solid rgba(56, 189, 248, 0.2);
-  margin-left: 16px;
+  border-left: 1.5px solid rgba(56, 189, 248, 0.25);
+  margin-left: 15px;
 }
 
 .nav-chapter-sublist.open {
@@ -2251,10 +2108,70 @@ body::after {
 }
 
 .nav-chapter-sublist .nav-link {
-  padding: 6px 10px;
+  padding: 7px 10px;
   font-size: 0.8rem;
   margin-bottom: 2px;
   border-radius: 6px;
+}
+
+/* MOBILE & TABLET MEDIA QUERY */
+@media (max-width: 1024px) {
+  .mobile-topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 16px !important;
+    background: #0f172a !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    z-index: 9999 !important;
+  }
+
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 310px !important;
+    max-width: 86vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    padding: 16px 14px 40px 14px !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 99999 !important;
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.9) !important;
+    background: #0f172a !important;
+  }
+
+  .sidebar.open {
+    transform: translateX(0) !important;
+  }
+
+  .sidebar-close-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: 8px;
+    color: #f87171;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .main-content {
+    padding-top: 75px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
 }
 
 </style>
@@ -2263,31 +2180,28 @@ body::after {
   <canvas id="cosmicCanvas"></canvas>
 
   <!-- MOBILE STICKY TOPBAR -->
-  
-  <!-- MOBILE STICKY TOPBAR -->
-    <!-- MOBILE STICKY TOPBAR -->
-  <header class="mobile-topbar">
-    <button class="mobile-menu-btn" onclick="toggleMobileSidebar()" style="padding:6px 10px; font-size:0.8rem; font-weight:700;"><i class="fas fa-bars"></i> Menu</button>
+  <header class="mobile-topbar" id="mobileTopbar">
+    <button class="mobile-menu-btn" onclick="toggleMobileSidebar()" style="padding:6px 12px; font-size:0.85rem; font-weight:700; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.4); border-radius:8px; color:#38bdf8; cursor:pointer;">
+      <i class="fas fa-bars"></i> Menu
+    </button>
     <div class="mobile-brand-box">
       <div class="mobile-brand-title">KAZMI LABS</div>
       <div class="mobile-brand-sub">BY VAREZON &bull; TAJAMAL SHAH</div>
     </div>
     <div class="topbar-prefs">
       <select class="pref-dropdown" id="themeSelectMobile" onchange="setAppTheme(this.value)" style="padding:4px 6px; font-size:0.75rem;">
-        <option value="midnight"><i class="fas fa-space-shuttle"></i> Night</option>
-        <option value="cosmic"><i class="fas fa-star"></i> Galaxy</option>
-        <option value="obsidian"><i class="fas fa-circle"></i> OLED</option>
-        <option value="aquamarine"><i class="fas fa-water"></i> Aqua</option>
-        <option value="daylight"><i class="fas fa-sun"></i> Day</option>
-        <option value="sepia"><i class="fas fa-scroll"></i> Sepia</option>
-        <option value="forest"><i class="fas fa-tree"></i> Forest</option>
+        <option value="midnight">🌙 Night</option>
+        <option value="cosmic">🌌 Galaxy</option>
+        <option value="obsidian">⚡ OLED</option>
+        <option value="warm">🕯️ Warm</option>
+        <option value="forest">🌲 Forest</option>
+        <option value="clean">☀️ Day</option>
       </select>
     </div>
   </header>
 
-
   <!-- MOBILE SIDEBAR BACKDROP OVERLAY -->
-  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMobileSidebar()"></div>
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeMobileSidebar()"></div>
 
   <div class="app-container">
     <!-- MASTER SIDEBAR & TABLE OF CONTENTS -->
@@ -18321,7 +18235,7 @@ body::after {
   </div>
 
   <!-- METROLOGY CALCULATORS POPUP MODAL -->
-  <div id="calculatorModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter:blur(10px); z-index:9999999; justify-content:center; align-items:center; padding:20px;">
+  <div id="calculatorModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter: none !important; -webkit-backdrop-filter: none !important; z-index:9999999; justify-content:center; align-items:center; padding:20px;">
     <div style="background:var(--bg-main); border:2px solid var(--accent-cyan); border-radius:18px; max-width:750px; width:100%; max-height:90vh; overflow-y:auto; padding:24px; box-shadow:0 20px 50px rgba(0,0,0,0.8);">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:12px; margin-bottom:18px;">
         <div style="font-size:1.2rem; font-weight:800; color:var(--accent-cyan-light); display:flex; align-items:center; gap:8px;">
@@ -18824,20 +18738,7 @@ body::after {
   // SECTION NAVIGATION & ISOLATED VIEW ENGINE
   // Top navigateToSection superseded by unified engine below
 
-  // MOBILE SIDEBAR TOGGLE
-  function toggleMobileSidebar() {
-    const sidebar = document.getElementById('appSidebar');
-    const backdrop = document.getElementById('sidebarBackdrop');
-    sidebar.classList.toggle('open');
-    backdrop.classList.toggle('open');
-  }
-
-  function closeMobileSidebar() {
-    const sidebar = document.getElementById('appSidebar');
-    const backdrop = document.getElementById('sidebarBackdrop');
-    if (sidebar) sidebar.classList.remove('open');
-    if (backdrop) backdrop.classList.remove('open');
-  }
+  // Sidebar controller consolidated at end of script
 
   // Handle URL Hash on Page Load
   window.addEventListener('DOMContentLoaded', () => {
@@ -19885,11 +19786,53 @@ const conceptDict = {
   
   // ===================================================================
   // BULLETPROOF ULTRA-FAST UNIFIED NAVIGATION ENGINE
+  
   // ===================================================================
+  // ULTRA-RESILIENT MOBILE & ACCORDION NAVIGATION CONTROLLER
+  
+  // ===================================================================
+  // ULTRA-FAST ZERO-LAG UNIFIED NAVIGATION & ACCORDION CONTROLLER
+  // ===================================================================
+  function toggleChapterAccordion(chId) {
+    const content = document.getElementById('content-' + chId);
+    const arrow = document.getElementById('arrow-' + chId);
+    if (!content) return;
+    
+    const isOpen = content.classList.contains('open');
+    if (isOpen) {
+      content.classList.remove('open');
+      if (arrow) arrow.classList.remove('expanded');
+    } else {
+      content.classList.add('open');
+      if (arrow) arrow.classList.add('expanded');
+    }
+  }
+
+  function toggleMobileSidebar() {
+    const sidebar = document.getElementById('appSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (!sidebar) return;
+    
+    if (sidebar.classList.contains('open')) {
+      sidebar.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('open');
+    } else {
+      sidebar.classList.add('open');
+      if (backdrop) backdrop.classList.add('open');
+    }
+  }
+
+  function closeMobileSidebar() {
+    const sidebar = document.getElementById('appSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('open');
+  }
+
   function navigateToSection(targetId) {
     if (!targetId) return;
 
-    // 1. Identify and expand corresponding chapter accordion
+    // 1. Identify and expand corresponding chapter
     let chGroup = null;
     if (targetId.startsWith('sec1_')) chGroup = 'ch1';
     else if (targetId.startsWith('sec2_')) chGroup = 'ch2';
@@ -19908,83 +19851,49 @@ const conceptDict = {
       }
     }
 
-    // 2. Hide all section blocks cleanly
+    // 2. Hide all sections & activate target
     const allSecs = document.querySelectorAll('.section-block');
     allSecs.forEach(sec => {
       sec.classList.remove('active-view');
       sec.classList.remove('active');
     });
 
-    // 3. Show target section
     const target = document.getElementById(targetId);
     if (target) {
       target.classList.add('active-view');
       target.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      window.scrollTo(0, 0);
     }
 
-    // 4. Update sidebar nav-links
+    // 3. Update sidebar active links
     const navLinks = document.querySelectorAll('.sidebar .nav-link');
     navLinks.forEach(link => link.classList.remove('active'));
     
     const activeLink = document.getElementById('link-' + targetId);
     if (activeLink) activeLink.classList.add('active');
 
-    // 5. Update URL hash without scrolling jump
+    // 4. Update hash
     if (window.history && window.history.replaceState) {
       window.history.replaceState(null, null, '#' + targetId);
     } else {
       location.hash = '#' + targetId;
     }
 
-    // 6. Close mobile menu drawer & backdrop
+    // 5. Close mobile drawer
     closeMobileSidebar();
   }
 
-  // Toggle Chapter Accordion in Sidebar
-  function toggleChapterAccordion(chId) {
-    const content = document.getElementById('content-' + chId);
-    const arrow = document.getElementById('arrow-' + chId);
-    if (!content || !arrow) return;
-    
-    if (content.classList.contains('open')) {
-      content.classList.remove('open');
-      arrow.classList.remove('expanded');
-    } else {
-      content.classList.add('open');
-      arrow.classList.add('expanded');
-    }
-  }
-
-  // MOBILE SIDEBAR TOGGLES
-  function toggleMobileSidebar() {
-    const sidebar = document.getElementById('appSidebar');
-    const backdrop = document.getElementById('sidebarBackdrop');
-    if (sidebar) sidebar.classList.toggle('open');
-    if (backdrop) backdrop.classList.toggle('open');
-  }
-
-  function closeMobileSidebar() {
-    const sidebar = document.getElementById('appSidebar');
-    const backdrop = document.getElementById('sidebarBackdrop');
-    if (sidebar) sidebar.classList.remove('open');
-    if (backdrop) backdrop.classList.remove('open');
-  }
-
-  // Calculator Modal Toggle
+  // Calculator modal toggle
   function toggleCalculator() {
     const modal = document.getElementById('calcModal');
     if (modal) {
-      if (modal.style.display === 'flex' || modal.classList.contains('active')) {
+      if (modal.style.display === 'flex') {
         modal.style.display = 'none';
-        modal.classList.remove('active');
       } else {
         modal.style.display = 'flex';
-        modal.classList.add('active');
       }
     }
   }
-
 </script>
 </body>
 </html>
