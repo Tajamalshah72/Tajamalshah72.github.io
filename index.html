@@ -2177,6 +2177,86 @@ body::after {
   }
 }
 
+
+/* ============================================================== */
+/* SLEEK NON-BOX TREE SIDEBAR NAVIGATION STYLES                   */
+/* ============================================================== */
+.nav-chapter-tree {
+  margin-bottom: 6px;
+}
+
+.nav-chapter-item {
+  display: flex;
+  align-items: center;
+  padding: 9px 10px;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+  gap: 10px;
+  color: #e2e8f0;
+}
+
+.nav-chapter-item:hover {
+  background: rgba(56, 189, 248, 0.08);
+  color: #38bdf8;
+}
+
+.nav-tree-arrow {
+  font-size: 0.72rem;
+  color: #38bdf8;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.nav-tree-arrow.expanded {
+  transform: rotate(90deg);
+}
+
+.nav-tree-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-tree-count {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.nav-chapter-sublist {
+  display: none;
+  padding-left: 20px;
+  margin-top: 2px;
+  margin-bottom: 6px;
+  border-left: 1.5px solid rgba(56, 189, 248, 0.2);
+  margin-left: 16px;
+}
+
+.nav-chapter-sublist.open {
+  display: block;
+}
+
+.nav-chapter-sublist .nav-link {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+  border-radius: 6px;
+}
+
 </style>
 </head>
 <body>
@@ -2211,7 +2291,7 @@ body::after {
 
   <div class="app-container">
     <!-- MASTER SIDEBAR & TABLE OF CONTENTS -->
-    <aside class="sidebar" id="appSidebar">
+        <aside class="sidebar" id="appSidebar">
 
       <!-- MOBILE CLOSE BUTTON -->
       <button class="sidebar-close-btn" onclick="toggleMobileSidebar()">
@@ -2219,6 +2299,7 @@ body::after {
         <span style="font-size:0.7rem; opacity:0.8;">Tap to dismiss</span>
       </button>
 
+      <!-- BRAND BADGE -->
       <div class="brand-badge">
         <div class="brand-title">KAZMI LABS</div>
         <div class="brand-powered">POWERED BY VAREZON</div>
@@ -2235,128 +2316,119 @@ body::after {
 
       <!-- DASHBOARD QUICK LINK -->
       <a class="nav-link active" id="link-dashboard" onclick="navigateToSection('dashboard')">
-        <span><i class="fas fa-home"></i> Master Overview &amp; Stats</span>
-        <span class="nav-badge">Hub</span>
+        <span><i class="fas fa-home" style="margin-right:8px; color:var(--cyan-primary);"></i> Platform Dashboard</span>
+        <span class="nav-badge" style="background:rgba(56,189,248,0.2); color:#38bdf8;">TOC</span>
       </a>
 
-      <!-- THEME & HIGHLIGHTER PREFERENCES -->
-      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:12px; padding:12px; margin:14px 0;">
-        <div style="font-size:0.75rem; font-weight:800; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; display:flex; justify-content:space-between;">
-          <span><i class="fas fa-palette"></i> Eye-Care Theme</span>
-        </div>
-        <select class="pref-dropdown" id="themeSelectSidebar" onchange="setAppTheme(this.value)" style="width:100%; margin-bottom:10px;">
-          <option value="midnight">1. Midnight Cyberpunk (Dark)</option>
-          <option value="cosmic">2. Live Cosmic Galaxy (Animated)</option>
-          <option value="obsidian">3. OLED Obsidian (True Black)</option>
-          <option value="aquamarine">4. Aquamarine Medical (Teal)</option>
-          <option value="emerald">5. Emerald Bio-Shield (Green)</option>
-          <option value="slate">6. Deep Slate Minimalist (Navy)</option>
-          <option value="contrast">7. High-Contrast Clinical (Vivid)</option>
-          <option value="solarized">8. Solarized Clean (Daylight Light)</option>
-          <option value="clinical">9. Clinical Ivory (Warm Light)</option>
+      <!-- CONTROLS & THEME -->
+      <div class="sidebar-controls" style="margin: 12px 0 16px 0; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+        <label style="font-size:0.72rem; color:var(--text-muted); font-weight:700; display:block; margin-bottom:6px;">
+          <i class="fas fa-palette"></i> Eye-Care Theme
+        </label>
+        <select id="themeSelectSidebar" onchange="setAppTheme(this.value)" class="calc-select" style="width:100%; margin-bottom:8px;">
+          <option value="midnight">🌙 Midnight Dark (Standard)</option>
+          <option value="warm">🕯️ Warm Sepia (Night Study)</option>
+          <option value="forest">🌲 Forest Emerald (Calm Focus)</option>
+          <option value="slate">⚡ Slate Obsidian (High Contrast)</option>
+          <option value="clean">☀️ Clean Minimal Light</option>
+          <option value="cosmic">🌌 Cosmic Galaxy (Deep Space)</option>
         </select>
-        <button onclick="toggleCalculator()" class="calc-btn" style="width:100%; justify-content:center;">
-          <i class="fas fa-calculator"></i> Clinical Formula Calculator
+        <button onclick="toggleCalculator()" class="calc-btn" style="width:100%; justify-content:center; padding:8px;">
+          <i class="fas fa-calculator"></i> Clinical Calculators
         </button>
       </div>
 
-      <!-- CHAPTER 1 ACCORDION -->
-      <div class="sidebar-chapter-group" id="grp-ch1">
-        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch1')">
-          <div class="chap-hdr-left">
-            <i class="fas fa-chevron-right chap-arrow" id="arrow-ch1"></i>
-            <span>Chapter 1: Organization &amp; Staffing</span>
-          </div>
-          <span class="chap-badge">4 / 4 &bull; 100%</span>
+      <div class="sidebar-section-title">
+        <span>PART 1 &bull; GENERAL &amp; PARASITOLOGY</span>
+      </div>
+
+      <!-- CHAPTER 1 TREE -->
+      <div class="nav-chapter-tree" id="grp-ch1">
+        <div class="nav-chapter-item" onclick="toggleChapterAccordion('ch1')">
+          <i class="fas fa-chevron-right nav-tree-arrow" id="arrow-ch1"></i>
+          <span class="nav-tree-title">1. District Laboratories</span>
+          <span class="nav-tree-count">4</span>
         </div>
-        <div class="sidebar-chapter-content" id="content-ch1">
-          <a class="nav-link" id="link-sec1_1" onclick="navigateToSection('sec1_1')"><span>1.1 District Health Care</span><span class="nav-badge">pp. 1–5</span></a>
-          <a class="nav-link" id="link-sec1_2" onclick="navigateToSection('sec1_2')"><span>1.2 Functions &amp; Staffing</span><span class="nav-badge">pp. 5–7</span></a>
-          <a class="nav-link" id="link-sec1_3" onclick="navigateToSection('sec1_3')"><span>1.3 Lab Workload Metrics</span><span class="nav-badge">pp. 7–9</span></a>
-          <a class="nav-link" id="link-sec1_4" onclick="navigateToSection('sec1_4')"><span>1.4 Training &amp; Codes</span><span class="nav-badge">pp. 9–13</span></a>
+        <div class="nav-chapter-sublist" id="content-ch1">
+          <a class="nav-link" id="link-sec1_1" onclick="navigateToSection('sec1_1')"><span>1.1 District Healthcare</span><span class="nav-badge">pp. 1–3</span></a>
+          <a class="nav-link" id="link-sec1_2" onclick="navigateToSection('sec1_2')"><span>1.2 Code of Conduct &amp; Ethics</span><span class="nav-badge">pp. 3–5</span></a>
+          <a class="nav-link" id="link-sec1_3" onclick="navigateToSection('sec1_3')"><span>1.3 QA &amp; Safety Guidelines</span><span class="nav-badge">pp. 5–8</span></a>
+          <a class="nav-link" id="link-sec1_4" onclick="navigateToSection('sec1_4')"><span>1.4 Lab Design &amp; Inventory</span><span class="nav-badge">pp. 8–13</span></a>
         </div>
       </div>
 
-      <!-- CHAPTER 2 ACCORDION -->
-      <div class="sidebar-chapter-group" id="grp-ch2">
-        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch2')">
-          <div class="chap-hdr-left">
-            <i class="fas fa-chevron-right chap-arrow" id="arrow-ch2"></i>
-            <span>Chapter 2: Total Quality Management</span>
-          </div>
-          <span class="chap-badge">7 / 7 &bull; 100%</span>
+      <!-- CHAPTER 2 TREE -->
+      <div class="nav-chapter-tree" id="grp-ch2">
+        <div class="nav-chapter-item" onclick="toggleChapterAccordion('ch2')">
+          <i class="fas fa-chevron-right nav-tree-arrow" id="arrow-ch2"></i>
+          <span class="nav-tree-title">2. Laboratory Equipment</span>
+          <span class="nav-tree-count">7</span>
         </div>
-        <div class="sidebar-chapter-content" id="content-ch2">
-          <a class="nav-link" id="link-sec2_1" onclick="navigateToSection('sec2_1')"><span>2.1 TQM Fundamentals</span><span class="nav-badge">pp. 14–20</span></a>
-          <a class="nav-link" id="link-sec2_2" onclick="navigateToSection('sec2_2')"><span>2.2 Planning &amp; Procurement</span><span class="nav-badge">pp. 20–27</span></a>
-          <a class="nav-link" id="link-sec2_3" onclick="navigateToSection('sec2_3')"><span>2.3 Worksheets &amp; Registers</span><span class="nav-badge">pp. 27–33</span></a>
-          <a class="nav-link" id="link-sec2_4" onclick="navigateToSection('sec2_4')"><span>2.4 Reference Ranges</span><span class="nav-badge">pp. 34–38</span></a>
-          <a class="nav-link" id="link-sec2_5" onclick="navigateToSection('sec2_5')"><span>2.5 Reagent Quality</span><span class="nav-badge">pp. 38–43</span></a>
-          <a class="nav-link" id="link-sec2_6" onclick="navigateToSection('sec2_6')"><span>2.6 Equipment Maintenance</span><span class="nav-badge">pp. 43–46</span></a>
-          <a class="nav-link" id="link-sec2_7" onclick="navigateToSection('sec2_7')"><span>2.7 EQA &amp; QC Charts</span><span class="nav-badge">pp. 46–49</span></a>
+        <div class="nav-chapter-sublist" id="content-ch2">
+          <a class="nav-link" id="link-sec2_1" onclick="navigateToSection('sec2_1')"><span>2.1 Microscopes &amp; Illumination</span><span class="nav-badge">pp. 14–23</span></a>
+          <a class="nav-link" id="link-sec2_2" onclick="navigateToSection('sec2_2')"><span>2.2 Balances &amp; Weighing</span><span class="nav-badge">pp. 23–27</span></a>
+          <a class="nav-link" id="link-sec2_3" onclick="navigateToSection('sec2_3')"><span>2.3 Centrifuges &amp; Separation</span><span class="nav-badge">pp. 27–32</span></a>
+          <a class="nav-link" id="link-sec2_4" onclick="navigateToSection('sec2_4')"><span>2.4 Colorimeters &amp; Photometers</span><span class="nav-badge">pp. 32–37</span></a>
+          <a class="nav-link" id="link-sec2_5" onclick="navigateToSection('sec2_5')"><span>2.5 Incubators &amp; Water Baths</span><span class="nav-badge">pp. 37–40</span></a>
+          <a class="nav-link" id="link-sec2_6" onclick="navigateToSection('sec2_6')"><span>2.6 Autoclaves &amp; Sterilizers</span><span class="nav-badge">pp. 40–44</span></a>
+          <a class="nav-link" id="link-sec2_7" onclick="navigateToSection('sec2_7')"><span>2.7 Pipettes &amp; Glassware</span><span class="nav-badge">pp. 44–49</span></a>
         </div>
       </div>
 
-      <!-- CHAPTER 3 ACCORDION -->
-      <div class="sidebar-chapter-group" id="grp-ch3">
-        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch3')">
-          <div class="chap-hdr-left">
-            <i class="fas fa-chevron-right chap-arrow" id="arrow-ch3"></i>
-            <span>Chapter 3: Health and Safety</span>
-          </div>
-          <span class="chap-badge">8 / 8 &bull; 100%</span>
+      <!-- CHAPTER 3 TREE -->
+      <div class="nav-chapter-tree" id="grp-ch3">
+        <div class="nav-chapter-item" onclick="toggleChapterAccordion('ch3')">
+          <i class="fas fa-chevron-right nav-tree-arrow" id="arrow-ch3"></i>
+          <span class="nav-tree-title">3. Laboratory Safety</span>
+          <span class="nav-tree-count">8</span>
         </div>
-        <div class="sidebar-chapter-content" id="content-ch3">
-          <a class="nav-link" id="link-sec3_1" onclick="navigateToSection('sec3_1')"><span>3.1 Safety Program &amp; Risk</span><span class="nav-badge">pp. 50–59</span></a>
-          <a class="nav-link" id="link-sec3_2" onclick="navigateToSection('sec3_2')"><span>3.2 Biosafety &amp; Pathogens</span><span class="nav-badge">pp. 60–65</span></a>
-          <a class="nav-link" id="link-sec3_3" onclick="navigateToSection('sec3_3')"><span>3.3 Safety Equipment</span><span class="nav-badge">pp. 65–70</span></a>
-          <a class="nav-link" id="link-sec3_4" onclick="navigateToSection('sec3_4')"><span>3.4 Decontamination</span><span class="nav-badge">pp. 70–76</span></a>
-          <a class="nav-link" id="link-sec3_5" onclick="navigateToSection('sec3_5')"><span>3.5 Chemical Safety</span><span class="nav-badge">pp. 76–82</span></a>
-          <a class="nav-link" id="link-sec3_6" onclick="navigateToSection('sec3_6')"><span>3.6 Physical &amp; Electrical</span><span class="nav-badge">pp. 82–89</span></a>
-          <a class="nav-link" id="link-sec3_7" onclick="navigateToSection('sec3_7')"><span>3.7 Fire &amp; First Aid</span><span class="nav-badge">pp. 90–93</span></a>
-          <a class="nav-link" id="link-sec3_8" onclick="navigateToSection('sec3_8')"><span>3.8 Safety Audits</span><span class="nav-badge">pp. 93–95</span></a>
+        <div class="nav-chapter-sublist" id="content-ch3">
+          <a class="nav-link" id="link-sec3_1" onclick="navigateToSection('sec3_1')"><span>3.1 Biological Hazards</span><span class="nav-badge">pp. 50–57</span></a>
+          <a class="nav-link" id="link-sec3_2" onclick="navigateToSection('sec3_2')"><span>3.2 Chemical Hazards</span><span class="nav-badge">pp. 57–63</span></a>
+          <a class="nav-link" id="link-sec3_3" onclick="navigateToSection('sec3_3')"><span>3.3 Fire &amp; Electrical</span><span class="nav-badge">pp. 63–67</span></a>
+          <a class="nav-link" id="link-sec3_4" onclick="navigateToSection('sec3_4')"><span>3.4 PPE &amp; Hygiene</span><span class="nav-badge">pp. 67–72</span></a>
+          <a class="nav-link" id="link-sec3_5" onclick="navigateToSection('sec3_5')"><span>3.5 Decontamination &amp; Disinfectants</span><span class="nav-badge">pp. 72–78</span></a>
+          <a class="nav-link" id="link-sec3_6" onclick="navigateToSection('sec3_6')"><span>3.6 Waste &amp; Incineration</span><span class="nav-badge">pp. 78–84</span></a>
+          <a class="nav-link" id="link-sec3_7" onclick="navigateToSection('sec3_7')"><span>3.7 First Aid</span><span class="nav-badge">pp. 84–90</span></a>
+          <a class="nav-link" id="link-sec3_8" onclick="navigateToSection('sec3_8')"><span>3.8 Audits &amp; Incident Plans</span><span class="nav-badge">pp. 90–95</span></a>
         </div>
       </div>
 
-      <!-- CHAPTER 4 ACCORDION -->
-      <div class="sidebar-chapter-group" id="grp-ch4">
-        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch4')">
-          <div class="chap-hdr-left">
-            <i class="fas fa-chevron-right chap-arrow" id="arrow-ch4"></i>
-            <span>Chapter 4: Equipping District Labs</span>
-          </div>
-          <span class="chap-badge">12 / 12 &bull; 100%</span>
+      <!-- CHAPTER 4 TREE -->
+      <div class="nav-chapter-tree" id="grp-ch4">
+        <div class="nav-chapter-item" onclick="toggleChapterAccordion('ch4')">
+          <i class="fas fa-chevron-right nav-tree-arrow" id="arrow-ch4"></i>
+          <span class="nav-tree-title">4. Clinical Parasitology</span>
+          <span class="nav-tree-count">12</span>
         </div>
-        <div class="sidebar-chapter-content" id="content-ch4">
-          <a class="nav-link" id="link-sec4_1" onclick="navigateToSection('sec4_1')"><span>4.1 Procurement &amp; Costs</span><span class="nav-badge">pp. 96–103</span></a>
-          <a class="nav-link" id="link-sec4_2" onclick="navigateToSection('sec4_2')"><span>4.2 Power &amp; Inverters</span><span class="nav-badge">pp. 103–109</span></a>
-          <a class="nav-link" id="link-sec4_3" onclick="navigateToSection('sec4_3')"><span>4.3 Microscopes &amp; Optics</span><span class="nav-badge">pp. 109–135</span></a>
-          <a class="nav-link" id="link-sec4_4" onclick="navigateToSection('sec4_4')"><span>4.4 Water Purification</span><span class="nav-badge">pp. 135–139</span></a>
-          <a class="nav-link" id="link-sec4_5" onclick="navigateToSection('sec4_5')"><span>4.5 Balances &amp; Weighing</span><span class="nav-badge">pp. 139–141</span></a>
-          <a class="nav-link" id="link-sec4_6" onclick="navigateToSection('sec4_6')"><span>4.6 Pipettes &amp; Dispensers</span><span class="nav-badge">pp. 141–147</span></a>
-          <a class="nav-link" id="link-sec4_7" onclick="navigateToSection('sec4_7')"><span>4.7 Centrifuges &amp; Rotors</span><span class="nav-badge">pp. 147–152</span></a>
-          <a class="nav-link" id="link-sec4_8" onclick="navigateToSection('sec4_8')"><span>4.8 Autoclaves &amp; Pressure</span><span class="nav-badge">pp. 152–156</span></a>
-          <a class="nav-link" id="link-sec4_9" onclick="navigateToSection('sec4_9')"><span>4.9 Incubators &amp; Baths</span><span class="nav-badge">pp. 156–161</span></a>
-          <a class="nav-link" id="link-sec4_10" onclick="navigateToSection('sec4_10')"><span>4.10 Colorimeters</span><span class="nav-badge">pp. 161–166</span></a>
-          <a class="nav-link" id="link-sec4_11" onclick="navigateToSection('sec4_11')"><span>4.11 Mixers &amp; Stirrers</span><span class="nav-badge">pp. 166–169</span></a>
-          <a class="nav-link" id="link-sec4_12" onclick="navigateToSection('sec4_12')"><span>4.12 Labware &amp; Chambers</span><span class="nav-badge">pp. 169–177</span></a>
+        <div class="nav-chapter-sublist" id="content-ch4">
+          <a class="nav-link" id="link-sec4_1" onclick="navigateToSection('sec4_1')"><span>4.1 Parasitology Concepts</span><span class="nav-badge">pp. 96–105</span></a>
+          <a class="nav-link" id="link-sec4_2" onclick="navigateToSection('sec4_2')"><span>4.2 Amoebae &amp; Flagellates</span><span class="nav-badge">pp. 105–115</span></a>
+          <a class="nav-link" id="link-sec4_3" onclick="navigateToSection('sec4_3')"><span>4.3 Ciliates &amp; Coccidia</span><span class="nav-badge">pp. 115–122</span></a>
+          <a class="nav-link" id="link-sec4_4" onclick="navigateToSection('sec4_4')"><span>4.4 Hemoflagellates</span><span class="nav-badge">pp. 122–132</span></a>
+          <a class="nav-link" id="link-sec4_5" onclick="navigateToSection('sec4_5')"><span>4.5 Malaria (*Plasmodium*)</span><span class="nav-badge">pp. 132–144</span></a>
+          <a class="nav-link" id="link-sec4_6" onclick="navigateToSection('sec4_6')"><span>4.6 Intestinal Nematodes</span><span class="nav-badge">pp. 144–154</span></a>
+          <a class="nav-link" id="link-sec4_7" onclick="navigateToSection('sec4_7')"><span>4.7 Filarial Worms</span><span class="nav-badge">pp. 154–160</span></a>
+          <a class="nav-link" id="link-sec4_8" onclick="navigateToSection('sec4_8')"><span>4.8 Trematodes / Flukes</span><span class="nav-badge">pp. 160–166</span></a>
+          <a class="nav-link" id="link-sec4_9" onclick="navigateToSection('sec4_9')"><span>4.9 Cestodes / Tapeworms</span><span class="nav-badge">pp. 166–172</span></a>
+          <a class="nav-link" id="link-sec4_10" onclick="navigateToSection('sec4_10')"><span>4.10 Arthropod Vectors</span><span class="nav-badge">pp. 172–177</span></a>
+          <a class="nav-link" id="link-sec4_11" onclick="navigateToSection('sec4_11')"><span>4.11 Opportunistic Infections</span><span class="nav-badge">pp. 177–185</span></a>
+          <a class="nav-link" id="link-sec4_12" onclick="navigateToSection('sec4_12')"><span>4.12 Parasitology QA</span><span class="nav-badge">pp. 185–193</span></a>
         </div>
       </div>
 
-      <!-- CHAPTER 5 ACCORDION -->
-      <div class="sidebar-chapter-group" id="grp-ch5">
-        <div class="sidebar-chapter-header" onclick="toggleChapterAccordion('ch5')">
-          <div class="chap-hdr-left">
-            <i class="fas fa-chevron-right chap-arrow expanded" id="arrow-ch5"></i>
-            <span>Chapter 5: Parasitological Tests</span>
-          </div>
-          <span class="chap-badge active-badge">8 / 11 Done</span>
+      <!-- CHAPTER 5 TREE -->
+      <div class="nav-chapter-tree" id="grp-ch5">
+        <div class="nav-chapter-item" onclick="toggleChapterAccordion('ch5')">
+          <i class="fas fa-chevron-right nav-tree-arrow expanded" id="arrow-ch5"></i>
+          <span class="nav-tree-title">5. Parasitological Procedures</span>
+          <span class="nav-tree-count" style="background:rgba(56,189,248,0.2); color:#38bdf8;">8/13</span>
         </div>
-        <div class="sidebar-chapter-content open" id="content-ch5">
-          <a class="nav-link" id="link-sec5_1" onclick="navigateToSection('sec5_1')"><span>5.1 Parasitology QA</span><span class="nav-badge">pp. 178–184</span></a>
-          <a class="nav-link" id="link-sec5_2" onclick="navigateToSection('sec5_2')"><span>5.2 Parasites &amp; Diseases</span><span class="nav-badge">pp. 184–192</span></a>
-          <a class="nav-link" id="link-sec5_3" onclick="navigateToSection('sec5_3')"><span>5.3 Faecal Exam &amp; Conc.</span><span class="nav-badge">pp. 192–206</span></a>
-          <a class="nav-link" id="link-sec5_4" onclick="navigateToSection('sec5_4')"><span>5.4 Faecal Protozoa</span><span class="nav-badge">pp. 207–216</span></a>
+        <div class="nav-chapter-sublist open" id="content-ch5">
+          <a class="nav-link" id="link-sec5_1" onclick="navigateToSection('sec5_1')"><span>5.1 QA &amp; Pre-analytical</span><span class="nav-badge">pp. 194–197</span></a>
+          <a class="nav-link" id="link-sec5_2" onclick="navigateToSection('sec5_2')"><span>5.2 Parasites &amp; Diseases</span><span class="nav-badge">pp. 197–200</span></a>
+          <a class="nav-link" id="link-sec5_3" onclick="navigateToSection('sec5_3')"><span>5.3 Faecal Exam &amp; Concentration</span><span class="nav-badge">pp. 200–208</span></a>
+          <a class="nav-link" id="link-sec5_4" onclick="navigateToSection('sec5_4')"><span>5.4 Faecal Protozoa Exam</span><span class="nav-badge">pp. 208–216</span></a>
           <a class="nav-link" id="link-sec5_5" onclick="navigateToSection('sec5_5')"><span>5.5 Helminth Eggs &amp; Larvae</span><span class="nav-badge">pp. 216–227</span></a>
           <a class="nav-link" id="link-sec5_6" onclick="navigateToSection('sec5_6')"><span>5.6 Flukes, Cestodes &amp; Pinworm</span><span class="nav-badge">pp. 227–243</span></a>
           <a class="nav-link" id="link-sec5_7" onclick="navigateToSection('sec5_7')"><span>5.7 Blood Exam for Malaria</span><span class="nav-badge">pp. 244–262</span></a>
@@ -15845,7 +15917,7 @@ body::after {
     <!-- ============================================================== -->
     <!-- SECTION 5.3: DIRECT EXAMINATION OF FAECES & CONCENTRATION TECHNIQUES -->
     <!-- ============================================================== -->
-    <section id="sec5_3" class="content-section">
+    <section id="sec5_3" class="section-block">
       <div class="section-quick-bar">
         <div class="sec-breadcrumb">
           <span class="bc-home" onclick="navigateToSection('dashboard')"><i class="fas fa-home"></i> Master Overview</span>
@@ -16240,7 +16312,7 @@ body::after {
     <!-- ============================================================== -->
     <!-- SECTION 5.4: IDENTIFICATION OF FAECAL PROTOZOA -->
     <!-- ============================================================== -->
-    <section id="sec5_4" class="content-section">
+    <section id="sec5_4" class="section-block">
       <div class="section-quick-bar">
         <div class="sec-breadcrumb">
           <span class="bc-home" onclick="navigateToSection('dashboard')"><i class="fas fa-home"></i> Master Overview</span>
@@ -16662,7 +16734,7 @@ body::after {
     <!-- ============================================================== -->
     <!-- SECTION 5.5: IDENTIFICATION OF HELMINTH EGGS AND LARVAE -->
     <!-- ============================================================== -->
-    <section id="sec5_5" class="content-section">
+    <section id="sec5_5" class="section-block">
       <div class="section-quick-bar">
         <div class="sec-breadcrumb">
           <span class="bc-home" onclick="navigateToSection('dashboard')"><i class="fas fa-home"></i> Master Overview</span>
@@ -17066,7 +17138,7 @@ body::after {
     <!-- ============================================================== -->
     <!-- SECTION 5.6: IDENTIFICATION OF FLUKES, TAPEWORMS & ENTEROBIUS -->
     <!-- ============================================================== -->
-    <section id="sec5_6" class="content-section">
+    <section id="sec5_6" class="section-block">
       <div class="section-quick-bar">
         <div class="sec-breadcrumb">
           <span class="bc-home" onclick="navigateToSection('dashboard')"><i class="fas fa-home"></i> Master Overview</span>
@@ -17452,7 +17524,7 @@ body::after {
     <!-- ============================================================== -->
     <!-- SECTION 5.7: EXAMINATION OF BLOOD FOR MALARIA PARASITES -->
     <!-- ============================================================== -->
-    <section id="sec5_7" class="content-section">
+    <section id="sec5_7" class="section-block">
       <div class="section-quick-bar">
         <div class="sec-breadcrumb">
           <span class="bc-home" onclick="navigateToSection('dashboard')"><i class="fas fa-home"></i> Master Overview</span>
@@ -17836,7 +17908,7 @@ body::after {
     <!-- ============================================================== -->
     <!-- SECTION 5.8: EXAMINATION OF BLOOD FOR OTHER PARASITES -->
     <!-- ============================================================== -->
-    <section id="sec5_8" class="content-section">
+    <section id="sec5_8" class="section-block">
       <div class="section-quick-bar">
         <div class="sec-breadcrumb">
           <span class="bc-home" onclick="navigateToSection('dashboard')"><i class="fas fa-home"></i> Master Overview</span>
@@ -18410,6 +18482,10 @@ body::after {
     const s = document.getElementById('themeSelectSidebar');
     if (m) m.value = themeName;
     if (s) s.value = themeName;
+
+    if (themeName === 'cosmic') {
+      if (typeof startCosmicGalaxy === 'function') startCosmicGalaxy();
+    }
   }
 
   function setHighlighterColor(presetKey) {
@@ -18660,10 +18736,10 @@ body::after {
   function animateCosmicGalaxy() {
     if (!cosmicCtx || !cosmicCanvas) return;
     
-    // Check if cosmic theme is active
+    // Check if cosmic theme is active - STOP loop if not active
     const theme = document.documentElement.getAttribute('data-theme');
     if (theme !== 'cosmic') {
-      cosmicAnimationId = requestAnimationFrame(animateCosmicGalaxy);
+      cosmicAnimationId = null;
       return;
     }
 
@@ -18746,35 +18822,7 @@ body::after {
   });
 
   // SECTION NAVIGATION & ISOLATED VIEW ENGINE
-  function navigateToSection(targetId) {
-    // Hide all section blocks
-    const sections = document.querySelectorAll('.section-block');
-    sections.forEach(sec => sec.classList.remove('active-view'));
-
-    // Show target section
-    const target = document.getElementById(targetId);
-    if (target) {
-      target.classList.add('active-view');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Update active nav links
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => link.classList.remove('active'));
-    
-    const activeLink = document.getElementById('link-' + targetId);
-    if (activeLink) activeLink.classList.add('active');
-
-    // Update URL hash without jumping
-    if (history.pushState) {
-      history.pushState(null, null, '#' + targetId);
-    } else {
-      location.hash = '#' + targetId;
-    }
-
-    // Close mobile sidebar if open
-    closeMobileSidebar();
-  }
+  // Top navigateToSection superseded by unified engine below
 
   // MOBILE SIDEBAR TOGGLE
   function toggleMobileSidebar() {
@@ -19758,15 +19806,7 @@ const conceptDict = {
     popover.style.display = 'none';
   }
 
-  // Attach hover and click listeners to all pulse terms
-  document.addEventListener('mouseover', (e) => {
-    const target = e.target.closest('.pulse-term');
-    if (target) {
-      const term = target.getAttribute('data-term') || target.textContent.trim();
-      showPopover(term, target, e.clientX, e.clientY);
-    }
-  });
-
+  // Concept Popover on click (avoids continuous mouseover lag on desktop/mobile)
   document.addEventListener('click', (e) => {
     const target = e.target.closest('.pulse-term');
     if (target) {
@@ -19842,6 +19882,66 @@ const conceptDict = {
 
 
   // Toggle Chapter Accordion in Sidebar
+  
+  // ===================================================================
+  // BULLETPROOF ULTRA-FAST UNIFIED NAVIGATION ENGINE
+  // ===================================================================
+  function navigateToSection(targetId) {
+    if (!targetId) return;
+
+    // 1. Identify and expand corresponding chapter accordion
+    let chGroup = null;
+    if (targetId.startsWith('sec1_')) chGroup = 'ch1';
+    else if (targetId.startsWith('sec2_')) chGroup = 'ch2';
+    else if (targetId.startsWith('sec3_')) chGroup = 'ch3';
+    else if (targetId.startsWith('sec4_')) chGroup = 'ch4';
+    else if (targetId.startsWith('sec5_')) chGroup = 'ch5';
+
+    if (chGroup) {
+      const content = document.getElementById('content-' + chGroup);
+      const arrow = document.getElementById('arrow-' + chGroup);
+      if (content && !content.classList.contains('open')) {
+        content.classList.add('open');
+      }
+      if (arrow && !arrow.classList.contains('expanded')) {
+        arrow.classList.add('expanded');
+      }
+    }
+
+    // 2. Hide all section blocks cleanly
+    const allSecs = document.querySelectorAll('.section-block');
+    allSecs.forEach(sec => {
+      sec.classList.remove('active-view');
+      sec.classList.remove('active');
+    });
+
+    // 3. Show target section
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.classList.add('active-view');
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // 4. Update sidebar nav-links
+    const navLinks = document.querySelectorAll('.sidebar .nav-link');
+    navLinks.forEach(link => link.classList.remove('active'));
+    
+    const activeLink = document.getElementById('link-' + targetId);
+    if (activeLink) activeLink.classList.add('active');
+
+    // 5. Update URL hash without scrolling jump
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, null, '#' + targetId);
+    } else {
+      location.hash = '#' + targetId;
+    }
+
+    // 6. Close mobile menu drawer & backdrop
+    closeMobileSidebar();
+  }
+
+  // Toggle Chapter Accordion in Sidebar
   function toggleChapterAccordion(chId) {
     const content = document.getElementById('content-' + chId);
     const arrow = document.getElementById('arrow-' + chId);
@@ -19856,51 +19956,34 @@ const conceptDict = {
     }
   }
 
-  // Enhanced navigateToSection that auto-expands chapter and auto-closes mobile menu
-  const originalNavigateToSection = window.navigateToSection;
-  window.navigateToSection = function(sectionId) {
-    // Determine which chapter group this section belongs to
-    let chGroup = null;
-    if (sectionId.startsWith('sec1_')) chGroup = 'ch1';
-    else if (sectionId.startsWith('sec2_')) chGroup = 'ch2';
-    else if (sectionId.startsWith('sec3_')) chGroup = 'ch3';
-    else if (sectionId.startsWith('sec4_')) chGroup = 'ch4';
-    else if (sectionId.startsWith('sec5_')) chGroup = 'ch5';
-
-    if (chGroup) {
-      const content = document.getElementById('content-' + chGroup);
-      const arrow = document.getElementById('arrow-' + chGroup);
-      if (content && !content.classList.contains('open')) {
-        content.classList.add('open');
-      }
-      if (arrow && !arrow.classList.contains('expanded')) {
-        arrow.classList.add('expanded');
-      }
-    }
-
-    // Hide all sections, show target
-    document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
-    document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
-    
-    const target = document.getElementById(sectionId);
-    if (target) {
-      target.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    
-    const activeLink = document.getElementById('link-' + sectionId);
-    if (activeLink) activeLink.classList.add('active');
-
-    // Auto-close mobile drawer on link selection
+  // MOBILE SIDEBAR TOGGLES
+  function toggleMobileSidebar() {
     const sidebar = document.getElementById('appSidebar');
     const backdrop = document.getElementById('sidebarBackdrop');
-    if (sidebar && sidebar.classList.contains('open')) {
-      sidebar.classList.remove('open');
+    if (sidebar) sidebar.classList.toggle('open');
+    if (backdrop) backdrop.classList.toggle('open');
+  }
+
+  function closeMobileSidebar() {
+    const sidebar = document.getElementById('appSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('open');
+  }
+
+  // Calculator Modal Toggle
+  function toggleCalculator() {
+    const modal = document.getElementById('calcModal');
+    if (modal) {
+      if (modal.style.display === 'flex' || modal.classList.contains('active')) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+      } else {
+        modal.style.display = 'flex';
+        modal.classList.add('active');
+      }
     }
-    if (backdrop && backdrop.classList.contains('open')) {
-      backdrop.classList.remove('open');
-    }
-  };
+  }
 
 </script>
 </body>
